@@ -1,12 +1,12 @@
 {
-    "name": "helloworld-sample",
-    "displayName": "helloworld-sample",
-    "description": "HelloWorld example for VS Code",
-    "version": "0.0.1",
-    "publisher": "vscode-samples",
-    "repository": "https://github.com/Microsoft/vscode-extension-samples/helloworld-sample",
+    "name": "sylvatica",
+    "displayName": "sylvatica",
+    "description": "Extension for VS Code",
+    "version": "1.0.0",
+    "publisher": "WoodenHands",
+    "repository": "https://github.com/BehemothOz/sylvatica-ex",
     "engines": {
-        "vscode": "^1.74.0"
+        "vscode": "^1.89.0"
     },
     "categories": [
         "Other"
