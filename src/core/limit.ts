@@ -67,6 +67,12 @@ async function getAsyncResultMock(key: number) {
     });
 }
 
+async function getAsyncResult(id: number): Promise<unknown> {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
+
+    return await response.json();
+}
+
 (async () => {
     const keys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const limit = 4;
