@@ -1,4 +1,4 @@
-interface IStorage<StorageValue> {
+export interface IStorage<StorageValue> {
     get: (key: string) => StorageValue | void;
     set: (key: string, value: StorageValue) => void;
     delete: (key: string) => void;
