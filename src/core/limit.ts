@@ -72,16 +72,3 @@ async function getAsyncResult(id: number): Promise<unknown> {
 
     return await response.json();
 }
-
-(async () => {
-    const keys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const limit = 4;
-
-    const q = keys.map(key => {
-        return () => getAsyncResultMock(key);
-    });
-
-    for await (const result of getResultGnTest(q, limit)) {
-        console.log(result);
-    }
-})();
