@@ -1,6 +1,6 @@
 import { Storage, type IStorage } from '../storage/Storage';
 
-interface CacheValue<T> {
+export interface CacheValue<T> {
     expiry: number;
     value: T;
 }
@@ -13,7 +13,7 @@ export type Milliseconds = number;
 
 const DEFAULT_TTL = 60 * 60 * 1000;
 
-interface ICache<T> {
+export interface ICache<T> {
     get: (key: string) => T | void;
     set: (key: string, value: T, options: CacheValueOptions) => void;
     delete: (key: string) => void;

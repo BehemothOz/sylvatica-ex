@@ -58,17 +58,3 @@ async function* getResultGnTest(iterable: Iterable<() => Promise<any>>, limit: n
         yield promise;
     }
 }
-
-async function getAsyncResultMock(key: number) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(`Result for ${key}`);
-        }, key * 1000);
-    });
-}
-
-async function getAsyncResult(id: number): Promise<unknown> {
-    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
-
-    return await response.json();
-}
