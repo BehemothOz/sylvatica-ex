@@ -1,2 +1,4 @@
 import { a } from './main_a';
-console.log(a + 401);
+
+const node = document.getElementById('root')!;
+node.textContent = `${a} count - 2`;

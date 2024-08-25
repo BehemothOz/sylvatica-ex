@@ -18,6 +18,10 @@
             {
                 "command": "extension.helloWorld",
                 "title": "Hello World"
+            },
+            {
+                "command": "extension.refresh",
+                "title": "Refresh"
             }
         ]
     },
