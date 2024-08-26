@@ -18,7 +18,7 @@ class Queue<T> {
     }
 }
 
-async function* getResultGnTest(iterable: Iterable<() => Promise<any>>, limit: number = 2) {
+export async function* getResultGnTest(iterable: Iterable<() => Promise<any>>, limit: number = 4) {
     const queue = new Queue();
 
     const tasks = [...iterable];

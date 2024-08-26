@@ -14,15 +14,21 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
-    const disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
+    const disposable = vscode.commands.registerCommand('extension.helloWorld', async () => {
         // The code you place here will be executed every time your command is executed
 
         // Display a message box to the user
         vscode.window.showInformationMessage('Hello World!');
 
-        new Sylvatica();
-
         WebPanel.createOrShow(context.extensionUri);
+
+        const sylvatica = new Sylvatica();
+        const r = await sylvatica.init();
+        console.log(r);
+
+        WebPanel.currentPanel?.sendMessage(r);
+
+        console.log('----------------- end');
     });
 
     context.subscriptions.push(
@@ -43,7 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
 class WebPanel {
     public static currentPanel: WebPanel | undefined;
 
-    public static readonly viewType = 'catCoding';
+    public static readonly viewType = 'aaa';
 
     private readonly _panel: vscode.WebviewPanel;
     private readonly _extensionUri: vscode.Uri;
@@ -91,6 +97,10 @@ class WebPanel {
             null,
             this._disposables
         );
+    }
+
+    public sendMessage(data: any) {
+        this._panel.webview.postMessage({ payload: data });
     }
 
     public dispose() {
