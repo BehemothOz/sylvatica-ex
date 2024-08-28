@@ -23,7 +23,14 @@
                 "command": "extension.refresh",
                 "title": "Refresh"
             }
-        ]
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "extension.helloWorld"
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

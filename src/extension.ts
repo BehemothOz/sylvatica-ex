@@ -1,8 +1,11 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as path from 'path';
 
 import { Sylvatica } from './sylvatica';
+
+import { PackageManagerDetector } from './core/detecter';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -11,24 +14,35 @@ export function activate(context: vscode.ExtensionContext) {
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "helloworld-sample" is now active!');
 
+    const packageManagerDetector = new PackageManagerDetector();
+
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
-    const disposable = vscode.commands.registerCommand('extension.helloWorld', async () => {
+    const disposable = vscode.commands.registerCommand('extension.helloWorld', async (file: vscode.Uri) => {
         // The code you place here will be executed every time your command is executed
+        console.log(context.extensionUri);
+        const directoryPath = path.dirname(file.fsPath);
+        console.log(directoryPath);
+        try {
+            const res = await packageManagerDetector.detect(directoryPath);
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
 
         // Display a message box to the user
         vscode.window.showInformationMessage('Hello World!');
 
-        WebPanel.createOrShow(context.extensionUri);
+        // WebPanel.createOrShow(context.extensionUri);
 
-        const sylvatica = new Sylvatica();
-        const r = await sylvatica.init();
-        console.log(r);
+        // const sylvatica = new Sylvatica();
+        // const r = await sylvatica.init();
+        // console.log(r);
 
-        WebPanel.currentPanel?.sendMessage(r);
+        // WebPanel.currentPanel?.sendMessage(r);
 
-        console.log('----------------- end');
+        console.log('----------------- end'); //
     });
 
     context.subscriptions.push(

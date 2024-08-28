@@ -2,26 +2,47 @@ import * as path from 'path';
 import * as fs from 'fs/promises';
 import { cwd } from 'process';
 
-/*
-    yarn | npm | pnpm
-*/
+type PackageManager = 'yarn' | 'npm' | 'pnpm';
 
-async function fileExists(path: string) {
-    return await fs.access(path);
+interface PackageManagerInfo {
+    name: PackageManager;
+    lockFile: string;
 }
 
-/*
-    TODO: bun.lockb
-*/
-const lockFiles = ['yarn.lock', 'package-lock.json', 'pnpm-lock.yaml'];
+const packageManagers: Array<PackageManagerInfo> = [
+    {
+        name: 'yarn',
+        lockFile: 'yarn.lock',
+    },
+    {
+        name: 'npm',
+        lockFile: 'package-lock.json',
+    },
+    {
+        name: 'pnpm',
+        lockFile: 'pnpm-lock.yaml',
+    },
+];
 
-async function detecter() {
-    const promises = lockFiles.map(file => {
-        const p = path.resolve(cwd(), file);
-        return fileExists(p);
-    });
+// const stats = await fs.stat(filePath);
+// fs.readdir
 
-    const result = Promise.any(promises)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+export class PackageManagerDetector {
+    async detect(filePath: string) {
+        const promises = [];
+
+        for (const packageManager of packageManagers) {
+            const { name, lockFile } = packageManager;
+            const lockFilePath = path.resolve(filePath, lockFile);
+
+            const promise = this.fileExists(lockFilePath).then(() => name);
+            promises.push(promise);
+        }
+
+        return Promise.any(promises).catch(() => null);
+    }
+
+    fileExists(path: string) {
+        return fs.access(path);
+    }
 }
