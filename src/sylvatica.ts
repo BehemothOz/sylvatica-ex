@@ -10,14 +10,13 @@ interface Data {
 
 export class Sylvatica {
     cache: Cache<Data>;
-    keys: Array<number> = [1, 2, 3];
 
     constructor() {
         this.cache = new Cache();
     }
 
-    async init() {
-        const functions = this.keys.map(key => () => sendRequest(key));
+    async init(keys: Array<number>) {
+        const functions = keys.map(key => () => sendRequest(key));
         const result = getResultGnTest(functions);
 
         const finished = [];

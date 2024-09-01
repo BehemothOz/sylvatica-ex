@@ -3,18 +3,12 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-import * as fs from 'fs/promises';
-
-import { Sylvatica } from './sylvatica';
+import { fm } from './core/FileManager';
 
 import { PackageManagerDetector } from './core/detecter';
+import { PackageJsonReader } from './core/PackageJsonReader';
 
-interface PackageJson {
-    name: string;
-    version: string;
-    dependencies?: Record<string, string>;
-    devDependencies?: Record<string, string>;
-}
+import { Sylvatica } from './sylvatica';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -30,89 +24,37 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
     const disposable = vscode.commands.registerCommand('extension.helloWorld', async (file: vscode.Uri) => {
         // The code you place here will be executed every time your command is executed
-        console.log(context.extensionUri);
+        const sylvatica = new Sylvatica();
         const directoryPath = path.dirname(file.fsPath);
 
-        try {
-            const res = await packageManagerDetector.detect(directoryPath);
-            console.log(res);
-        } catch (error) {
-            console.log(error);
-        }
+        const json = await PackageJsonReader.read(file);
 
-        const res = await vscode.workspace.fs.readFile(file);
+        /*
+            Get installed dependencies version
+        */
+        const { dependencies } = json;
+        const moduleNames = Object.keys(dependencies);
 
-        const decoder = new TextDecoder();
-        const str = decoder.decode(res);
-        const json = JSON.parse(str) as PackageJson;
+        for (const moduleName of moduleNames) {
+            const directoryPathAsUri = vscode.Uri.file(directoryPath);
+            // const localNodeModules = fm.joinPath(directoryPathAsUri, 'node_modules');
+            const packageJsonPath = fm.joinPath(directoryPathAsUri, 'node_modules', moduleName, 'package.json');
 
-        const { dependencies = [] } = json;
-        const packages = Object.keys(dependencies);
-
-        if (packages.length > 0) {
-            const packageName = packages[0];
-
-            console.log('firstPackage', packageName);
-            const requirePaths = require.resolve.paths(packageName) || [];
-            console.log(requirePaths);
-
-            // const pkgFileNodeModules = pkgFile ? [path.join(path.dirname(pkgFile), 'node_modules')] : [];
-            const localNodeModules = [path.join(directoryPath, 'node_modules')];
-            console.log('localNodeModules', localNodeModules);
-
-            const nodeModulePaths = [...localNodeModules, ...requirePaths];
-
-            const exists = (path: string) =>
-                fs.stat(path).then(
-                    () => true,
-                    () => false
-                );
-
-            for (const basePath of nodeModulePaths) {
-                const packageJsonPath = path.join(basePath, packageName, 'package.json');
-                console.log('---->', packageJsonPath);
-                if (await exists(packageJsonPath)) {
-                    try {
-                        const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf-8'));
-                        return packageJson;
-                    } catch (e) {
-                        console.log(e);
-                    }
+            if (fm.exist(packageJsonPath)) {
+                try {
+                    const packageJsonModule = await PackageJsonReader.read(packageJsonPath);
+                    console.log(moduleName, packageJsonModule.version);
+                } catch (e) {
+                    console.log(e);
                 }
             }
         }
 
-        // async function getInstalledVersion(packageName: string) {
-        //     const packageJsonPath = path.join(rootPath, 'node_modules', packageName, 'package.json');
-        //     console.log(vscode.Uri.file(packageJsonPath));
-        //     try {
-        //         const packageJsonFileAsString = await vscode.workspace.fs.readFile(vscode.Uri.file(packageJsonPath));
-        //         const decoder = new TextDecoder();
-        //         const str = decoder.decode(packageJsonFileAsString);
-
-        //         const packageJson = JSON.parse(str) as PackageJson;
-
-        //         return packageJson.version;
-        //     } catch (error) {
-        //         console.log(error);
-        //         throw error;
-        //     }
-        // }
-
-        // const directoryPath
+        const result = await sylvatica.init(moduleNames.map((_, idx) => idx + 1));
+        console.log(result);
 
         // Display a message box to the user
         vscode.window.showInformationMessage('Hello World!');
-
-        // WebPanel.createOrShow(context.extensionUri);
-
-        // const sylvatica = new Sylvatica();
-        // const r = await sylvatica.init();
-        // console.log(r);
-
-        // WebPanel.currentPanel?.sendMessage(r);
-
-        console.log('----------------- end'); //
     });
 
     context.subscriptions.push(
