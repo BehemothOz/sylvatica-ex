@@ -1,6 +1,5 @@
 import * as path from 'path';
 import * as fs from 'fs/promises';
-import { cwd } from 'process';
 
 type PackageManager = 'yarn' | 'npm' | 'pnpm';
 
@@ -24,16 +23,13 @@ const packageManagers: Array<PackageManagerInfo> = [
     },
 ];
 
-// const stats = await fs.stat(filePath);
-// fs.readdir
-
 export class PackageManagerDetector {
-    async detect(filePath: string) {
+    async detect(directoryPath: string) {
         const promises = [];
 
         for (const packageManager of packageManagers) {
             const { name, lockFile } = packageManager;
-            const lockFilePath = path.resolve(filePath, lockFile);
+            const lockFilePath = path.resolve(directoryPath, lockFile);
 
             const promise = this.fileExists(lockFilePath).then(() => name);
             promises.push(promise);
@@ -43,6 +39,10 @@ export class PackageManagerDetector {
     }
 
     fileExists(path: string) {
-        return fs.access(path);
+        return fs.access(path); // OR await fs.stat(filePath);
+    }
+
+    detectSync(directoryPath: string) {
+        const a = fs.readdir(directoryPath);
     }
 }
