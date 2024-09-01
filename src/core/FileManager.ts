@@ -21,17 +21,20 @@ export class FileManager implements IFileManager {
      * @returns {boolean} True if the file or directory exists, false otherwise.
      */
     exist(uri: vscode.Uri): boolean {
-        /*
-            return fs.access(path) OR await fs.stat(filePath) - async
-        */
         return fs.existsSync(uri.fsPath);
     }
+
+    /*
+        TODO: add async exist version
+        const exists = (path: string) => fs.stat(path).then(() => true, () => false);
+        OR use fs.access(path)
+    */
 
     /**
      * @returns {vscode.Uri} The joined URI.
      */
-    joinPath(root: vscode.Uri, fileName: string): vscode.Uri {
-        return vscode.Uri.joinPath(root, fileName);
+    joinPath(root: vscode.Uri, ...pathSegments: string[]): vscode.Uri {
+        return vscode.Uri.joinPath(root, ...pathSegments);
     }
 
     /**
