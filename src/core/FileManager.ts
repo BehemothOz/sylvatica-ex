@@ -21,6 +21,9 @@ export class FileManager implements IFileManager {
      * @returns {boolean} True if the file or directory exists, false otherwise.
      */
     exist(uri: vscode.Uri): boolean {
+        /*
+            return fs.access(path) OR await fs.stat(filePath) - async
+        */
         return fs.existsSync(uri.fsPath);
     }
 
@@ -32,11 +35,25 @@ export class FileManager implements IFileManager {
     }
 
     /**
-     * @returns {Promise<boolean>} A promise that resolves to true if the URI points to a directory, false otherwise.
+     * Reads the contents of a file asynchronously and returns the decoded content as a string.
+     *
+     * @async
+     * @param {vscode.Uri} filePath - The URI of the file to read.
+     * @returns {Promise<string>} - The decoded contents of the file.
+     * @throws {Error} - If an error occurs while reading the file or decoding the contents.
      */
-    async isDirectory(uri: vscode.Uri): Promise<boolean> {
-        const stat = await vscode.workspace.fs.stat(uri);
-        return stat.type === vscode.FileType.Directory;
+    async readFile(filePath: vscode.Uri): Promise<string> {
+        /*
+            Node: fs.readFile(packageJsonPath, 'utf-8')
+        */
+        const textDecoder = new TextDecoder('utf-8');
+
+        const uint8ArrayData = await vscode.workspace.fs.readFile(filePath);
+        const fileContent = textDecoder.decode(uint8ArrayData);
+
+        return fileContent;
+
+        // TODO: throw new Error(`Error reading file: ${filePath}\n${error}`);
     }
 }
 
