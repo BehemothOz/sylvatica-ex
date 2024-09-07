@@ -8,7 +8,16 @@ import { fm } from './core/FileManager';
 import { PackageManagerDetector } from './core/detecter';
 import { PackageJsonReader } from './core/PackageJsonReader';
 
+import { PackageBuilder } from './core/Package';
+import { comparison } from './core/comparison';
+
 import { Sylvatica } from './sylvatica';
+
+/*
+    TODO: nx
+    - Ignore packages that are using github or file urls
+    - Check packageJsonVersion version (semver.validRange(packageJsonVersion))
+*/
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -28,6 +37,8 @@ export function activate(context: vscode.ExtensionContext) {
         const directoryPath = path.dirname(file.fsPath);
 
         const json = await PackageJsonReader.read(file);
+
+        comparison();
 
         /*
             Get installed dependencies version
