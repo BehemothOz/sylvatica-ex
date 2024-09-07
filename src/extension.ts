@@ -11,6 +11,8 @@ import { PackageJsonReader } from './core/PackageJsonReader';
 import { PackageBuilder } from './core/Package';
 import { comparison } from './core/comparison';
 
+import { WebPanel } from './core/panel/WebPanel';
+
 import { Sylvatica } from './sylvatica';
 
 /*
@@ -37,6 +39,8 @@ export function activate(context: vscode.ExtensionContext) {
         const directoryPath = path.dirname(file.fsPath);
 
         const json = await PackageJsonReader.read(file);
+
+        const _ = new WebPanel(context);
 
         comparison();
 

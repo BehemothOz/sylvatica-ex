@@ -37,7 +37,9 @@ export class WebPanel {
     constructor(context: vscode.ExtensionContext) {
         const panel = vscode.window.createWebviewPanel('sylvatica', 'Sylvatica Packages', DEFAULT_VIEW_COLUMN, {
             // Only allow the webview to access resources in our extension's media directory
-            localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, 'media')],
+            // localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, 'media')],
+            // ...
+            enableScripts: true,
         });
 
         // And set its HTML content
@@ -60,7 +62,7 @@ export class WebPanel {
             console.log(panel);
         });
 
-        console.log("panel.webview.cspSource", panel.webview.cspSource);
+        console.log('panel.webview.cspSource', panel.webview.cspSource);
     }
 }
 
@@ -74,23 +76,26 @@ function getWebviewContent() {
   </head>
   <body>
     <h1>Hello</h1>
-    <h1 id="lines-of-code-counter">0</h1><h1 id="lines-of-code-counter">0</h1>
+    <div id="counter">0</div>
+    <button id="button">click</button>
     <script>
         const vscode = acquireVsCodeApi();
 
-        const counter = document.getElementById('lines-of-code-counter');
+        const counter = document.getElementById('counter');
+        const btn = document.getElementById('button');
 
         const previousState = vscode.getState();
 
         let count = previousState ? previousState.count : 0;
         counter.textContent = count;
 
-        let count = 0;
-        setInterval(() => {
-            counter.textContent = count++;
+        btn.addEventListener('click', () => {
+            count += 1;
+            counter.textContent = count;
+
             // Update the saved state
             vscode.setState({ count });
-        }, 100);
+        })
     </script>
   </body>
   </html>`;
