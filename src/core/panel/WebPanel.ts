@@ -16,10 +16,17 @@ const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
 */
 
 /*
+    .reveal(column); - restore panel
+*/
+
+/*
     <meta
         http-equiv="Content-Security-Policy"
         content="default-src 'none'; img-src ${webview.cspSource} https:; script-src ${webview.cspSource}; style-src ${webview.cspSource};"
     />
+
+    const scriptPathOnDisk = vscode.Uri.joinPath(this.extensionUri, ..., 'main.js');
+    const scriptUri = webview.asWebviewUri(scriptPathOnDisk);
 */
 
 /*
