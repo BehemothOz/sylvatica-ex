@@ -1,12 +1,4 @@
-class QueueNode<T> {
-    value: T;
-    next: QueueNode<T> | null;
-
-    constructor(value: T, next: QueueNode<T> | null = null) {
-        this.value = value;
-        this.next = next;
-    }
-}
+import { QueueNode } from './QueueNode';
 
 export class Queue<T> {
     private head: QueueNode<T> | null;
