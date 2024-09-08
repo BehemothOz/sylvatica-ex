@@ -42,7 +42,22 @@ export class Queue<T> {
         }
 
         this._size -= 1;
-        return deletedNode;
+        return deletedNode.value;
+    }
+
+    /**
+     * Read the element at the front of the queue without removing it.
+     */
+    peek() {
+        if (this.head === null) {
+            return null;
+        }
+
+        return this.head.value;
+    }
+
+    isEmpty() {
+        return this._size === 0;
     }
 
     get size() {
