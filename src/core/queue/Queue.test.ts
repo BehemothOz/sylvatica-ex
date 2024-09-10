@@ -8,12 +8,8 @@ describe('Queue', () => {
         expect(queue.peek()).toBeNull();
     });
 
-    test('should enqueue elements correctly', () => {});
-
-    test('should dequeue elements correctly', () => {});
-
     it('should peek data from queue', () => {
-        const queue = new Queue();
+        const queue = new Queue<number>();
 
         expect(queue.peek()).toBeNull();
 
@@ -25,7 +21,7 @@ describe('Queue', () => {
     });
 
     it('should check if queue is empty', () => {
-        const queue = new Queue();
+        const queue = new Queue<number>();
 
         expect(queue.isEmpty()).toBe(true);
 
@@ -35,7 +31,7 @@ describe('Queue', () => {
     });
 
     it('should dequeue from queue in FIFO order', () => {
-        const queue = new Queue();
+        const queue = new Queue<number>();
 
         queue.enqueue(1);
         queue.enqueue(2);
