@@ -13,8 +13,7 @@ describe('Queue', () => {
 
         expect(queue.peek()).toBeNull();
 
-        queue.enqueue(1);
-        queue.enqueue(2);
+        queue.enqueue(1).enqueue(2);
 
         expect(queue.peek()).toBe(1);
         expect(queue.peek()).toBe(1);
@@ -33,12 +32,19 @@ describe('Queue', () => {
     it('should dequeue from queue in FIFO order', () => {
         const queue = new Queue<number>();
 
-        queue.enqueue(1);
-        queue.enqueue(2);
+        queue.enqueue(1).enqueue(2);
 
         expect(queue.dequeue()).toBe(1);
         expect(queue.dequeue()).toBe(2);
         expect(queue.dequeue()).toBeNull();
         expect(queue.isEmpty()).toBe(true);
+    });
+    it('should iterate through the queue elements in the correct order', () => {
+        const queue = new Queue<number>();
+
+        queue.enqueue(1).enqueue(2).enqueue(3).enqueue(4);
+
+        expect(Array.from(queue.values())).toEqual([1, 2, 3, 4]);
+        expect(Array.from(queue)).toEqual([1, 2, 3, 4]);
     });
 });

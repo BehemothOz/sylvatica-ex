@@ -12,6 +12,10 @@ export class Queue<T> {
         this._size = 0;
     }
 
+    get size() {
+        return this._size;
+    }
+
     enqueue(value: T) {
         const node = new QueueNode(value);
 
@@ -60,7 +64,31 @@ export class Queue<T> {
         return this._size === 0;
     }
 
-    get size() {
-        return this._size;
+    values() {
+        let current = this.head;
+
+        return {
+            [Symbol.iterator]() {
+                return this;
+            },
+            next: () => {
+                if (current === null) {
+                    return { done: true, value: undefined };
+                }
+
+                const result = {
+                    done: false,
+                    value: current.value,
+                };
+
+                current = current.next;
+
+                return result;
+            },
+        };
+    }
+
+    [Symbol.iterator]() {
+        return this.values();
     }
 }
