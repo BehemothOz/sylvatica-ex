@@ -1,5 +1,25 @@
 import { Queue } from './queue';
 
+class TaskManager<TaskResult> {
+    tasks: Queue<() => Promise<TaskResult>> = new Queue();
+
+    isRunning = false;
+
+    constructor() {}
+
+    addTask(task: (() => Promise<TaskResult>) | Promise<TaskResult>) {
+        if (this.isRunning) {
+            throw new Error('The task execution process has already started');
+        }
+
+        if (typeof task === 'function') {
+            this.tasks.enqueue(task);
+        } else {
+            this.tasks.enqueue(() => task);
+        }
+    }
+}
+
 export async function* getResultGnTest(iterable: Iterable<() => Promise<any>>, limit: number = 4) {
     const queue = new Queue();
 
