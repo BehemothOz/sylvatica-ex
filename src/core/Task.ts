@@ -1,6 +1,6 @@
 import { Queue } from './queue';
 
-class TaskManager<TaskResult> {
+export class TaskManager<TaskResult> {
     tasks: Queue<() => Promise<TaskResult>> = new Queue();
     waitingTasks: Queue<Promise<TaskResult>> = new Queue();
 
@@ -72,5 +72,10 @@ class TaskManager<TaskResult> {
         }
     }
 
-    private clear() {}
+    private clear() {
+        this.isRunning = false;
+
+        this.tasks = new Queue();
+        this.taskIterator = null;
+    }
 }
