@@ -71,6 +71,9 @@ export class Queue<T> {
         return this._size === 0;
     }
 
+    /**
+     * @returns Returns an iterator over the values of the queue.
+     */
     values(): IterableIterator<T> {
         let current = this.head;
 
