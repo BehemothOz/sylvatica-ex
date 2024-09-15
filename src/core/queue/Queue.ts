@@ -16,6 +16,9 @@ export class Queue<T> {
         return this._size;
     }
 
+    /**
+     * Add a new element to the end of the queue (the tail of the linked list).
+     */
     enqueue(value: T) {
         const node = new QueueNode(value);
 
@@ -31,6 +34,10 @@ export class Queue<T> {
         return this;
     }
 
+    /**
+     * Remove the element at the front of the queue (the head of the linked list).
+     * If the queue is empty, return null.
+     */
     dequeue() {
         if (this.head === null) {
             return null;
