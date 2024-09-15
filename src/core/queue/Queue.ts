@@ -64,7 +64,7 @@ export class Queue<T> {
         return this._size === 0;
     }
 
-    values() {
+    values(): IterableIterator<T> {
         let current = this.head;
 
         return {
