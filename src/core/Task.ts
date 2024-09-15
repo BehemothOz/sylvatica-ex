@@ -2,10 +2,18 @@ import { Queue } from './queue';
 
 class TaskManager<TaskResult> {
     tasks: Queue<() => Promise<TaskResult>> = new Queue();
+    waitingTasks: Queue<Promise<TaskResult>> = new Queue();
+
+    taskIterator: IterableIterator<() => Promise<TaskResult>> | null = null;
+
+    limit: number;
+    pending: number = 0;
 
     isRunning = false;
 
-    constructor() {}
+    constructor(limit: number = 4) {
+        this.limit = limit;
+    }
 
     addTask(task: (() => Promise<TaskResult>) | Promise<TaskResult>) {
         if (this.isRunning) {
@@ -18,45 +26,51 @@ class TaskManager<TaskResult> {
             this.tasks.enqueue(() => task);
         }
     }
-}
 
-export async function* getResultGnTest(iterable: Iterable<() => Promise<any>>, limit: number = 4) {
-    const queue = new Queue();
+    async *run() {
+        this.initializeTasks();
 
-    const tasks = [...iterable];
-    const iterator = tasks.entries();
+        while (true) {
+            if (this.waitingTasks.size === 0 && this.pending === 0) {
+                this.clear();
+                return;
+            }
 
-    let pending = tasks.length;
+            yield this.waitingTasks.dequeue();
+        }
+    }
 
-    function addTaskToComplete() {
-        const chunk = iterator.next();
+    private addTaskToComplete() {
+        if (this.taskIterator == null) return;
+
+        const chunk = this.taskIterator.next();
 
         if (chunk.done) {
             return;
         }
 
-        const [_, fn] = chunk.value;
+        const fn = chunk.value;
 
         const promise = fn().then(res => {
-            pending -= 1;
-            addTaskToComplete();
+            this.pending -= 1;
+            this.addTaskToComplete();
 
             return res;
         });
 
-        queue.enqueue(promise);
+        this.waitingTasks.enqueue(promise);
     }
 
-    for (let i = 0; i < limit; i += 1) {
-        addTaskToComplete();
-    }
+    private initializeTasks() {
+        this.taskIterator = this.tasks.values();
 
-    while (true) {
-        if (queue.size === 0 && pending === 0) {
-            return;
+        this.isRunning = true;
+        this.pending = this.tasks.size;
+
+        for (let i = 0; i < this.limit; i += 1) {
+            this.addTaskToComplete();
         }
-
-        const promise = queue.dequeue();
-        yield promise;
     }
+
+    private clear() {}
 }
