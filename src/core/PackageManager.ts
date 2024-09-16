@@ -3,6 +3,11 @@ import * as vscode from 'vscode';
 import { fm } from './FileManager';
 import { PackageJsonReader, type PackageJson } from './PackageJsonReader';
 
+interface LocalPackageVersion {
+    name: string;
+    version: string;
+}
+
 interface LocalDependenciesManagerParams {
     directoryPath: string;
     rootPackageJson: PackageJson;
@@ -25,19 +30,27 @@ export class LocalDependenciesManager {
         this.directoryPath = vscode.Uri.file(params.directoryPath);
     }
 
+    private resolvePackageJsonPath(moduleName: string) {
+        return fm.joinPath(this.directoryPath, 'node_modules', moduleName, 'package.json');
+    }
+
     async getPackagesVersion(moduleNames: Array<string>) {
+        const localPackagesVersion: Array<LocalPackageVersion> = [];
+
         for (const moduleName of moduleNames) {
-            const packageJsonPath = fm.joinPath(this.directoryPath, 'node_modules', moduleName, 'package.json');
+            const packageJsonPath = this.resolvePackageJsonPath(moduleName);
 
             if (fm.exist(packageJsonPath)) {
                 try {
                     const packageJsonModule = await PackageJsonReader.read(packageJsonPath);
-                    console.log(moduleName, packageJsonModule.version);
+                    localPackagesVersion.push({ name: moduleName, version: packageJsonModule.version });
                 } catch (e) {
                     console.log(e);
                 }
             }
         }
+
+        return localPackagesVersion;
     }
 
     getDependenciesVersions() {}
