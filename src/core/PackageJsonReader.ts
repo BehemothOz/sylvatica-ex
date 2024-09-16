@@ -9,7 +9,7 @@ interface PackageJsonFile {
     devDependencies?: Record<string, string>;
 }
 
-class PackageJson {
+export class PackageJson {
     constructor(private packageJsonFile: PackageJsonFile) {}
 
     get name() {
