@@ -65,9 +65,6 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
 
-        const result = await sylvatica.init(moduleNames.map((_, idx) => idx + 1));
-        console.log(result);
-
         // Display a message box to the user
         vscode.window.showInformationMessage('Hello World!');
     });
