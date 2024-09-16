@@ -53,7 +53,11 @@ export class LocalDependenciesManager {
         return localPackagesVersion;
     }
 
-    getDependenciesVersions() {}
+    async getDependenciesVersions() {
+        return this.getPackagesVersion(this.dependencies);
+    }
 
-    getDevDependenciesVersions() {}
+    async getDevDependenciesVersions() {
+        return this.getPackagesVersion(this.devDependencies);
+    }
 }
