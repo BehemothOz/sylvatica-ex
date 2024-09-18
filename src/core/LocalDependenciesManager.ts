@@ -9,8 +9,8 @@ interface LocalPackageVersion {
 }
 
 interface LocalDependenciesManagerParams {
-    directoryPath: string;
-    rootPackageJson: PackageJson;
+    packageJsonFile: PackageJson;
+    packageJsonDirectory: string;
 }
 
 export class LocalDependenciesManager {
@@ -22,12 +22,15 @@ export class LocalDependenciesManager {
         TODO: mb use version from packageJson?
     */
     constructor(params: LocalDependenciesManagerParams) {
-        const { dependencies, devDependencies } = params.rootPackageJson;
+        /*
+            Get installed dependencies
+        */
+        const { dependencies, devDependencies } = params.packageJsonFile;
 
         this.dependencies = Object.keys(dependencies);
         this.devDependencies = Object.keys(devDependencies);
 
-        this.directoryPath = vscode.Uri.file(params.directoryPath);
+        this.directoryPath = vscode.Uri.file(params.packageJsonDirectory);
     }
 
     private resolvePackageJsonPath(moduleName: string) {

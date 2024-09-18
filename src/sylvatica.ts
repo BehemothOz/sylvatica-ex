@@ -1,15 +1,19 @@
-import { Cache } from './core/cache';
+import * as vscode from 'vscode';
+import * as path from 'path';
 
-interface Data {
-    id: number;
-    title: string;
-    body: string;
+import { type PackageJson } from './core/PackageJsonReader';
+import { type LocalDependenciesManager } from './core/LocalDependenciesManager';
+
+interface SylvaticaParams {
+    packageJsonFile: PackageJson;
+    packageJsonDirectory: string;
 }
 
 export class Sylvatica {
-    cache: Cache<Data>;
+    constructor(private dependenciesManager: LocalDependenciesManager) {}
 
-    constructor() {
-        this.cache = new Cache();
+    async initialization() {
+        const d = await this.dependenciesManager.getDependenciesVersions();
+        const dd = await this.dependenciesManager.getDevDependenciesVersions();
     }
 }

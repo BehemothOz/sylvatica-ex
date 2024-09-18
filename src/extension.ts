@@ -1,8 +1,11 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as path from 'path';
 
 import { Sylvatica } from './sylvatica';
+import { LocalDependenciesManager } from './core/LocalDependenciesManager';
+import { PackageJsonReader } from './core/PackageJsonReader';
 
 /*
     TODO: nx
@@ -22,10 +25,26 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
     const disposable = vscode.commands.registerCommand('extension.helloWorld', async (file: vscode.Uri) => {
         // The code you place here will be executed every time your command is executed
-        const sylvatica = new Sylvatica();
 
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World!');
+        /*
+            TODO: Add checks that the file is indeed packageJson
+        */
+
+        try {
+            const json = await PackageJsonReader.read(file);
+            const packageJsonDirectory = path.dirname(file.fsPath);
+
+            const localDependenciesManager = new LocalDependenciesManager({
+                packageJsonFile: json,
+                packageJsonDirectory,
+            });
+
+            const sylvatica = new Sylvatica(localDependenciesManager);
+
+            sylvatica.initialization();
+        } catch {
+            vscode.window.showErrorMessage('Oops');
+        }
     });
 
     context.subscriptions.push(
