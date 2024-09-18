@@ -37,8 +37,8 @@ export class LocalDependenciesManager {
         return fm.joinPath(this.directoryPath, 'node_modules', moduleName, 'package.json');
     }
 
-    async getPackagesVersion(moduleNames: Array<string>) {
-        const localPackagesVersion: Array<LocalPackageVersion> = [];
+    async *getPackagesVersion(moduleNames: Array<string>) {
+        // const localPackagesVersion: Array<LocalPackageVersion> = [];
 
         for (const moduleName of moduleNames) {
             const packageJsonPath = this.resolvePackageJsonPath(moduleName);
@@ -46,21 +46,22 @@ export class LocalDependenciesManager {
             if (fm.exist(packageJsonPath)) {
                 try {
                     const packageJsonModule = await PackageJsonReader.read(packageJsonPath);
-                    localPackagesVersion.push({ name: moduleName, version: packageJsonModule.version });
+                    // localPackagesVersion.push({ name: moduleName, version: packageJsonModule.version });
+                    yield { name: moduleName, version: packageJsonModule.version };
                 } catch (e) {
                     console.log(e);
                 }
             }
         }
-
-        return localPackagesVersion;
     }
 
-    async getDependenciesVersions() {
-        return this.getPackagesVersion(this.dependencies);
+    async *getDependenciesVersions() {
+        // return this.getPackagesVersion(this.dependencies);
+        yield* this.getPackagesVersion(this.dependencies);
     }
 
-    async getDevDependenciesVersions() {
-        return this.getPackagesVersion(this.devDependencies);
+    async *getDevDependenciesVersions() {
+        // return this.getPackagesVersion(this.devDependencies);
+        yield* this.getPackagesVersion(this.devDependencies);
     }
 }
