@@ -1,6 +1,6 @@
 import { Queue } from './queue';
 
-export class TaskManager<TaskResult> {
+export class TaskManager<TaskResult = unknown> {
     tasks: Queue<() => Promise<TaskResult>> = new Queue();
     waitingTasks: Queue<Promise<TaskResult>> = new Queue();
 

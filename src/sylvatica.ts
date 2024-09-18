@@ -1,19 +1,16 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
-
-import { type PackageJson } from './core/PackageJsonReader';
+import { TaskManager } from './core/TaskManager';
 import { type LocalDependenciesManager } from './core/LocalDependenciesManager';
 
-interface SylvaticaParams {
-    packageJsonFile: PackageJson;
-    packageJsonDirectory: string;
-}
-
 export class Sylvatica {
-    constructor(private dependenciesManager: LocalDependenciesManager) {}
+    taskManager: TaskManager;
+
+    constructor(private dependenciesManager: LocalDependenciesManager) {
+        this.taskManager = new TaskManager();
+    }
 
     async initialization() {
-        const d = await this.dependenciesManager.getDependenciesVersions();
-        const dd = await this.dependenciesManager.getDevDependenciesVersions();
+        for await (const dependencyVersion of this.dependenciesManager.getDependenciesVersions()) {
+            this.taskManager.addTask(() => Promise.resolve(dependencyVersion));
+        }
     }
 }
