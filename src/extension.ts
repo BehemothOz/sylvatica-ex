@@ -5,7 +5,10 @@ import * as path from 'path';
 
 import { Sylvatica } from './sylvatica';
 import { LocalDependenciesManager } from './core/LocalDependenciesManager';
+import { WebviewPanel } from './core/webview';
 import { PackageJsonReader } from './core/PackageJsonReader';
+
+import { CatCodingPanel } from './core/webview/TT';
 
 /*
     TODO: nx
@@ -19,6 +22,11 @@ export function activate(context: vscode.ExtensionContext) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "helloworld-sample" is now active!');
+
+    // const webviewPanel = new WebviewPanel(context);
+    console.log(1);
+
+    console.log('vscode.window.registerWebviewPanelSerializer', vscode.window.registerWebviewPanelSerializer);
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
@@ -40,6 +48,8 @@ export function activate(context: vscode.ExtensionContext) {
             });
 
             const sylvatica = new Sylvatica(localDependenciesManager);
+
+            CatCodingPanel.createOrShow(context.extensionUri);
 
             sylvatica.initialization();
         } catch {

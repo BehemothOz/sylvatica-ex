@@ -33,9 +33,23 @@ const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
     retainContextWhenHidden  - todo
 */
 
-export class WebPanel {
+export class WebviewPanelController {
+    public static currentPanel: WebviewPanel | undefined;
+
+    static create(context: vscode.ExtensionContext) {
+        if (WebviewPanelManager.currentPanel) {
+            return;
+        }
+
+        WebviewPanelManager.currentPanel = new WebviewPanel(context);
+    }
+}
+
+export class WebviewPanel {
+    panel: vscode.WebviewPanel;
+
     constructor(context: vscode.ExtensionContext) {
-        const panel = vscode.window.createWebviewPanel('sylvatica', 'Sylvatica Packages', DEFAULT_VIEW_COLUMN, {
+        this.panel = vscode.window.createWebviewPanel('sylvatica', 'Sylvatica Packages', DEFAULT_VIEW_COLUMN, {
             // Only allow the webview to access resources in our extension's media directory
             // localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, 'media')],
             // ...
@@ -43,10 +57,10 @@ export class WebPanel {
         });
 
         // And set its HTML content
-        panel.webview.html = getWebviewContent();
+        this.panel.webview.html = getWebviewContent();
 
         // Event is fired when a webview is destroyed (panel.dispose())
-        panel.onDidDispose(
+        this.panel.onDidDispose(
             () => {
                 // When the panel is closed, cancel any future updates to the webview content
                 // clearInterval(interval);
@@ -57,12 +71,10 @@ export class WebPanel {
         );
 
         // Whenever a webview's visibility changes, or when a webview is moved into a new column, the onDidChangeViewState event is fired.
-        panel.onDidChangeViewState(e => {
+        this.panel.onDidChangeViewState(e => {
             const panel = e.webviewPanel;
             console.log(panel);
         });
-
-        console.log('panel.webview.cspSource', panel.webview.cspSource);
     }
 }
 
