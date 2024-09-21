@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 
+import { Template } from './Template';
+
 const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
 
 /*  
@@ -34,19 +36,20 @@ const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
 */
 
 export class WebviewPanelController {
-    public static currentPanel: WebviewPanel | undefined;
+    private currentPanel: WebviewPanel | null = null;
 
-    static create(context: vscode.ExtensionContext) {
-        if (WebviewPanelManager.currentPanel) {
-            return;
+    create(context: vscode.ExtensionContext) {
+        if (this.currentPanel === null) {
+            this.currentPanel = new WebviewPanel(context);
         }
 
-        WebviewPanelManager.currentPanel = new WebviewPanel(context);
+        return this.currentPanel;
     }
 }
 
 export class WebviewPanel {
     panel: vscode.WebviewPanel;
+    template: Template;
 
     constructor(context: vscode.ExtensionContext) {
         this.panel = vscode.window.createWebviewPanel('sylvatica', 'Sylvatica Packages', DEFAULT_VIEW_COLUMN, {
@@ -56,8 +59,14 @@ export class WebviewPanel {
             enableScripts: true,
         });
 
+        this.template = new Template({
+            title: 'Unknown',
+            extensionUri: context.extensionUri,
+            webview: this.panel.webview,
+        });
+
         // And set its HTML content
-        this.panel.webview.html = getWebviewContent();
+        this.panel.webview.html = this.template.getContent();
 
         // Event is fired when a webview is destroyed (panel.dispose())
         this.panel.onDidDispose(
@@ -76,39 +85,4 @@ export class WebviewPanel {
             console.log(panel);
         });
     }
-}
-
-function getWebviewContent() {
-    return `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Title</title>
-  </head>
-  <body>
-    <h1>Hello</h1>
-    <div id="counter">0</div>
-    <button id="button">click</button>
-    <script>
-        const vscode = acquireVsCodeApi();
-
-        const counter = document.getElementById('counter');
-        const btn = document.getElementById('button');
-
-        const previousState = vscode.getState();
-
-        let count = previousState ? previousState.count : 0;
-        counter.textContent = count;
-
-        btn.addEventListener('click', () => {
-            count += 1;
-            counter.textContent = count;
-
-            // Update the saved state
-            vscode.setState({ count });
-        })
-    </script>
-  </body>
-  </html>`;
 }

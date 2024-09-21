@@ -5,10 +5,8 @@ import * as path from 'path';
 
 import { Sylvatica } from './sylvatica';
 import { LocalDependenciesManager } from './core/LocalDependenciesManager';
-import { WebviewPanel } from './core/webview';
+import { WebviewPanelController } from './core/webview';
 import { PackageJsonReader } from './core/PackageJsonReader';
-
-import { CatCodingPanel } from './core/webview/TT';
 
 /*
     TODO: nx
@@ -27,6 +25,8 @@ export function activate(context: vscode.ExtensionContext) {
     console.log(1);
 
     console.log('vscode.window.registerWebviewPanelSerializer', vscode.window.registerWebviewPanelSerializer);
+
+    const webviewController = new WebviewPanelController();
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
@@ -47,9 +47,10 @@ export function activate(context: vscode.ExtensionContext) {
                 packageJsonDirectory,
             });
 
-            const sylvatica = new Sylvatica(localDependenciesManager);
+            console.log(2);
+            const webviewPanel = webviewController.create(context);
 
-            CatCodingPanel.createOrShow(context.extensionUri);
+            const sylvatica = new Sylvatica(localDependenciesManager, webviewPanel);
 
             sylvatica.initialization();
         } catch {

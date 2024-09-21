@@ -11,16 +11,11 @@ const sendRequest = async (id: number) => {
 export class Sylvatica {
     taskManager: TaskManager;
 
-    constructor(
-        private dependenciesManager: LocalDependenciesManager,
-        private webviewPanel: WebviewPanel | null = null
-    ) {
+    constructor(private dependenciesManager: LocalDependenciesManager, private webviewPanel: WebviewPanel) {
         this.taskManager = new TaskManager();
     }
 
     async initialization() {
-        // this.webviewPanel.create();
-
         for await (const dependencyVersion of this.dependenciesManager.getDependenciesVersions()) {
             this.taskManager.addTask(() => Promise.resolve(dependencyVersion));
         }
