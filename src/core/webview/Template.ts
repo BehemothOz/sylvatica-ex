@@ -21,8 +21,11 @@ export class Template {
         this.extensionUri = params.extensionUri;
         this.webview = params.webview;
 
+        /*
+            TODO: Find another place for media folder (webview)
+        */
         this.styleFileUri = this.getWebviewUri('src', 'core', 'webview', 'media', 'main.css');
-        this.scriptFileUri = this.getWebviewUri('media', 'main.js');
+        this.scriptFileUri = this.getWebviewUri('src', 'core', 'webview', 'media', 'main.js');
     }
 
     private getWebviewUri(...pathSegments: string[]) {
@@ -49,9 +52,10 @@ export class Template {
                     </head>
                     <body>
                         <h1>Hello</h1>
+                        <div id="root"></div>
                         <script src="${this.scriptFileUri}"></script>
                     </body>
-                </html>;
+                </html>
             `;
     }
 }

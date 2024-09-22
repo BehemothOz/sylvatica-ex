@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 
 import { Template } from './Template';
+import { Dispatcher } from './Dispatcher';
 
 const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
 
@@ -50,6 +51,7 @@ export class WebviewPanelController {
 export class WebviewPanel {
     panel: vscode.WebviewPanel;
     template: Template;
+    dispatcher: Dispatcher;
 
     constructor(context: vscode.ExtensionContext) {
         this.panel = vscode.window.createWebviewPanel('sylvatica', 'Sylvatica Packages', DEFAULT_VIEW_COLUMN, {
@@ -64,6 +66,8 @@ export class WebviewPanel {
             extensionUri: context.extensionUri,
             webview: this.panel.webview,
         });
+
+        this.dispatcher = new Dispatcher(this.panel.webview);
 
         // And set its HTML content
         this.panel.webview.html = this.template.getContent();

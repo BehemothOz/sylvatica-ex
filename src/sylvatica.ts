@@ -19,5 +19,7 @@ export class Sylvatica {
         for await (const dependencyVersion of this.dependenciesManager.getDependenciesVersions()) {
             this.taskManager.addTask(() => Promise.resolve(dependencyVersion));
         }
+
+        this.webviewPanel.dispatcher.initialization();
     }
 }
