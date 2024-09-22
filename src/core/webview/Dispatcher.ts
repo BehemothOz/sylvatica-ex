@@ -17,4 +17,8 @@ export class Dispatcher {
     initialization() {
         this.webview.postMessage({ type: 'INITIALIZATION' });
     }
+
+    sendDependencies<T = unknown>(dependencies: T) {
+        this.webview.postMessage({ type: 'DEPENDENCIES', data: dependencies });
+    }
 }

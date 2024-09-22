@@ -27,7 +27,8 @@ export class Sylvatica {
         }
 
         await this.getLatestDependenciesVersions();
-        console.log(this.packages.values());
+
+        this.webviewPanel.dispatcher.sendDependencies(Array.from(this.packages.values()));
     }
 
     private async getLatestDependenciesVersions() {
