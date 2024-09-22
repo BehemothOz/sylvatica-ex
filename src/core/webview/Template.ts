@@ -21,7 +21,7 @@ export class Template {
         this.extensionUri = params.extensionUri;
         this.webview = params.webview;
 
-        this.styleFileUri = this.getWebviewUri('media', 'main.css');
+        this.styleFileUri = this.getWebviewUri('src', 'core', 'webview', 'media', 'main.css');
         this.scriptFileUri = this.getWebviewUri('media', 'main.js');
     }
 
