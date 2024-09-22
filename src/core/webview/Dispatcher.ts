@@ -5,9 +5,9 @@ import * as vscode from 'vscode';
 */
 
 /*
+    See: https://www.jsonrpc.org/specification
 	notifyData
 */
-
 export class Dispatcher {
     constructor(private webview: vscode.Webview) {}
 
