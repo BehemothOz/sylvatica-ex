@@ -25,3 +25,14 @@ customElements.define('cell', Cell);
 /*
     package-info
 */
+
+class Spinner extends HTMLElement {
+    connectedCallback() {
+        const element = document.createElement('div');
+        element.classList.add('loader');
+
+        this.append();
+    }
+}
+
+customElements.define('spinner', Spinner);
