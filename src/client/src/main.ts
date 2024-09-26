@@ -14,25 +14,17 @@ interface Package {
     homepage: string;
 }
 
-class Cell extends HTMLTableCellElement {
-    constructor() {
-        super();
-    }
-}
-
-customElements.define('cell', Cell);
-
 /*
     package-info
 */
 
 class Spinner extends HTMLElement {
     connectedCallback() {
-        const element = document.createElement('div');
-        element.classList.add('loader');
+        const shadow = this.attachShadow({ mode: 'open' });
+        const template = document.getElementById('spinner-template') as HTMLTemplateElement;
 
-        this.append();
+        shadow.append(template.content.cloneNode(true));
     }
 }
 
-customElements.define('spinner', Spinner);
+customElements.define('sy-spinner', Spinner);
