@@ -2,6 +2,7 @@ import { TaskManager } from './core/TaskManager';
 import { Package, type PackumentInfo } from './core/Package';
 import { type WebviewPanel } from './core/webview';
 import { type LocalDependenciesManager } from './core/LocalDependenciesManager';
+import { comparison } from './core/comparison';
 
 const sendRequest = async (packageName: string) => {
     const response = await fetch(`https://registry.npmjs.org/${packageName}/latest`);
@@ -27,7 +28,7 @@ export class Sylvatica {
         }
 
         await this.getLatestDependenciesVersions();
-        console.log(this.packages.values());
+
         this.webviewPanel.dispatcher.sendDependencies(Array.from(this.packages.values()));
     }
 

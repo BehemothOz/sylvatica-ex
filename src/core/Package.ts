@@ -44,4 +44,13 @@ export class Package {
         this.homepage = packumentInfo.homepage;
         this.description = packumentInfo.description;
     }
+
+    private getReleaseType() {
+        const currentIsValid = semver.valid(this.version);
+        const lastIsValid = semver.valid(this.lastVersion);
+    }
+
+    private checkVersionIsValidSemver(version: string) {
+        return semver.valid(this.lastVersion);
+    }
 }
