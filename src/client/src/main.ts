@@ -14,6 +14,18 @@ interface Package {
     homepage: string;
 }
 
+const data: Array<Package> = [
+    {
+        name: 'Axios',
+        version: '1.2.4',
+        lastVersion: '3.0.1',
+        description: 'Lorem ipsum dolor sit met, consectetur edit.',
+        homepage: 'https://www.google.com',
+    },
+];
+
+const dependenciesTable = document.getElementById('dependencies');
+
 /*
     package-info
 */
