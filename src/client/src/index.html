@@ -18,72 +18,23 @@
                 padding: 0;
                 list-style: none;
             }
-
-            .list {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-
-            .package {
-                padding: 0.5rem;
-                border: 1px solid rgba(0, 0, 0, 0.12);
-                border-radius: 0.4rem;
-                background-color: #fff;
-            }
-
-            .package .title {
-                margin: 0;
-                font-size: 1rem;
-                font-weight: 400;
-            }
-
-            .package .package-name {
-                font-size: 1.1rem;
-            }
-
-            .version {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .version b {
-                text-align: right;
-            }
         </style>
     </head>
     <body>
-        <section>
-            <h2>Dependencies</h2>
-            <ul class="list">
-                <li>
-                    <article class="package">
-                        <h3 class="title">Package name: <b class="package-name">Axios</b></h3>
-                        <ul class="versions">
-                            <li class="version"><span>Current version:</span><b>1.2.4</b></li>
-                            <li class="version"><span>Last version:</span><b>3.0.1</b></li>
-                        </ul>
-                    </article>
-                </li>
-            </ul>
-        </section>
+        <table>
+            <caption>
+                Dependencies
+            </caption>
+            <tr>
+                <th>Package</th>
+                <th>Current Version</th>
+                <th>Last Version</th>
+                <th>Description</th>
+                <th>Homepage</th>
+            </tr>
+        </table>
 
-        <sy-spinner></sy-spinner>
-
-        <template id="table-template">
-            <table>
-                <caption>
-                    Dependencies
-                </caption>
-                <tr>
-                    <th>Package</th>
-                    <th>Current Version</th>
-                    <th>Last Version</th>
-                    <th>Description</th>
-                    <th>Homepage</th>
-                </tr>
-            </table>
-        </template>
+        <template id="statistics-template"></template>
 
         <template id="spinner-template">
             <style>
