@@ -40,6 +40,16 @@ const data = [
     },
 ];
 
+/*
+    1. Major Release (1.0 -> 2.0)
+    2. Premajor Release (1.0.0 -> 1.0.0-alpha)
+    3. Minor Release (1.0 -> 1.1)
+    4. Preminor Release
+    5. Patch Release (1.0.0 -> 1.0.1)
+    6. Prepatch Release 
+    7. Prerelease (2.0-rc - release candidate)
+*/
+
 export function comparison() {
     for (const item of data) {
         const gt = semver.gt(item.current, item.last);

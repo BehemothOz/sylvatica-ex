@@ -1,3 +1,5 @@
+import * as semver from 'semver';
+
 export interface PackumentInfo {
     name: string;
     version: string;
