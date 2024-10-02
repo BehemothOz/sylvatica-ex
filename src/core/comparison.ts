@@ -64,19 +64,38 @@ export function comparison() {
             semver.valid(item.current) &&
             (usingNonSemver && semverDiff(item.current, item.last) ? 'nonSemver' : semverDiff(item.current, item.last));
 
-        console.log({
-            _name: item.name,
-            gt,
-            currentIsValid,
-            lastIsValid,
-            usingNonSemver,
-            bump,
-        });
+        // console.log({
+        //     _name: item.name,
+        //     gt,
+        //     currentIsValid,
+        //     lastIsValid,
+        //     usingNonSemver,
+        //     bump,
+        // });
     }
+
+    /*
+        "major" | "premajor" | "minor" | "preminor" | "patch" | "prepatch" | "prerelease"
+    */
+    const a = semver.inc('1.2.3', 'major', 'xyz');     // 2.0.0
+    const b = semver.inc('1.2.3', 'premajor', 'xyz');  // 2.0.0-xyz.0 
+    const c = semver.inc('1.2.3', 'minor', 'xyz');     // 1.3.0 
+    const d = semver.inc('1.2.3', 'preminor', 'xyz');  //  1.3.0-xyz.0
+    const e = semver.inc('1.2.3', 'patch', 'xyz');
+    const f = semver.inc('1.2.3', 'prepatch', 'xyz');
+    const i = semver.inc('1.2.3', 'prerelease', 'xyz');
+
+    console.log('major', a);
+    console.log('premajor', b);
+    console.log('minor', c);
+    console.log('preminor', d);
+    console.log('patch', e);
+    console.log('prepatch', f);
+    console.log('prerelease', i);
 
     const sorted = data.sort((a, b) => {
         return semver.compare(a.last, b.last);
     });
 
-    console.log(sorted);
+    // console.log(sorted);
 }
