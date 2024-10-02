@@ -53,7 +53,8 @@ export function activate(context: vscode.ExtensionContext) {
             const sylvatica = new Sylvatica(localDependenciesManager, webviewPanel);
 
             sylvatica.initialization();
-        } catch {
+        } catch(error) {
+            console.error(error);
             vscode.window.showErrorMessage('Oops');
         }
     });

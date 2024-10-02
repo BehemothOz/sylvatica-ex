@@ -20,16 +20,16 @@ export class Sylvatica {
     async initialization() {
         this.webviewPanel.dispatcher.initialization();
 
-        for await (const dependencyVersion of this.dependenciesManager.getDependenciesVersions()) {
-            const localPackage = new Package(dependencyVersion);
-            this.packages.set(dependencyVersion.name, localPackage);
+        // for await (const dependencyVersion of this.dependenciesManager.getDependenciesVersions()) {
+        //     const localPackage = new Package(dependencyVersion);
+        //     this.packages.set(dependencyVersion.name, localPackage);
 
-            this.taskManager.addTask(() => sendRequest(dependencyVersion.name));
-        }
+        //     this.taskManager.addTask(() => sendRequest(dependencyVersion.name));
+        // }
 
-        await this.getLatestDependenciesVersions();
+        // await this.getLatestDependenciesVersions();
 
-        this.webviewPanel.dispatcher.sendDependencies(Array.from(this.packages.values()));
+        // this.webviewPanel.dispatcher.sendDependencies(Array.from(this.packages.values()));
     }
 
     private async getLatestDependenciesVersions() {

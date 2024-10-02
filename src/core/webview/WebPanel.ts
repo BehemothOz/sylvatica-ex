@@ -42,9 +42,19 @@ export class WebviewPanelController {
     create(context: vscode.ExtensionContext) {
         if (this.currentPanel === null) {
             this.currentPanel = new WebviewPanel(context);
+
+            this.currentPanel.panel.onDidDispose(() => this.dispose(), null, context.subscriptions);
+        } else {
+            console.log('reveal');
+            this.currentPanel.panel.reveal(DEFAULT_VIEW_COLUMN);
         }
 
         return this.currentPanel;
+    }
+
+    private dispose() {
+        console.log('TEST::DISPOSE::Controller');
+        this.currentPanel = null;
     }
 }
 
@@ -77,7 +87,7 @@ export class WebviewPanel {
             () => {
                 // When the panel is closed, cancel any future updates to the webview content
                 // clearInterval(interval);
-                console.log('Call onDidDispose');
+                console.log('TEST::DISPOSE::WebviewPanel');
             },
             null,
             context.subscriptions
@@ -89,4 +99,8 @@ export class WebviewPanel {
             console.log(panel);
         });
     }
+
+    // dispose() {
+    //     this.panel.dispose();
+    // }
 }
