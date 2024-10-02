@@ -21,11 +21,6 @@ export function activate(context: vscode.ExtensionContext) {
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "helloworld-sample" is now active!');
 
-    // const webviewPanel = new WebviewPanel(context);
-    console.log(1);
-
-    console.log('vscode.window.registerWebviewPanelSerializer', vscode.window.registerWebviewPanelSerializer);
-
     const webviewController = new WebviewPanelController();
 
     // The command has been defined in the package.json file
@@ -47,13 +42,12 @@ export function activate(context: vscode.ExtensionContext) {
                 packageJsonDirectory,
             });
 
-            console.log(2);
             const webviewPanel = webviewController.create(context);
 
             const sylvatica = new Sylvatica(localDependenciesManager, webviewPanel);
 
             sylvatica.initialization();
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             vscode.window.showErrorMessage('Oops');
         }

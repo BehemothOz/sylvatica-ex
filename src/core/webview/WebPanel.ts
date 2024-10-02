@@ -45,16 +45,22 @@ export class WebviewPanelController {
 
             this.currentPanel.panel.onDidDispose(() => this.dispose(), null, context.subscriptions);
         } else {
-            console.log('reveal');
+            console.log('TEST::REVAL::Controller');
             this.currentPanel.panel.reveal(DEFAULT_VIEW_COLUMN);
         }
 
         return this.currentPanel;
     }
 
-    private dispose() {
+    /*
+        Event is fired when a webview is destroyed (panel.dispose())
+    */
+    dispose() {
         console.log('TEST::DISPOSE::Controller');
-        this.currentPanel = null;
+        if (this.currentPanel) {
+            this.currentPanel.panel.dispose();
+            this.currentPanel = null;
+        }
     }
 }
 
@@ -82,25 +88,10 @@ export class WebviewPanel {
         // And set its HTML content
         this.panel.webview.html = this.template.getContent();
 
-        // Event is fired when a webview is destroyed (panel.dispose())
-        this.panel.onDidDispose(
-            () => {
-                // When the panel is closed, cancel any future updates to the webview content
-                // clearInterval(interval);
-                console.log('TEST::DISPOSE::WebviewPanel');
-            },
-            null,
-            context.subscriptions
-        );
-
         // Whenever a webview's visibility changes, or when a webview is moved into a new column, the onDidChangeViewState event is fired.
         this.panel.onDidChangeViewState(e => {
             const panel = e.webviewPanel;
             console.log(panel);
         });
     }
-
-    // dispose() {
-    //     this.panel.dispose();
-    // }
 }
