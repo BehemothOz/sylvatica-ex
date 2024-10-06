@@ -20,7 +20,7 @@ export class Storage<StorageValue> implements IStorage<StorageValue> {
 
     set(key: string, value: StorageValue) {
         if (this.size >= this.#totalSize) {
-            const oldestKey = this.#store.keys().next().value;
+            const oldestKey = this.#store.keys().next().value as string;
             this.#store.delete(oldestKey);
         }
 

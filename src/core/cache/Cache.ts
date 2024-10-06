@@ -1,4 +1,4 @@
-import { Storage, type IStorage } from '../storage/Storage';
+import { Storage, type IStorage } from './Storage';
 
 export interface CacheValue<T> {
     expiry: number;
