@@ -2,19 +2,25 @@ import { TaskManager } from './core/TaskManager';
 import { Package, type PackumentInfo } from './core/Package';
 import { type WebviewPanel } from './core/webview';
 import { type LocalDependenciesManager } from './core/LocalDependenciesManager';
+import { type PackumentCache } from './core/PackumentCache';
 
-const sendRequest = async (packageName: string) => {
+async function sendRequest<T>(packageName: string): Promise<T> {
     console.time(`Time: ${packageName}`);
     const response = await fetch(`https://registry.npmjs.org/${packageName}/latest`);
+    const result = (await response.json()) as T;
     console.timeEnd(`Time: ${packageName}`);
-    return await response.json();
-};
+    return result;
+}
 
 export class Sylvatica {
     taskManager: TaskManager;
     packages: Map<string, Package> = new Map();
 
-    constructor(private dependenciesManager: LocalDependenciesManager, private webviewPanel: WebviewPanel) {
+    constructor(
+        private dependenciesManager: LocalDependenciesManager,
+        private webviewPanel: WebviewPanel,
+        private packumentCache: PackumentCache
+    ) {
         this.taskManager = new TaskManager();
     }
 
@@ -26,8 +32,9 @@ export class Sylvatica {
             this.packages.set(dependencyVersion.name, localPackage);
 
             this.taskManager.addTask(() => {
-                console.log('add task');
-                return sendRequest(dependencyVersion.name);
+                return this.packumentCache.wrap(dependencyVersion.name, () =>
+                    sendRequest<PackumentInfo>(dependencyVersion.name)
+                );
             });
         }
 
@@ -38,11 +45,11 @@ export class Sylvatica {
 
     private async getLatestDependenciesVersions() {
         /*
-            TODO: add types
+            TODO: fix types
         */
         for await (const packumentInfo of this.taskManager.run()) {
             const packument = (await packumentInfo) as PackumentInfo;
-
+            console.log(packument);
             const localPackage = this.packages.get(packument.name);
 
             if (localPackage) {

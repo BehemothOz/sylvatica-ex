@@ -7,6 +7,7 @@ import { Sylvatica } from './sylvatica';
 import { LocalDependenciesManager } from './core/LocalDependenciesManager';
 import { WebviewPanelController } from './core/webview';
 import { PackageJsonReader } from './core/PackageJsonReader';
+import { PackumentCache } from './core/PackumentCache';
 
 /*
     TODO: nx
@@ -22,6 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "helloworld-sample" is now active!');
 
     const webviewController = new WebviewPanelController();
+    const packumentCache = new PackumentCache();
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
@@ -44,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 
             const webviewPanel = webviewController.create(context);
 
-            const sylvatica = new Sylvatica(localDependenciesManager, webviewPanel);
+            const sylvatica = new Sylvatica(localDependenciesManager, webviewPanel, packumentCache);
 
             sylvatica.initialization();
         } catch (error) {

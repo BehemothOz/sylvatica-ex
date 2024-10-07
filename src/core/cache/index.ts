@@ -1,1 +1,1 @@
-export { Cache, ICache } from './Cache';
+export { Cache, type ICache } from './Cache';
