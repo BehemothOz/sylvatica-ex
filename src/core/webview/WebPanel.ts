@@ -1,13 +1,14 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 
 import { Template } from './Template';
 import { Dispatcher } from './Dispatcher';
 
 const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
 
-/*  
+/*
     Commands:
-    Developer: Reload Webview 
+    Developer: Reload Webview
 */
 
 /*
@@ -39,9 +40,9 @@ const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
 export class WebviewPanelController {
     private currentPanel: WebviewPanel | null = null;
 
-    create(context: vscode.ExtensionContext) {
+    create(context: vscode.ExtensionContext, environment: vscode.Uri) {
         if (this.currentPanel === null) {
-            this.currentPanel = new WebviewPanel(context);
+            this.currentPanel = new WebviewPanel(context, environment);
 
             this.currentPanel.panel.onDidDispose(() => this.dispose(), null, context.subscriptions);
         } else {
@@ -69,8 +70,10 @@ export class WebviewPanel {
     template: Template;
     dispatcher: Dispatcher;
 
-    constructor(context: vscode.ExtensionContext) {
-        this.panel = vscode.window.createWebviewPanel('sylvatica', 'Sylvatica Packages', DEFAULT_VIEW_COLUMN, {
+    constructor(context: vscode.ExtensionContext, environment: vscode.Uri) {
+        const tabTitle = path.dirname(environment.fsPath);
+
+        this.panel = vscode.window.createWebviewPanel('sylvatica', tabTitle, DEFAULT_VIEW_COLUMN, {
             // Only allow the webview to access resources in our extension's media directory
             // localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, 'media')],
             // ...
@@ -89,7 +92,7 @@ export class WebviewPanel {
         this.panel.webview.html = this.template.getContent();
 
         // Whenever a webview's visibility changes, or when a webview is moved into a new column, the onDidChangeViewState event is fired.
-        this.panel.onDidChangeViewState(e => {
+        this.panel.onDidChangeViewState((e) => {
             const panel = e.webviewPanel;
             console.log(panel);
         });

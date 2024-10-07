@@ -23,6 +23,9 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "helloworld-sample" is now active!');
 
     const webviewController = new WebviewPanelController();
+    /*
+        TODO: clear after close
+    */
     const packumentCache = new PackumentCache();
 
     // The command has been defined in the package.json file
@@ -44,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
                 packageJsonDirectory,
             });
 
-            const webviewPanel = webviewController.create(context);
+            const webviewPanel = webviewController.create(context, file);
 
             const sylvatica = new Sylvatica(localDependenciesManager, webviewPanel, packumentCache);
 
