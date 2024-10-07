@@ -70,6 +70,9 @@ export class WebviewPanel {
     template: Template;
     dispatcher: Dispatcher;
 
+    /*
+        TODO: panel.title = "new title" + updateWebview function
+    */
     constructor(context: vscode.ExtensionContext, environment: vscode.Uri) {
         const tabTitle = path.dirname(environment.fsPath);
 

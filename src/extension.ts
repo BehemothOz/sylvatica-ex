@@ -13,6 +13,8 @@ import { PackumentCache } from './core/PackumentCache';
     TODO: nx
     - Ignore packages that are using github or file urls
     - Check packageJsonVersion version (semver.validRange(packageJsonVersion))
+
+    link: https://code.visualstudio.com/api/extension-guides/webview
 */
 
 // this method is called when your extension is activated
