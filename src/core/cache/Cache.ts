@@ -63,17 +63,4 @@ export class Cache<StorageValue> implements ICache<StorageValue> {
     get size() {
         return this.#storage.size;
     }
-
-    // async wrap(key: string, fn: () => Promise<StorageValue>) {
-    //     const value = this.get(key);
-
-    //     if (value === undefined) {
-    //         const result = await fn();
-
-    //         this.set(key, result);
-    //         return result;
-    //     }
-
-    //     return value;
-    // }
 }
