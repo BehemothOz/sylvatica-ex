@@ -12,6 +12,22 @@ async function sendRequest<T>(packageName: string): Promise<T> {
     return result;
 }
 
+class PackagesStore {
+    /*
+       axios: {
+        prev: {
+            range: '',
+            version: '',
+        },
+        current: {
+            range: '',
+
+            version: '',
+        },
+    },
+    */
+}
+
 export class Sylvatica {
     taskManager: TaskManager;
     packages: Map<string, Package> = new Map();
@@ -27,6 +43,9 @@ export class Sylvatica {
     async initialization() {
         this.webviewPanel.dispatcher.initialization();
 
+        /*
+            TODO: check range and current version
+        */
         for await (const dependencyVersion of this.dependenciesManager.getDependenciesVersions()) {
             const localPackage = new Package(dependencyVersion);
             this.packages.set(dependencyVersion.name, localPackage);
