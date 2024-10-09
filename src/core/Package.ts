@@ -9,6 +9,7 @@ export interface PackumentInfo {
 
 interface PackagePayload {
     name: string;
+    range: string;
     version: string;
 }
 
@@ -17,6 +18,10 @@ export class Package {
      * The name of the package.
      */
     name: string;
+    /**
+     * TODO: ...
+     */
+    range: string;
     /**
      * The latest version of the package.
      */
@@ -36,6 +41,7 @@ export class Package {
 
     constructor(payload: PackagePayload) {
         this.name = payload.name;
+        this.range = payload.range;
         this.version = payload.version;
     }
 
