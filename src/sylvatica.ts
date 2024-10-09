@@ -12,22 +12,6 @@ async function sendRequest<T>(packageName: string): Promise<T> {
     return result;
 }
 
-class PackagesStore {
-    /*
-       axios: {
-        prev: {
-            range: '',
-            version: '',
-        },
-        current: {
-            range: '',
-
-            version: '',
-        },
-    },
-    */
-}
-
 export class Sylvatica {
     taskManager: TaskManager;
     packages: Map<string, Package> = new Map();
@@ -68,7 +52,6 @@ export class Sylvatica {
         */
         for await (const packumentInfo of this.taskManager.run()) {
             const packument = (await packumentInfo) as PackumentInfo;
-            console.log(packument);
             const localPackage = this.packages.get(packument.name);
 
             if (localPackage) {
