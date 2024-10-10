@@ -31,6 +31,10 @@ export class Package {
      */
     lastVersion: string | null = null;
     /**
+     * TODO: ...
+     */
+    diff: semver.ReleaseType | null;
+    /**
      * The homepage URL of the package, which is typically a link to the README file on GitHub.
      */
     homepage: string | null = null;
@@ -51,12 +55,10 @@ export class Package {
         this.description = packumentInfo.description;
     }
 
-    private getReleaseType() {
-        const currentIsValid = semver.valid(this.version);
-        const lastIsValid = semver.valid(this.lastVersion);
-    }
-
-    private checkVersionIsValidSemver(version: string) {
-        return semver.valid(this.lastVersion);
+    private getVersionDifference() {
+        if (semver.valid(this.version) && semver.valid(this.lastVersion)) {
+            const a = semver.diff(this.version, this.version);
+            // ?
+        }
     }
 }
