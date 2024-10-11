@@ -29,11 +29,11 @@ export class Package {
     /**
      * The latest version of the package.
      */
-    lastVersion: string | null = null;
+    latestVersion: string | null = null;
     /**
      * TODO: ...
      */
-    diff: semver.ReleaseType | null;
+    diff: semver.ReleaseType | 'build' | null = null;
     /**
      * The homepage URL of the package, which is typically a link to the README file on GitHub.
      */
@@ -50,15 +50,40 @@ export class Package {
     }
 
     setPackument(packumentInfo: PackumentInfo) {
-        this.lastVersion = packumentInfo.version;
+        this.latestVersion = packumentInfo.version;
         this.homepage = packumentInfo.homepage;
-        this.description = packumentInfo.description;
+
+        this.getVersionDifference();
     }
 
+    /*
+        TODO: check semver.lt(latest, '1.0.0-pre');
+    */
     private getVersionDifference() {
-        if (semver.valid(this.version) && semver.valid(this.lastVersion)) {
-            const a = semver.diff(this.version, this.version);
-            // ?
+        if (this.latestVersion && semver.valid(this.version) && semver.valid(this.latestVersion)) {
+            this.diff = semverDiff(this.version, this.latestVersion);
         }
+        /*
+            TODO: md "wrong"?
+        */
     }
+}
+
+/*
+    Source:
+    * https://github.com/npm/node-semver
+    * https://github.com/sindresorhus/semver-diff
+*/
+function semverDiff(versionA: string, versionB: string) {
+    /*
+        Return 0 if v1 == v2, or 1 if v1 is greater, or -1 if v2 is greater.
+    */
+    if (semver.compareBuild(versionA, versionB) >= 0) return null;
+    /*
+        diff(v1, v2): Returns the difference between two versions by
+        the release type (major, premajor, minor, preminor, patch, prepatch, prerelease) or null if the versions are the same.
+
+        Build example: semverDiff('0.0.1', '0.0.1+foo.bar') // 'build'
+    */
+    return semver.diff(versionA, versionB) || 'build';
 }
