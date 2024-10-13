@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs/promises';
 
-type PackageManager = 'yarn' | 'npm' | 'pnpm';
+type PackageManagerName = 'yarn' | 'npm' | 'pnpm';
 
 interface PackageManagerInfo {
     name: PackageManager;
@@ -46,3 +46,47 @@ export class PackageManagerDetector {
         const a = fs.readdir(directoryPath);
     }
 }
+
+interface PackageManagerStrategy {
+    upgrade: (latestVersion: string) => void;
+}
+
+class PackageManager {
+    strategies: Map<PackageManagerName, PackageManagerStrategy> = new Map();
+
+    constructor(strategies: Record<PackageManagerName, PackageManagerStrategy>) {
+        const strategyNames = Object.keys(strategies) as Array<PackageManagerName>;
+
+        strategyNames.forEach((strategyName) => {
+            this.strategies.set(strategyName, strategies[strategyName]);
+        });
+    }
+
+    use(strategyName: string) {
+        this.strategies[name] = strategy;
+    }
+}
+
+class Npm implements PackageManagerStrategy {
+    upgrade(latestVersion: string) {
+        console.log();
+    }
+}
+
+class Pnpm implements PackageManagerStrategy {
+    upgrade(latestVersion: string) {
+        console.log();
+    }
+}
+
+class Yarn implements PackageManagerStrategy {
+    upgrade(latestVersion: string) {
+        console.log();
+    }
+}
+
+const packageManager = new PackageManager({
+    npm: new Npm(),
+    yarn: new Yarn(),
+    pnpm: new Pnpm(),
+});
