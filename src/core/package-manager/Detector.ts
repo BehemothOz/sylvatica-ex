@@ -23,6 +23,13 @@ const packageManagers: Array<PackageManagerInfo> = [
     },
 ];
 
+/*
+    TODO: move to FileManager class
+*/
+function fileExistsAsync(path: string) {
+    return fs.access(path); // OR await fs.stat(filePath);
+}
+
 export class PackageManagerDetector {
     async detect(directoryPath: string) {
         const promises = [];
@@ -31,18 +38,16 @@ export class PackageManagerDetector {
             const { name, lockFile } = packageManager;
             const lockFilePath = path.resolve(directoryPath, lockFile);
 
-            const promise = this.fileExists(lockFilePath).then(() => name);
+            const promise = fileExistsAsync(lockFilePath).then(() => name);
             promises.push(promise);
         }
 
         return Promise.any(promises).catch(() => null);
     }
 
-    fileExists(path: string) {
-        return fs.access(path); // OR await fs.stat(filePath);
-    }
-
-    detectSync(directoryPath: string) {
-        const a = fs.readdir(directoryPath);
-    }
+    /*
+        TODO: Implement a synchronous option
+        For example: fs.readdir(directoryPath);
+    */
+    detectSync() {}
 }
