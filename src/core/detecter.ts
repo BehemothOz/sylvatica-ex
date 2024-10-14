@@ -4,7 +4,7 @@ import * as fs from 'fs/promises';
 type PackageManagerName = 'yarn' | 'npm' | 'pnpm';
 
 interface PackageManagerInfo {
-    name: PackageManager;
+    name: PackageManagerName;
     lockFile: string;
 }
 
@@ -62,8 +62,11 @@ class PackageManager {
         });
     }
 
-    use(strategyName: string) {
-        this.strategies[name] = strategy;
+    use(strategyName: PackageManagerName) {
+        const strategy = this.strategies.get(strategyName);
+
+        if (strategy) return strategy;
+        throw new Error('add a strategy before using it');
     }
 }
 
