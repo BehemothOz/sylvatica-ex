@@ -1,4 +1,4 @@
-class PackageManager {
+class PackageManagerContext {
     strategies: Map<PackageManagerName, PackageManagerStrategy> = new Map();
 
     constructor(strategies: Record<PackageManagerName, PackageManagerStrategy>) {
