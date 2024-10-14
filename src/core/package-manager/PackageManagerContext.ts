@@ -1,20 +1,18 @@
+import { Npm, Pnpm, Yarn } from './strategies';
 import { type PackageManagerName, type PackageManagerStrategy } from './types';
+
+const StrategiesByName = { npm: Npm, pnpm: Pnpm, yarn: Yarn };
 
 export class PackageManagerContext {
     strategies: Map<PackageManagerName, PackageManagerStrategy> = new Map();
 
-    constructor(strategies: Record<PackageManagerName, PackageManagerStrategy>) {
-        const strategyNames = Object.keys(strategies) as Array<PackageManagerName>;
-
-        strategyNames.forEach((strategyName) => {
-            this.strategies.set(strategyName, strategies[strategyName]);
-        });
-    }
-
     use(strategyName: PackageManagerName) {
-        const strategy = this.strategies.get(strategyName);
+        const isExistStrategy = this.strategies.has(strategyName);
 
-        if (strategy) return strategy;
-        throw new Error('add a strategy before using it');
+        if (isExistStrategy == false) {
+            this.strategies.set(strategyName, new StrategiesByName[strategyName]());
+        }
+
+        return this.strategies.get(strategyName)!;
     }
 }

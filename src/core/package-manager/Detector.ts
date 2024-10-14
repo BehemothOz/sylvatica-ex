@@ -31,7 +31,7 @@ function fileExistsAsync(path: string) {
 }
 
 export class PackageManagerDetector {
-    async detect(directoryPath: string) {
+    static async detect(directoryPath: string) {
         const promises = [];
 
         for (const packageManager of packageManagers) {
@@ -49,5 +49,5 @@ export class PackageManagerDetector {
         TODO: Implement a synchronous option
         For example: fs.readdir(directoryPath);
     */
-    detectSync() {}
+    static detectSync() {}
 }
