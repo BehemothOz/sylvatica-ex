@@ -1,6 +1,8 @@
 import * as path from 'path';
 import * as fs from 'fs/promises';
 
+import { type PackageManagerName } from './types';
+
 interface PackageManagerInfo {
     name: PackageManagerName;
     lockFile: string;

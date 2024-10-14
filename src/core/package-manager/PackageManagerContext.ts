@@ -1,4 +1,6 @@
-class PackageManagerContext {
+import { type PackageManagerName, type PackageManagerStrategy } from './types';
+
+export class PackageManagerContext {
     strategies: Map<PackageManagerName, PackageManagerStrategy> = new Map();
 
     constructor(strategies: Record<PackageManagerName, PackageManagerStrategy>) {
