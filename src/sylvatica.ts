@@ -1,7 +1,14 @@
+import * as vscode from 'vscode';
+import * as path from 'path';
+
 import { TaskManager } from './core/TaskManager';
 import { Package, type PackumentInfo } from './core/Package';
+import { PackageJsonReader } from './core/PackageJsonReader';
+import { PackageManagerService } from './core/package-manager';
+import { PackageManagerStrategy } from './core/package-manager/types';
+import { LocalDependenciesManager } from './core/LocalDependenciesManager';
+
 import { type WebviewPanel } from './core/webview';
-import { type LocalDependenciesManager } from './core/LocalDependenciesManager';
 import { type PackumentCache } from './core/PackumentCache';
 
 async function sendRequest<T>(packageName: string): Promise<T> {
@@ -13,24 +20,38 @@ async function sendRequest<T>(packageName: string): Promise<T> {
 }
 
 export class Sylvatica {
-    taskManager: TaskManager;
-    packages: Map<string, Package> = new Map();
+    private taskManager: TaskManager;
 
-    constructor(
-        private dependenciesManager: LocalDependenciesManager,
-        private webviewPanel: WebviewPanel,
-        private packumentCache: PackumentCache
-    ) {
+    private packageManagerService: PackageManagerService;
+    private localDependenciesManager: LocalDependenciesManager | null = null;
+
+    private packages: Map<string, Package> = new Map();
+    private packageManager: PackageManagerStrategy | null = null;
+
+    constructor(private webviewPanel: WebviewPanel, private packumentCache: PackumentCache) {
         this.taskManager = new TaskManager();
+        this.packageManagerService = new PackageManagerService();
     }
 
-    async initialization() {
+    async initialization(file: vscode.Uri) {
+        const json = await PackageJsonReader.read(file);
+        const packageJsonDirectory = path.dirname(file.fsPath);
+
+        this.localDependenciesManager = new LocalDependenciesManager({
+            packageJsonFile: json,
+            packageJsonDirectory,
+        });
+
+        this.packageManager = await this.packageManagerService.getPackageManager(packageJsonDirectory);
+    }
+
+    async run() {
         this.webviewPanel.dispatcher.initialization();
 
         /*
             TODO: check range and current version
         */
-        for await (const dependencyVersion of this.dependenciesManager.getDependenciesVersions()) {
+        for await (const dependencyVersion of this.localDependenciesManager!.getDependenciesVersions()) {
             const localPackage = new Package(dependencyVersion);
             this.packages.set(dependencyVersion.name, localPackage);
 

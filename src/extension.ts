@@ -1,13 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as path from 'path';
 
-import { Sylvatica } from './sylvatica';
-import { LocalDependenciesManager } from './core/LocalDependenciesManager';
 import { WebviewPanelController } from './core/webview';
-import { PackageJsonReader } from './core/PackageJsonReader';
 import { PackumentCache } from './core/PackumentCache';
+import { Sylvatica } from './sylvatica';
 
 /*
     TODO: nx
@@ -39,21 +36,11 @@ export function activate(context: vscode.ExtensionContext) {
         /*
             TODO: Add checks that the file is indeed packageJson
         */
+        const webviewPanel = webviewController.create(context, file);
 
         try {
-            const json = await PackageJsonReader.read(file);
-            const packageJsonDirectory = path.dirname(file.fsPath);
-
-            const localDependenciesManager = new LocalDependenciesManager({
-                packageJsonFile: json,
-                packageJsonDirectory,
-            });
-
-            const webviewPanel = webviewController.create(context, file);
-
-            const sylvatica = new Sylvatica(localDependenciesManager, webviewPanel, packumentCache);
-
-            sylvatica.initialization();
+            const sylvatica = new Sylvatica(webviewPanel, packumentCache);
+            sylvatica.initialization(file);
         } catch (error) {
             console.error(error);
             vscode.window.showErrorMessage('Oops');
