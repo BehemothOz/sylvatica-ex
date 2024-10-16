@@ -21,4 +21,12 @@ export class Dispatcher {
     sendDependencies<T = unknown>(dependencies: T) {
         this.webview.postMessage({ type: 'DEPENDENCIES', data: dependencies });
     }
+
+    sendDevDependencies<T = unknown>(dependencies: T) {
+        this.webview.postMessage({ type: 'DEV_DEPENDENCIES', data: dependencies });
+    }
+
+    notifyWorkerReady() {
+        
+    }
 }
