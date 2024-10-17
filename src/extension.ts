@@ -19,7 +19,7 @@ import { Sylvatica } from './sylvatica';
 export function activate(context: vscode.ExtensionContext) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "helloworld-sample" is now active!');
+    console.log('Congratulations, your extension "helloworld-sample 2" is now active!');
 
     const webviewController = new WebviewPanelController();
     /*
@@ -40,8 +40,9 @@ export function activate(context: vscode.ExtensionContext) {
 
         try {
             const sylvatica = new Sylvatica(webviewPanel, packumentCache);
-
+            console.log(2222);
             await sylvatica.initialization(file);
+            console.log(999);
             sylvatica.run();
         } catch (error) {
             console.error(error);

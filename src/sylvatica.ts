@@ -34,6 +34,9 @@ export class Sylvatica {
     }
 
     async initialization(file: vscode.Uri) {
+        console.log(888);
+        this.webviewPanel.dispatcher.initialization();
+
         const json = await PackageJsonReader.read(file);
         const packageJsonDirectory = path.dirname(file.fsPath);
 
@@ -41,13 +44,16 @@ export class Sylvatica {
             packageJsonFile: json,
             packageJsonDirectory,
         });
-
+        console.log(111);
         this.packageManager = await this.packageManagerService.getPackageManager(packageJsonDirectory);
+        console.log("this.packageManager", this.packageManager);
+        if (this.packageManager) {
+            this.webviewPanel.dispatcher.notifyPackageManagerReady();
+        }
     }
 
+    // analyze?
     async run() {
-        this.webviewPanel.dispatcher.initialization();
-
         /*
             TODO: check range and current version
         */

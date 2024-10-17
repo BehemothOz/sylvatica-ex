@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-window.addEventListener('message', event => {
+window.addEventListener('message', (event) => {
     const { type, payload } = event.data;
 
     switch (type) {
@@ -12,9 +12,23 @@ window.addEventListener('message', event => {
         case 'DEPENDENCIES': {
             // eslint-disable-next-line no-undef
             const root = document.getElementById('root');
-
+            // eslint-disable-next-line no-undef
+            console.log(event.data.data);
             root.append(createTable(event.data.data));
             break;
+        }
+        case 'DEV_DEPENDENCIES': {
+            // ...
+            break;
+        }
+        case 'PACKAGE_MANAGER_DETECTED': {
+            // eslint-disable-next-line no-undef
+            const root = document.getElementById('root');
+            // eslint-disable-next-line no-undef
+            const span = document.createElement('span');
+
+            span.textContent = 'detected';
+            root.append(span);
         }
     }
 });

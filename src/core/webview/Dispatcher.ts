@@ -26,7 +26,7 @@ export class Dispatcher {
         this.webview.postMessage({ type: 'DEV_DEPENDENCIES', data: dependencies });
     }
 
-    notifyWorkerReady() {
-        
+    notifyPackageManagerReady() {
+        this.webview.postMessage({ type: 'PACKAGE_MANAGER_DETECTED' });
     }
 }
