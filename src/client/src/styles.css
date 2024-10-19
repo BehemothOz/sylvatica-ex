@@ -12,9 +12,16 @@ body {
     background-color: #ebeced;
 }
 
+.container {
+    padding: 16px;
+}
+
 table {
-    margin: 1em 0;
+    display: table;
+    width: 100%;
     border-collapse: collapse;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.87);
 }
 
 caption {
@@ -23,22 +30,79 @@ caption {
     padding: 0.25em 0.5em 0.5em 0.5em;
 }
 
-th,
+/* th,
 td {
     padding: 0.25em 0.5em 0.25em 1em;
     vertical-align: text-top;
     text-align: left;
-    /* text-indent: -0.5em; */
+    text-indent: -0.5em;
+} */
+
+th,
+td {
+    display: table-cell;
+    padding: 6px 16px;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+    color: rgba(0, 0, 0, 0.87);
+    vertical-align: text-top;
+    text-align: right;
+
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
 
 th {
-    vertical-align: bottom;
-    /* background-color: rgba(0, 0, 0, 0.5); */
-    color: #fff;
-    font-weight: bold;
+    font-weight: 700;
 }
 
-td::before {
+td {
+    font-weight: 400;
+}
+
+th:first-of-type {
+    text-align: left;
+}
+
+td:first-of-type {
+    text-align: left;
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    color: inherit;
+    font-style: normal;
+    line-height: 0;
+    text-align: center;
+    text-transform: none;
+    vertical-align: -0.125em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+
+    margin: 8px 0;
+    font-size: 36px;
+    transition: transform 0.3s ease-in-out;
+    will-change: transform;
+    animation: loadingCircle 1s infinite linear;
+}
+
+@keyframes loadingCircle {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+th {
+    /* vertical-align: bottom; */
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    /* color: #fff; */
+    /* font-weight: bold;/ */
+}
+
+/* text-align: right */
+
+/* td::before {
     display: none;
 }
 
@@ -61,4 +125,4 @@ td:nth-of-type(3) {
 
 div {
     overflow: auto;
-}
+} */
