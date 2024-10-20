@@ -39,4 +39,8 @@ class Spinner extends HTMLElement {
     }
 }
 
+class Icon extends HTMLElement {
+    // ... todo 
+}
+
 customElements.define('sy-spinner', Spinner);

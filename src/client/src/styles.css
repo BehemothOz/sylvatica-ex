@@ -30,18 +30,10 @@ caption {
     padding: 0.25em 0.5em 0.5em 0.5em;
 }
 
-/* th,
-td {
-    padding: 0.25em 0.5em 0.25em 1em;
-    vertical-align: text-top;
-    text-align: left;
-    text-indent: -0.5em;
-} */
-
 th,
 td {
     display: table-cell;
-    padding: 6px 16px;
+    padding: 6px 16px; /* TODO: to rem / em */
     font-size: 0.875rem;
     line-height: 1.43;
     letter-spacing: 0.01071em;
@@ -81,7 +73,10 @@ td:first-of-type {
     -webkit-font-smoothing: antialiased;
 
     margin: 8px 0;
-    font-size: 36px;
+    font-size: 16px;
+}
+
+.icon.spin {
     transition: transform 0.3s ease-in-out;
     will-change: transform;
     animation: loadingCircle 1s infinite linear;
@@ -91,6 +86,27 @@ td:first-of-type {
     100% {
         transform: rotate(360deg);
     }
+}
+
+.circle {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 4px;
+    background-color: orange;
+    border-radius: 50%;
+}
+
+.circle.orange {
+    background-color: orange;
+}
+
+.circle.green {
+    background-color: green;
+}
+
+.circle.red {
+    background-color: red;
 }
 
 th {
