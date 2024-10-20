@@ -40,7 +40,13 @@ class Spinner extends HTMLElement {
 }
 
 class Icon extends HTMLElement {
-    // ... todo 
+    // ... todo
 }
 
 customElements.define('sy-spinner', Spinner);
+
+const table = document.getElementById('table') as HTMLTableElement;
+
+table.addEventListener('click', (event) => {
+    console.log(event.target);
+});
