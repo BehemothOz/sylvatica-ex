@@ -41,6 +41,9 @@ class Spinner extends HTMLElement {
 
 class Icon extends HTMLElement {
     // ... todo
+    /*
+        <span class="icon"></span> + slot
+    */
 }
 
 /*
@@ -53,8 +56,8 @@ class Icon extends HTMLElement {
 class IconButton extends HTMLButtonElement {
     constructor() {
         super();
-        console.log(this);
         this.classList.add('button-icon');
+        console.log(this.getAttribute('color'));
     }
     // connectedCallback() {}
 }
