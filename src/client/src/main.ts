@@ -43,7 +43,24 @@ class Icon extends HTMLElement {
     // ... todo
 }
 
+/*
+    attributes:
+    - type: primary or danger
+
+    exp:
+    <button is="hello-button">Нажми на меня</button>
+*/
+class IconButton extends HTMLButtonElement {
+    constructor() {
+        super();
+        console.log(this);
+        this.classList.add('button-icon');
+    }
+    // connectedCallback() {}
+}
+
 customElements.define('sy-spinner', Spinner);
+customElements.define('sy-icon-button', IconButton, { extends: 'button' });
 
 const table = document.getElementById('table') as HTMLTableElement;
 
