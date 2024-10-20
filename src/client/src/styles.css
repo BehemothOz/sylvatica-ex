@@ -60,28 +60,6 @@ td:first-of-type {
     text-align: left;
 }
 
-.icon {
-    display: inline-flex;
-    align-items: center;
-    color: inherit;
-    font-style: normal;
-    line-height: 0;
-    text-align: center;
-    text-transform: none;
-    vertical-align: -0.125em;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-
-    margin: 8px 0;
-    font-size: 16px;
-}
-
-.icon.spin {
-    transition: transform 0.3s ease-in-out;
-    will-change: transform;
-    animation: loadingCircle 1s infinite linear;
-}
-
 @keyframes loadingCircle {
     100% {
         transform: rotate(360deg);
@@ -107,6 +85,64 @@ td:first-of-type {
 
 .circle.red {
     background-color: red;
+}
+/* w 24 h 24px */
+.button-icon {
+    width: 24px;
+    height: 24px;
+
+
+    /* color: #fff; */
+
+    font-size: 14px;
+
+    padding-inline: 0;
+    background-color: transparent;
+
+    border-radius: 4px;
+
+    display: inline-flex;
+    outline: none;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    user-select: none;
+
+    border: 1px solid transparent;
+}
+
+.button-icon.primary {
+    color: #fff;
+    background-color: #1677ff;
+}
+
+.button-icon.danger {
+    color: #fff;
+    background-color: #ff4d4f;
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    color: inherit;
+    font-style: normal;
+    line-height: 0;
+    text-align: center;
+    text-transform: none;
+    vertical-align: -0.125em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+
+    /* margin: 8px 0; */
+    /* font-size: 16px; */
+}
+
+.icon.spin {
+    transition: transform 0.3s ease-in-out;
+    will-change: transform;
+    animation: loadingCircle 1s infinite linear;
 }
 
 th {
