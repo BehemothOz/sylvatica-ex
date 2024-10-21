@@ -129,24 +129,6 @@ td:first-of-type {
     background-color: #ff4d4f;
 }
 
-.icon {
-    display: inline-flex;
-    align-items: center;
-    color: inherit;
-    font-style: normal;
-    line-height: 0;
-    text-align: center;
-    text-transform: none;
-    vertical-align: -0.125em;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-
-    pointer-events: none;
-
-    /* margin: 8px 0; */
-    /* font-size: 16px; */
-}
-
 .icon.spin {
     transition: transform 0.3s ease-in-out;
     will-change: transform;

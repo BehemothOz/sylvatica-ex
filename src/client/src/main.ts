@@ -40,10 +40,12 @@ class Spinner extends HTMLElement {
 }
 
 class Icon extends HTMLElement {
-    // ... todo
-    /*
-        <span class="icon"></span> + slot
-    */
+    connectedCallback() {
+        const shadow = this.attachShadow({ mode: 'open' });
+        const template = document.getElementById('icon-wrapper-template') as HTMLTemplateElement;
+
+        shadow.append(template.content.cloneNode(true));
+    }
 }
 
 /*
@@ -63,6 +65,7 @@ class IconButton extends HTMLButtonElement {
 }
 
 customElements.define('sy-spinner', Spinner);
+customElements.define('sy-icon', Icon);
 customElements.define('sy-icon-button', IconButton, { extends: 'button' });
 
 const table = document.getElementById('table') as HTMLTableElement;
