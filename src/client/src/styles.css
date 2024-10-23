@@ -135,13 +135,6 @@ td:first-of-type {
     animation: loadingCircle 1s infinite linear;
 }
 
-th {
-    /* vertical-align: bottom; */
-    /* background-color: rgba(0, 0, 0, 0.5); */
-    /* color: #fff; */
-    /* font-weight: bold;/ */
-}
-
 /* text-align: right */
 
 /* td::before {
