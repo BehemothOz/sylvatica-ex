@@ -57,36 +57,9 @@ class Badge extends HTMLElement {
     }
 }
 
-/*
-    attributes:
-    - type: primary or danger
-
-    exp:
-    <button is="hello-button">Нажми на меня</button>
-*/
-class IconButton extends HTMLButtonElement {
-    // https://github.com/mdn/web-components-examples/blob/main/popup-info-box-web-component/main.js
-    // constructor() {
-    //     const style = document.createElement('style');
-    //     style.textContent = `
-    //         .sdf {
-    //             asdf
-    //         }
-    //     `;
-    // }
-
-    connectedCallback() {
-        const shadow = this.attachShadow({ mode: 'open' });
-        const template = document.getElementById('icon-button-template') as HTMLTemplateElement;
-
-        shadow.append(template.content.cloneNode(true));
-    }
-}
-
 customElements.define('sy-spinner', Spinner);
 customElements.define('sy-icon', Icon);
 customElements.define('sy-badge', Badge);
-customElements.define('sy-icon-button', IconButton, { extends: 'button' });
 
 const table = document.getElementById('table') as HTMLTableElement;
 

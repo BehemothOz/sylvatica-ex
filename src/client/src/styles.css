@@ -60,63 +60,25 @@ td:first-of-type {
     text-align: left;
 }
 
-@keyframes loadingCircle {
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.circle {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    margin-right: 4px;
-    background-color: orange;
-    border-radius: 50%;
-}
-
-.circle.orange {
-    background-color: orange;
-}
-
-.circle.green {
-    background-color: green;
-}
-
-.circle.red {
-    background-color: red;
-}
-
-/* w 24 h 24px */
 .button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 24px;
     height: 24px;
-
-
-    /* color: #fff; */
+    padding-inline: 0;
 
     font-size: 14px;
-
-    padding-inline: 0;
+    color: rgba(0, 0, 0, 0.87);
+    text-wrap: nowrap;
     background-color: transparent;
 
     border-radius: 4px;
-
-    display: inline-flex;
-    outline: none;
-
-    align-items: center;
-    justify-content: center;
+    border: 1px solid #d9d9d9;
 
     cursor: pointer;
     user-select: none;
-
-    border: 1px solid transparent;
-
-    text-wrap: nowrap;
-
-    color: rgba(0, 0, 0, 0.87);
-    border-color: #d9d9d9;
+    outline: none;
 }
 
 .button-icon.primary {
@@ -129,11 +91,11 @@ td:first-of-type {
     background-color: #ff4d4f;
 }
 
-.icon.spin {
+/* .icon.spin {
     transition: transform 0.3s ease-in-out;
     will-change: transform;
     animation: loadingCircle 1s infinite linear;
-}
+} */
 
 /* text-align: right */
 
