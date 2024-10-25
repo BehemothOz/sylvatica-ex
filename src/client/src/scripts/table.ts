@@ -14,7 +14,7 @@ function createHeader(columns: Array<Column>) {
 }
 
 function createCaption(title: string) {
-    const caption = document.createElement('tr');
+    const caption = document.createElement('caption');
     caption.textContent = title;
 
     return caption;
@@ -28,6 +28,7 @@ function createRow(columns: Array<Column>, rowData: Package) {
         const value = rowData[column.key];
 
         cell.textContent = value;
+        row.append(cell);
     }
 
     return row;
@@ -55,4 +56,6 @@ export function generateTable(columns: Array<Column>, payload: Array<Package>) {
     table.append(caption);
     table.append(header);
     table.append(rows);
+
+    return table;
 }

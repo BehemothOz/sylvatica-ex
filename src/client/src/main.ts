@@ -1,3 +1,8 @@
+import './scripts/components';
+
+import { columns } from './scripts/columns';
+import { generateTable } from './scripts/table';
+
 /*
     https://uit.stanford.edu/accessibility/concepts/tables/css-aria
     https://adrianroselli.com/2017/11/a-responsive-accessible-table.html
@@ -6,20 +11,18 @@
     https://learn.javascript.ru/webcomponents-intro
 */
 
-// const data: Array<Package> = [ --> package-info
-//     {
-//         name: 'Axios',
-//         version: '1.2.4',
-//         lastVersion: '3.0.1',
-//         description: 'Lorem ipsum dolor sit met, consectetur edit.',
-//         homepage: 'https://www.google.com',
-//     },
-// ];
+const data = [
+    {
+        name: 'Axios',
+        diff: 'major',
+        range: '^1.2.0',
+        version: '1.2.4',
+        lastVersion: '3.0.1',
+        homepage: 'https://www.google.com',
+    },
+];
 
-const dependenciesTable = document.getElementById('dependencies');
+const root = document.getElementById('root') as HTMLDivElement;
+const table = generateTable(columns, data);
 
-const table = document.getElementById('table') as HTMLTableElement;
-
-table.addEventListener('click', (event) => {
-    console.log(event.target);
-});
+root.append(table);
