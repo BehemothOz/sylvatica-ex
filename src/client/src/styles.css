@@ -16,6 +16,9 @@ body {
     padding: 16px;
 }
 
+/*
+    ==== Table Styles ====
+*/
 table {
     display: table;
     width: 100%;
@@ -60,6 +63,9 @@ td:first-of-type {
     text-align: left;
 }
 
+/*
+    ==== Button Icon Styles ====
+*/
 .button-icon {
     display: inline-flex;
     align-items: center;
@@ -90,36 +96,3 @@ td:first-of-type {
     color: #fff;
     background-color: #ff4d4f;
 }
-
-/* .icon.spin {
-    transition: transform 0.3s ease-in-out;
-    will-change: transform;
-    animation: loadingCircle 1s infinite linear;
-} */
-
-/* text-align: right */
-
-/* td::before {
-    display: none;
-}
-
-tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.25);
-}
-
-tr:nth-child(odd) {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-td:nth-of-type(2) {
-    font-style: italic;
-}
-
-th:nth-of-type(3),
-td:nth-of-type(3) {
-    text-align: right;
-}
-
-div {
-    overflow: auto;
-} */
