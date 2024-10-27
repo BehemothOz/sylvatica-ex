@@ -12,7 +12,7 @@ function createButton(type: ButtonType, icon: Node) {
     return button;
 }
 
-function createButtons() {
+export function createButtons() {
     const updateIconTemplate = document.getElementById('icon-update-template') as HTMLTemplateElement;
     const basketIconTemplate = document.getElementById('icon-basket-template') as HTMLTemplateElement;
 

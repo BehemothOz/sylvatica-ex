@@ -1,4 +1,7 @@
 import { Column } from './types';
+import { createButtons } from './buttons';
+
+const buttons = createButtons();
 
 export const columns: Array<Column> = [
     /**
@@ -51,7 +54,10 @@ export const columns: Array<Column> = [
         title: '',
         key: 'actions',
         render: (rowData) => {
-            return '123';
+            const wrapper = document.createElement('div');
+            wrapper.append(buttons.update(), buttons.remove());
+
+            return wrapper;
         },
     },
 ];
