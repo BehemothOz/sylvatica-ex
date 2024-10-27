@@ -77,10 +77,10 @@ export function comparison() {
     /*
         "major" | "premajor" | "minor" | "preminor" | "patch" | "prepatch" | "prerelease"
     */
-    const a = semver.inc('1.2.3', 'major', 'xyz');     // 2.0.0
-    const b = semver.inc('1.2.3', 'premajor', 'xyz');  // 2.0.0-xyz.0 
-    const c = semver.inc('1.2.3', 'minor', 'xyz');     // 1.3.0 
-    const d = semver.inc('1.2.3', 'preminor', 'xyz');  //  1.3.0-xyz.0
+    const a = semver.inc('1.2.3', 'major', 'xyz'); // 2.0.0
+    const b = semver.inc('1.2.3', 'premajor', 'xyz'); // 2.0.0-xyz.0
+    const c = semver.inc('1.2.3', 'minor', 'xyz'); // 1.3.0
+    const d = semver.inc('1.2.3', 'preminor', 'xyz'); //  1.3.0-xyz.0
     const e = semver.inc('1.2.3', 'patch', 'xyz');
     const f = semver.inc('1.2.3', 'prepatch', 'xyz');
     const i = semver.inc('1.2.3', 'prerelease', 'xyz');
@@ -92,6 +92,9 @@ export function comparison() {
     console.log('patch', e);
     console.log('prepatch', f);
     console.log('prerelease', i);
+
+    console.log('===================');
+    console.log(semver.diff('1.2.3', '2.0.0-xyz.0'));
 
     const sorted = data.sort((a, b) => {
         return semver.compare(a.last, b.last);

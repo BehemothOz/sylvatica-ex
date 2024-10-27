@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "1.0.0",
-  "source": "src/index.html",
+  "source": ["src/index.html", "src/main.ts"],
   "scripts": {
     "start": "parcel",
     "watch": "parcel watch",
