@@ -10,4 +10,5 @@ export interface Package {
 export interface Column {
     title: string;
     key: keyof Package;
+    render?: (rowData: Package) => HTMLElement | DocumentFragment | string;
 }

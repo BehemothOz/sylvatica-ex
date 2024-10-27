@@ -25,9 +25,15 @@ function createRow(columns: Array<Column>, rowData: Package) {
 
     for (const column of columns) {
         const cell = document.createElement('td');
-        const value = rowData[column.key];
 
-        cell.textContent = value;
+        if (column.render) {
+            const cellValue = column.render(rowData);
+            cell.append(cellValue);
+        } else {
+            const value = rowData[column.key];
+            cell.textContent = value;
+        }
+
         row.append(cell);
     }
 
@@ -50,12 +56,9 @@ export function generateTable(columns: Array<Column>, payload: Array<Package>) {
 
     const caption = createCaption('Caption');
     const header = createHeader(columns);
-
     const rows = createRows(columns, payload);
 
-    table.append(caption);
-    table.append(header);
-    table.append(rows);
+    table.append(caption, header, rows);
 
     return table;
 }

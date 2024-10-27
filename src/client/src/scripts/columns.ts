@@ -7,6 +7,19 @@ export const columns: Array<Column> = [
     {
         title: 'Package',
         key: 'name',
+        render: (rowData) => {
+            const fragment = document.createDocumentFragment();
+
+            const badge = document.createElement('sy-badge');
+            const span = document.createElement('span');
+
+            badge.setAttribute('color', 'green');
+            span.textContent = rowData.name;
+
+            fragment.append(badge, span);
+
+            return fragment;
+        },
     },
     {
         title: 'Semver diff',
