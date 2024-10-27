@@ -47,4 +47,11 @@ export const columns: Array<Column> = [
         title: 'Homepage',
         key: 'homepage',
     },
+    {
+        title: '',
+        key: 'actions',
+        render: (rowData) => {
+            return '123';
+        },
+    },
 ];
