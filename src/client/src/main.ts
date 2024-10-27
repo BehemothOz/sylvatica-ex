@@ -13,7 +13,7 @@ import { generateTable } from './scripts/table';
 
 const data = [
     {
-        name: 'Axios',
+        name: 'axios',
         diff: 'major',
         range: '^1.2.0',
         version: '1.2.4',

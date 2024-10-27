@@ -11,60 +11,9 @@
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
         </style>
-
-        <style>
-            ul {
-                margin: 0;
-                padding: 0;
-                list-style: none;
-            }
-        </style>
     </head>
     <body>
-        <div class="container" id="root">
-            <!-- <table id="table">
-                <caption>
-                    Dependencies
-                </caption>
-                <tr>
-                    <th>Package</th>
-                    <th>Diff</th>
-                    <th>Range</th>
-                    <th>Current Version</th>
-                    <th>Last Version</th>
-                    <th>Homepage</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td><span class="circle orange"></span> react</td>
-                    <td>major</td>
-                    <td>^1.2.4</td>
-                    <td>1.2.5</td>
-                    <td>2.0.0</td>
-                    <td>github/react</td>
-                    <td>
-                        <button class="button-icon primary">+</button>
-                        <button class="button-icon danger">$</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span class="circle green"></span> axios</td>
-                    <td>minor</td>
-                    <td>^5.4.4</td>
-                    <td>5.4.5</td>
-                    <td>5.6.0</td>
-                    <td>github/axios</td>
-                </tr>
-                <tr>
-                    <td><span class="circle red"></span> classnames</td>
-                    <td>patch</td>
-                    <td>^3.0.4</td>
-                    <td>3.0.4</td>
-                    <td>3.0.5</td>
-                    <td>github/classnames</td>
-                </tr>
-            </table> -->
-        </div>
+        <div class="container" id="root"></div>
 
         <!--  -->
         <template id="badge-template">
@@ -79,15 +28,19 @@
                 }
 
                 :host([color='orange']) {
-                    background-color: orange;
+                    background-color: #f1e05a;
                 }
 
                 :host([color='green']) {
-                    background-color: green;
+                    background-color: #26a641;
                 }
 
                 :host([color='red']) {
-                    background-color: red;
+                    background-color: #e34c26;
+                }
+
+                :host([color='blue']) {
+                    background-color: #26a641;
                 }
             </style>
         </template>
@@ -150,6 +103,7 @@
             </svg>
         </template>
 
+        <!--  -->
         <template id="icon-basket-template">
             <svg
                 viewBox="64 64 896 896"
