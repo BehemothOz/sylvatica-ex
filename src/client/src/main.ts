@@ -2,6 +2,7 @@ import './scripts/components';
 
 import { columns } from './scripts/columns';
 import { generateTable } from './scripts/table';
+import { type Package } from './scripts/types';
 
 /*
     https://uit.stanford.edu/accessibility/concepts/tables/css-aria
@@ -11,7 +12,7 @@ import { generateTable } from './scripts/table';
     https://learn.javascript.ru/webcomponents-intro
 */
 
-const data = [
+const data: Array<Package> = [
     {
         name: 'axios',
         diff: 'major',

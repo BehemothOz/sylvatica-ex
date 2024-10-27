@@ -1,7 +1,26 @@
-import { Column } from './types';
+import { Column, ReleaseType } from './types';
 import { createButtons } from './buttons';
 
 const buttons = createButtons();
+
+/*
+    TODO: move
+*/
+function selectBadgeColor(diff: ReleaseType) {
+    if (diff == null) return 'gray';
+    if (diff.startsWith('pre')) return 'blue';
+
+    switch (diff) {
+        case 'major':
+            return 'red';
+        case 'minor':
+            return 'orange';
+        case 'patch':
+            return 'green';
+        default:
+            return 'gray';
+    }
+}
 
 export const columns: Array<Column> = [
     /**
@@ -16,7 +35,7 @@ export const columns: Array<Column> = [
             const badge = document.createElement('sy-badge');
             const span = document.createElement('span');
 
-            badge.setAttribute('color', 'green');
+            badge.setAttribute('color', selectBadgeColor(rowData.diff));
             span.textContent = rowData.name;
 
             fragment.append(badge, span);
@@ -34,6 +53,7 @@ export const columns: Array<Column> = [
     {
         title: 'Range',
         key: 'range',
+        className: 'range',
     },
     {
         title: 'Current Version',

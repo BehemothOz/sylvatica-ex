@@ -26,6 +26,10 @@ function createRow(columns: Array<Column>, rowData: Package) {
     for (const column of columns) {
         const cell = document.createElement('td');
 
+        if (column.className) {
+            cell.classList.add(column.className);
+        }
+
         if (column.render) {
             const cellValue = column.render(rowData);
             cell.append(cellValue);

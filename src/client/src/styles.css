@@ -63,6 +63,14 @@ td:first-of-type {
     text-align: left;
 }
 
+td.range {
+    font-style: italic;
+}
+
+td button:last-of-type {
+    margin-left: 4px;
+}
+
 /*
     ==== Button Icon Styles ====
 */
@@ -85,14 +93,38 @@ td:first-of-type {
     cursor: pointer;
     user-select: none;
     outline: none;
+
+    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .button-icon.primary {
     color: #fff;
     background-color: #1677ff;
+    border-color: #1677ff;
+}
+
+.button-icon.button-icon.primary:hover {
+    background-color: #4096ff;
+    border-color: #4096ff;
+}
+
+.button-icon.button-icon.primary:active {
+    background-color: #0958d9;
+    border-color: #0958d9;
 }
 
 .button-icon.danger {
     color: #fff;
     background-color: #ff4d4f;
+    border-color: #ff4d4f;
+}
+
+.button-icon.button-icon.danger:hover {
+    background-color: #ff7875;
+    border-color: #ff7875;
+}
+
+.button-icon.button-icon.danger:active {
+    background-color: #d9363e;
+    border-color: #d9363e;
 }
