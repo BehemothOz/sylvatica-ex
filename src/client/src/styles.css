@@ -37,7 +37,7 @@ th,
 td {
     display: table-cell;
     padding: 6px 16px; /* TODO: to rem / em */
-    font-size: 1rem;
+    font-size: 0.857rem;
     line-height: 1.43;
     letter-spacing: 0.01071em;
     color: rgba(0, 0, 0, 0.87);

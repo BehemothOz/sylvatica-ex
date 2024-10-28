@@ -2,7 +2,6 @@ import './scripts/components';
 
 import { columns } from './scripts/columns';
 import { generateTable } from './scripts/table';
-import { type Package } from './scripts/types';
 
 /*
     https://uit.stanford.edu/accessibility/concepts/tables/css-aria
@@ -12,18 +11,27 @@ import { type Package } from './scripts/types';
     https://learn.javascript.ru/webcomponents-intro
 */
 
-const data: Array<Package> = [
-    {
-        name: 'axios',
-        diff: 'major',
-        range: '^1.2.0',
-        version: '1.2.4',
-        lastVersion: '3.0.1',
-        homepage: 'https://www.google.com',
-    },
-];
-
 const root = document.getElementById('root') as HTMLDivElement;
-const table = generateTable(columns, data);
 
-root.append(table);
+window.addEventListener('message', (event) => {
+    const { type, payload } = event.data;
+
+    switch (type) {
+        case 'INITIALIZATION': {
+            console.log('INITIALIZATION');
+            break;
+        }
+        case 'DEPENDENCIES': {
+            root.append(generateTable(columns, event.data.data));
+            break;
+        }
+        case 'DEV_DEPENDENCIES': {
+            // ...
+            break;
+        }
+        case 'PACKAGE_MANAGER_DETECTED': {
+            console.log('PACKAGE_MANAGER_DETECTED');
+            break;
+        }
+    }
+});
