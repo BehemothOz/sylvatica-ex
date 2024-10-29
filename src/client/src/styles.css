@@ -19,11 +19,18 @@ body {
 /*
     ==== Table Styles ====
 */
+.table-wrapper {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    overflow-y: auto;
+}
+
 table {
     display: table;
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
 }
 
@@ -63,12 +70,41 @@ td:first-of-type {
     text-align: left;
 }
 
+tr:last-of-type td {
+    border: none;
+}
+
 td.range {
     font-style: italic;
 }
 
 td button:last-of-type {
     margin-left: 4px;
+}
+
+@media screen and (max-width: 600px) {
+    table thead {
+        display: none;
+    }
+
+    td {
+        /* width: 100%; */
+        display: flex;
+        justify-content: space-between;
+    }
+
+    td::before {
+        content: attr(data-label);
+    }
+}
+
+table .package-name {
+    display: inline-flex;
+    align-items: center;
+}
+
+table .package-name span {
+    line-height: 1.1;
 }
 
 /*

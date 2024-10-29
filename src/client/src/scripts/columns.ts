@@ -30,7 +30,8 @@ export const columns: Array<Column> = [
         title: 'Package',
         key: 'name',
         render: (rowData) => {
-            const fragment = document.createDocumentFragment();
+            const container = document.createElement('div');
+            container.classList.add('package-name');
 
             const badge = document.createElement('sy-badge');
             const span = document.createElement('span');
@@ -38,9 +39,9 @@ export const columns: Array<Column> = [
             badge.setAttribute('color', selectBadgeColor(rowData.diff));
             span.textContent = rowData.name;
 
-            fragment.append(badge, span);
+            container.append(badge, span);
 
-            return fragment;
+            return container;
         },
     },
     {

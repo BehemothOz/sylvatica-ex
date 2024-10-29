@@ -25,7 +25,36 @@ import { generateTable } from './scripts/table';
     ];
 */
 
+const data: any = [
+    {
+        name: 'axios',
+        diff: 'major',
+        range: '^1.2.0',
+        version: '1.2.4',
+        lastVersion: '3.0.1',
+        homepage: 'https://www.google.com',
+    },
+    {
+        name: 'react',
+        diff: 'minor',
+        range: '^18.2.0',
+        version: '18.2.4',
+        lastVersion: '18.6.0',
+        homepage: 'https://www.react.com',
+    },
+    {
+        name: 'classnames',
+        diff: 'patch',
+        range: '^2.2.0',
+        version: '2.2.4',
+        lastVersion: '2.2.6',
+        homepage: 'https://www.npm.com',
+    },
+];
+
 const root = document.getElementById('root') as HTMLDivElement;
+
+root.append(generateTable(columns, data));
 
 window.addEventListener('message', (event) => {
     const { type, payload } = event.data;
