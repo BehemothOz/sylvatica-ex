@@ -17,7 +17,7 @@ body {
 }
 
 /*
-    ==== Table Styles ====
+    Table Styles. Mobile first.
 */
 .table-wrapper {
     background-color: #fff;
@@ -34,27 +34,31 @@ table {
     color: rgba(0, 0, 0, 0.87);
 }
 
-caption {
-    text-align: left;
-    font-style: italic;
-    padding: 0.25em 0.5em 0.5em 0.5em;
+thead {
+    display: none;
 }
 
 th,
 td {
-    display: table-cell;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* display: table-cell; */
     padding: 6px 16px; /* TODO: to rem / em */
     font-size: 0.857rem;
     line-height: 1.43;
     letter-spacing: 0.01071em;
     color: rgba(0, 0, 0, 0.87);
-    /* vertical-align: text-top; */
     text-align: right;
 
     border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
 
-th {
+td::before {
+    content: attr(data-label);
+}
+
+/* th {
     font-weight: 700;
 }
 
@@ -80,15 +84,26 @@ td.range {
 
 td button:last-of-type {
     margin-left: 4px;
-}
+} */
 
-@media screen and (max-width: 600px) {
+/* @media screen and (max-width: 600px) {
     table thead {
         display: none;
     }
 
+    tr:nth-of-type(even) {
+        background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    tr:last-of-type td {
+        border-bottom: 1px solid rgba(224, 224, 224, 1);
+    }
+
+    tr:last-of-type td:last-of-type {
+        border: none;
+    }
+
     td {
-        /* width: 100%; */
         display: flex;
         justify-content: space-between;
     }
@@ -96,16 +111,16 @@ td button:last-of-type {
     td::before {
         content: attr(data-label);
     }
-}
+} */
 
-table .package-name {
+/* .package-name {
     display: inline-flex;
     align-items: center;
 }
 
-table .package-name span {
+.package-name span {
     line-height: 1.1;
-}
+} */
 
 /*
     ==== Button Icon Styles ====
