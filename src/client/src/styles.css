@@ -52,6 +52,10 @@ td {
     border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
 
+th {
+    line-height: 1.4;
+}
+
 th:first-of-type,
 td:first-of-type {
     text-align: left;

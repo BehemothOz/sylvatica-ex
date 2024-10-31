@@ -55,6 +55,7 @@ const data: any = [
 const root = document.getElementById('root') as HTMLDivElement;
 
 root.append(generateTable(columns, data));
+// root.append(generateTable(columns, data));
 
 window.addEventListener('message', (event) => {
     const { type, payload } = event.data;
