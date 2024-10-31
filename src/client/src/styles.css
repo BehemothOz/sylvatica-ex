@@ -43,84 +43,69 @@ td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* display: table-cell; */
-    padding: 6px 16px; /* TODO: to rem / em */
+    padding: 4px 8px; /* TODO: to rem / em */
     font-size: 0.857rem;
-    line-height: 1.43;
+    line-height: 1.2;
     letter-spacing: 0.01071em;
     color: rgba(0, 0, 0, 0.87);
     text-align: right;
-
     border-bottom: 1px solid rgba(224, 224, 224, 1);
+}
+
+th:first-of-type,
+td:first-of-type {
+    text-align: left;
+}
+
+td:first-of-type {
+    font-size: 0.92rem;
+    background-color: rgba(0, 0, 0, 0.04);
 }
 
 td::before {
     content: attr(data-label);
 }
 
-/* th {
-    font-weight: 700;
+td:first-of-type::before {
+    font-weight: 500;
 }
 
-td {
-    font-weight: 400;
+td:last-of-type > div {
+    display: inline-flex;
 }
 
-th:first-of-type {
-    text-align: left;
+td:last-of-type > div button:last-of-type {
+    margin-left: 4px;
 }
 
-td:first-of-type {
-    text-align: left;
-}
-
-tr:last-of-type td {
-    border: none;
+td > .package-name {
+    display: inline-flex;
+    align-items: center;
 }
 
 td.range {
     font-style: italic;
 }
 
-td button:last-of-type {
-    margin-left: 4px;
-} */
-
-/* @media screen and (max-width: 600px) {
-    table thead {
-        display: none;
+@media screen and (min-width: 600px) {
+    thead {
+        display: table-header-group;
     }
 
-    tr:nth-of-type(even) {
-        background-color: rgba(0, 0, 0, 0.04);
-    }
-
-    tr:last-of-type td {
-        border-bottom: 1px solid rgba(224, 224, 224, 1);
-    }
-
-    tr:last-of-type td:last-of-type {
-        border: none;
-    }
-
+    th,
     td {
-        display: flex;
-        justify-content: space-between;
+        display: table-cell;
     }
 
     td::before {
-        content: attr(data-label);
+        content: none;
     }
-} */
 
-/* .package-name {
-    display: inline-flex;
-    align-items: center;
+    td:first-of-type {
+        font-size: 0.857rem;
+        background-color: transparent;
+    }
 }
-
-.package-name span {
-    line-height: 1.1;
-} */
 
 /*
     ==== Button Icon Styles ====
