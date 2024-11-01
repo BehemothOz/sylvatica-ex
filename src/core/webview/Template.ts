@@ -51,8 +51,7 @@ export class Template {
                         <link href="${this.styleFileUri}" rel="stylesheet">
                     </head>
                     <body>
-                        <h1>Hello</h1>
-                        <div class="container" id="root"></div>
+                        <div id="root"></div>
                         <!--  -->
                         <template id="badge-template">
                             <style>
