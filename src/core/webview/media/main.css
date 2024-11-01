@@ -1,3 +1,22 @@
+/*
+    Font Rules
+*/
+@font-face {
+    font-family: InterVariable;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('./fonts/InterVariable.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: InterVariable;
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('./fonts/InterVariable-Italic.woff2') format('woff2');
+}
+
 html {
     font-size: 14px;
 }
@@ -5,7 +24,7 @@ html {
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'InterVariable', sans-serif;
     font-optical-sizing: auto;
     font-size: 1rem;
     color: rgba(0, 0, 0, 0.87);
