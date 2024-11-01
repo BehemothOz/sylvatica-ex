@@ -22,13 +22,6 @@ function createHeader(columns: Array<Column>) {
     return header;
 }
 
-function createCaption(title: string) {
-    const caption = document.createElement('caption');
-    caption.textContent = title;
-
-    return caption;
-}
-
 function createRow(columns: Array<Column>, rowData: Package) {
     const row = document.createElement('tr');
 
@@ -56,26 +49,45 @@ function createRow(columns: Array<Column>, rowData: Package) {
 }
 
 function createRows(columns: Array<Column>, payload: Array<Package>) {
-    const fragment = document.createDocumentFragment();
+    const body = document.createElement('tbody');
 
     for (const rowData of payload) {
         const row = createRow(columns, rowData);
-        fragment.append(row);
+        body.append(row);
     }
 
-    return fragment;
+    return body;
+}
+
+function createTableTitle() {
+    const title = document.createElement('h2');
+    title.textContent = 'Dependencies';
+
+    return title;
+}
+
+function createTableContainer() {
+    const container = document.createElement('section');
+    const title = createTableTitle();
+
+    container.classList.add('table-section');
+    container.append(title);
+
+    return container;
 }
 
 export function generateTable(columns: Array<Column>, payload: Array<Package>) {
+    const container = createTableContainer();
     const wrapper = createTableWrapper();
+
     const table = document.createElement('table');
 
-    const caption = createCaption('Caption');
     const header = createHeader(columns);
     const rows = createRows(columns, payload);
 
     table.append(header, rows);
     wrapper.append(table);
+    container.append(wrapper);
 
-    return wrapper;
+    return container;
 }
