@@ -1,6 +1,10 @@
 import { Column, ReleaseType } from './types';
 import { createButtons } from './buttons';
 
+interface ColumnOptions {
+    isVisibleButtons: boolean;
+}
+
 const buttons = createButtons();
 
 /*
@@ -22,7 +26,7 @@ function selectBadgeColor(diff: ReleaseType) {
     }
 }
 
-export const columns: Array<Column> = [
+const columns: Array<Column> = [
     /**
      * Package name (dependency name from package.json)
      */
@@ -71,14 +75,23 @@ export const columns: Array<Column> = [
         title: 'Homepage',
         key: 'homepage',
     },
-    {
-        title: '',
-        key: 'actions',
-        render: (rowData) => {
-            const wrapper = document.createElement('div');
-            wrapper.append(buttons.update(), buttons.remove());
-
-            return wrapper;
-        },
-    },
 ];
+
+export function createColumns(options: ColumnOptions) {
+    if (options.isVisibleButtons) {
+        const buttonsColumn: Column = {
+            title: '',
+            key: 'actions',
+            render: (rowData) => {
+                const wrapper = document.createElement('div');
+                wrapper.append(buttons.update(), buttons.remove());
+
+                return wrapper;
+            },
+        };
+
+        return columns.concat(buttonsColumn);
+    }
+
+    return columns;
+}

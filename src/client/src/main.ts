@@ -1,6 +1,6 @@
 import './scripts/components';
 
-import { columns } from './scripts/columns';
+import { createColumns } from './scripts/columns';
 import { generateTable } from './scripts/table';
 
 /*
@@ -36,6 +36,7 @@ window.addEventListener('message', (event) => {
             break;
         }
         case 'DEPENDENCIES': {
+            const columns = createColumns({ isVisibleButtons: false });
             root.append(generateTable(columns, event.data.data));
             break;
         }
