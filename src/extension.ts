@@ -40,9 +40,8 @@ export function activate(context: vscode.ExtensionContext) {
 
         try {
             const sylvatica = new Sylvatica(webviewPanel, packumentCache);
-            console.log(2222);
+
             await sylvatica.initialization(file);
-            console.log(999);
             sylvatica.run();
         } catch (error) {
             console.error(error);

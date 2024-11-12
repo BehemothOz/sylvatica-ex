@@ -11,13 +11,14 @@ import { LocalDependenciesManager } from './core/LocalDependenciesManager';
 import { type WebviewPanel } from './core/webview';
 import { type PackumentCache } from './core/PackumentCache';
 
-import { comparison } from './core/comparison';
-
 async function sendRequest<T>(packageName: string): Promise<T> {
-    console.time(`Time: ${packageName}`);
     const response = await fetch(`https://registry.npmjs.org/${packageName}/latest`);
     const result = (await response.json()) as T;
-    console.timeEnd(`Time: ${packageName}`);
+
+    if (!response.ok) {
+        throw new Error('Error');
+    }
+
     return result;
 }
 
@@ -45,9 +46,9 @@ export class Sylvatica {
             packageJsonFile: json,
             packageJsonDirectory,
         });
-        console.log(111);
+
         this.packageManager = await this.packageManagerService.getPackageManager(packageJsonDirectory);
-        console.log("this.packageManager", this.packageManager);
+
         if (this.packageManager) {
             this.webviewPanel.dispatcher.notifyPackageManagerReady();
         }
