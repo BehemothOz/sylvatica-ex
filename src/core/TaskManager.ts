@@ -232,32 +232,3 @@ export class TaskManager<TaskResult = unknown> {
         this.taskIterator = null;
     }
 }
-
-const taskManager = new TaskManager(2);
-
-async function runTest() {
-    let idx = 0;
-    let count = 0;
-
-    while (idx < 2) {
-        taskManager.addTask(() => {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    count += 1;
-                    reject(`task id is ${count}`);
-                }, count * 1000);
-            });
-        });
-        idx += 1;
-    }
-
-    for await (const task of taskManager.run()) {
-        try {
-            console.log('---result---', task);
-        } catch (error) {
-            console.log('---error---', error);
-        }
-    }
-}
-
-// runTest();

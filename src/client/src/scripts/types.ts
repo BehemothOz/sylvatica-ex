@@ -14,7 +14,7 @@ export interface Package {
     diff: ReleaseType;
     range: string;
     version: string;
-    lastVersion: string;
+    latestVersion: string;
     homepage: string;
 }
 

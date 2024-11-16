@@ -65,8 +65,8 @@ const columns: Array<Column> = [
         key: 'version',
     },
     {
-        title: 'Last Version',
-        key: 'lastVersion',
+        title: 'Latest Version',
+        key: 'latestVersion',
     },
     /**
      * Link to the package's home page
