@@ -186,3 +186,19 @@ td.range {
     background-color: #d9363e;
     border-color: #d9363e;
 }
+
+/*
+    ==== Link ====
+*/
+.link {
+    color: #1677ff;
+    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.link:hover {
+    color: #69b1ff;
+}
+
+.link:active {
+    color: #0958d9;
+}

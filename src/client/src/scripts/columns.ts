@@ -26,6 +26,14 @@ function selectBadgeColor(diff: ReleaseType) {
     }
 }
 
+function parseUrl(url: string) {
+    try {
+        return new URL(url);
+    } catch {
+        return null;
+    }
+}
+
 const columns: Array<Column> = [
     /**
      * Package name (dependency name from package.json)
@@ -74,6 +82,22 @@ const columns: Array<Column> = [
     {
         title: 'Homepage',
         key: 'homepage',
+        render: (rowData) => {
+            try {
+                const url = new URL(rowData.homepage);
+                const link = document.createElement('a');
+
+                link.classList.add('link');
+                link.setAttribute('href', rowData.homepage);
+                link.setAttribute('title', rowData.homepage);
+
+                link.textContent = url.hostname;
+
+                return link;
+            } catch {
+                return '';
+            }
+        },
     },
 ];
 

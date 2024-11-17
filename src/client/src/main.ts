@@ -23,9 +23,26 @@ import { generateTable } from './scripts/table';
             homepage: 'https://www.google.com',
         },
     ];
+
+    const columns = createColumns({ isVisibleButtons: false });
+    root.append(generateTable(columns, data));
 */
 
+const data: Array<Package> = [
+    {
+        name: 'axios',
+        diff: 'major',
+        range: '^1.2.0',
+        version: '1.2.4',
+        lastVersion: '3.0.1',
+        homepage: 'https://www.google.com',
+    },
+];
+
+const columns = createColumns({ isVisibleButtons: false });
+
 const root = document.getElementById('root') as HTMLDivElement;
+root.append(generateTable(columns, data));
 
 window.addEventListener('message', (event) => {
     const { type, payload } = event.data;
