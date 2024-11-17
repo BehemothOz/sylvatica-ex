@@ -44,7 +44,9 @@ window.addEventListener('message', (event) => {
             break;
         }
         case 'DEV_DEPENDENCIES': {
-            // ...
+            console.log(event);
+            const columns = createColumns({ isVisibleButtons: false });
+            root.append(generateTable(columns, event.data.data));
             break;
         }
         case 'PACKAGE_MANAGER_DETECTED': {

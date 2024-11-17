@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "helloworld-sample 2" is now active!');
-
+    console.log('-------->');
     const webviewController = new WebviewPanelController();
     /*
         TODO: clear after close
@@ -40,7 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         try {
             const sylvatica = new Sylvatica(webviewPanel, packumentCache);
-
+            console.log('-------->');
             await sylvatica.initialization(file);
             sylvatica.run();
         } catch (error) {

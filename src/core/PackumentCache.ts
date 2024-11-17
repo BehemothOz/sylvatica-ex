@@ -11,6 +11,7 @@ export class PackumentCache extends Cache<PackumentInfo> {
 
         if (value === undefined) {
             const result = await fn();
+            console.log("result", result);
 
             this.set(key, result);
             return result;
