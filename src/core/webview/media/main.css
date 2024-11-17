@@ -221,3 +221,22 @@ td.range {
 .link:active {
     color: #0958d9;
 }
+
+/*
+    ==== Button Icon Styles ====
+*/
+.semver-diff.orange {
+    color: #f1e05a;
+}
+
+.semver-diff.green {
+    color: #26a641;
+}
+
+.semver-diff.red {
+    color: #e34c26;
+}
+
+.semver-diff.gray {
+    color: #808080;
+}

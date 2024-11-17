@@ -10,7 +10,7 @@ const buttons = createButtons();
 /*
     TODO: move
 */
-function selectBadgeColor(diff: ReleaseType) {
+function selectDifferenceColor(diff: ReleaseType) {
     if (diff == null) return 'gray';
     if (diff.startsWith('pre')) return 'blue';
 
@@ -23,14 +23,6 @@ function selectBadgeColor(diff: ReleaseType) {
             return 'green';
         default:
             return 'gray';
-    }
-}
-
-function parseUrl(url: string) {
-    try {
-        return new URL(url);
-    } catch {
-        return null;
     }
 }
 
@@ -48,7 +40,7 @@ const columns: Array<Column> = [
             const badge = document.createElement('sy-badge');
             const span = document.createElement('span');
 
-            badge.setAttribute('color', selectBadgeColor(rowData.diff));
+            badge.setAttribute('color', selectDifferenceColor(rowData.diff));
             span.textContent = rowData.name;
 
             container.append(badge, span);
@@ -59,6 +51,14 @@ const columns: Array<Column> = [
     {
         title: 'Semver diff',
         key: 'diff',
+        render: (rowData) => {
+            const span = document.createElement('span');
+
+            span.classList.add('semver-diff', `${selectDifferenceColor(rowData.diff)}`);
+            span.textContent = rowData.diff ?? 'identical';
+
+            return span;
+        },
     },
     /**
      * Versions range allowed for installation (from package.json)
@@ -106,7 +106,7 @@ export function createColumns(options: ColumnOptions) {
         const buttonsColumn: Column = {
             title: '',
             key: 'actions',
-            render: (rowData) => {
+            render: () => {
                 const wrapper = document.createElement('div');
                 wrapper.append(buttons.update(), buttons.remove());
 
