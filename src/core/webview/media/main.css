@@ -93,6 +93,10 @@ th {
     line-height: 1.4;
 }
 
+tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
 th:first-of-type,
 td:first-of-type {
     text-align: left;
@@ -226,7 +230,7 @@ td.range {
     ==== Button Icon Styles ====
 */
 .semver-diff.orange {
-    color: #f1e05a;
+    color: #ffbf00;
 }
 
 .semver-diff.green {

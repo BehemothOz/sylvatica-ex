@@ -66,7 +66,7 @@ const columns: Array<Column> = [
     {
         title: 'Range',
         key: 'range',
-        className: 'range',
+        // className: 'range',
     },
     {
         title: 'Current Version',
