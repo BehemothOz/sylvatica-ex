@@ -14,13 +14,52 @@ import { type PackumentCache } from './core/PackumentCache';
 async function sendRequest<T>(packageName: string): Promise<T> {
     const response = await fetch(`https://registry.npmjs.org/${packageName}/latest`);
     const result = (await response.json()) as T;
-    console.log("result -->", result);
+    console.log('result -->', result);
     if (!response.ok) {
         throw new Error('Error');
     }
 
     return result;
 }
+
+abstract class DependenciesFactory {
+    private taskManager: TaskManager;
+    private _packages: Map<string, Package> = new Map();
+
+    constructor() {
+        this.taskManager = new TaskManager();
+    }
+
+    get packages() {
+        return this._packages;
+    }
+
+    run() {
+
+    }
+
+    private async getLatestVersions() {
+        /*
+            TODO: fix types
+        */
+        for await (const packumentInfo of this.taskManager.run()) {
+            const packument = (await packumentInfo) as PackumentInfo;
+            const localPackage = this.packages.get(packument.name);
+
+            if (localPackage) {
+                localPackage.setPackument(packument);
+            }
+        }
+    }
+}
+
+class LocalDependencies {
+    private taskManager: TaskManager;
+    private packages: Map<string, Package> = new Map();
+
+    constructor() {}
+}
+class LocalDevelopmentDependencies {}
 
 /*
     TODO: Create fabric classes for Dependencies and Dev-Dependencies
@@ -44,7 +83,7 @@ export class Sylvatica {
     }
 
     async initialization(file: vscode.Uri) {
-        console.log("initialization");
+        console.log('initialization');
         this.webviewPanel.dispatcher.initialization();
 
         const json = await PackageJsonReader.read(file);
@@ -102,9 +141,9 @@ export class Sylvatica {
 
     async next() {
         for await (const devDependencyVersion of this.localDependenciesManager!.getDevDependenciesVersions()) {
-            console.log("devDependencyVersion", devDependencyVersion);
+            console.log('devDependencyVersion', devDependencyVersion);
             const localPackage = new Package(devDependencyVersion);
-            console.log("localPackage", localPackage);
+            console.log('localPackage', localPackage);
             this.packages2.set(devDependencyVersion.name, localPackage);
             console.log(this.packages2);
             this.taskManager2.addTask(() => {
