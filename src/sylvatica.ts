@@ -11,6 +11,8 @@ import { LocalDependenciesManager, type DependencyInfo } from './core/LocalDepen
 import { type WebviewPanel } from './core/webview';
 import { type PackumentCache } from './core/PackumentCache';
 
+import { DependenciesFactory } from './core/DependenciesFactory';
+
 async function sendRequest<T>(packageName: string): Promise<T> {
     const response = await fetch(`https://registry.npmjs.org/${packageName}/latest`);
     const result = (await response.json()) as T;
@@ -32,8 +34,16 @@ export class Sylvatica {
 
     private packageManager: PackageManagerStrategy | null = null;
 
+    private dependencies: DependenciesFactory;
+
     constructor(private webviewPanel: WebviewPanel, private packumentCache: PackumentCache) {
         this.packageManagerService = new PackageManagerService();
+
+        this.dependencies = new DependenciesFactory(packumentCache);
+
+        this.dependencies.on((packages: Package[]) => {
+            this.webviewPanel.dispatcher.sendDependencies(packages);
+        });
 
         /*
             - LocalDependencies
@@ -59,9 +69,5 @@ export class Sylvatica {
         }
     }
 
-    async analyze() {
-        /*
-            this.webviewPanel.dispatcher.sendDependencies(Array.from(this.packages.values()));
-        */
-    }
+    async analyze() {}
 }
