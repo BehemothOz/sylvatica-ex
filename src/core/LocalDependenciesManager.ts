@@ -8,6 +8,12 @@ interface LocalDependenciesManagerParams {
     packageJsonDirectory: string;
 }
 
+export interface DependencyInfo {
+    name: string;
+    range: string;
+    version: string;
+}
+
 export class LocalDependenciesManager {
     private directoryPath: vscode.Uri;
     private dependencies: Array<[string, string]>;
@@ -32,7 +38,7 @@ export class LocalDependenciesManager {
         return fm.joinPath(this.directoryPath, 'node_modules', moduleName, 'package.json');
     }
 
-    async *getPackagesVersion(moduleNames: Array<[string, string]>) {
+    async *getPackagesVersion(moduleNames: Array<[string, string]>): AsyncGenerator<DependencyInfo> {
         for (const [moduleName, range] of moduleNames) {
             const packageJsonPath = this.resolvePackageJsonPath(moduleName);
 

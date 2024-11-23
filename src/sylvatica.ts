@@ -6,7 +6,7 @@ import { Package, type PackumentInfo } from './core/Package';
 import { PackageJsonReader } from './core/PackageJsonReader';
 import { PackageManagerService } from './core/package-manager';
 import { PackageManagerStrategy } from './core/package-manager/types';
-import { LocalDependenciesManager } from './core/LocalDependenciesManager';
+import { LocalDependenciesManager, type DependencyInfo } from './core/LocalDependenciesManager';
 
 import { type WebviewPanel } from './core/webview';
 import { type PackumentCache } from './core/PackumentCache';
@@ -22,20 +22,38 @@ async function sendRequest<T>(packageName: string): Promise<T> {
     return result;
 }
 
+interface DependenciesFactoryParams {
+    cache: PackumentCache;
+}
+
 abstract class DependenciesFactory {
     private taskManager: TaskManager;
+    private cache: PackumentCache;
+
     private _packages: Map<string, Package> = new Map();
 
-    constructor() {
+    constructor(params: DependenciesFactoryParams) {
         this.taskManager = new TaskManager();
+        this.cache = params.cache;
     }
 
     get packages() {
         return this._packages;
     }
 
-    run() {
+    async analyze(dependencies: AsyncIterable<DependencyInfo>) {
+        for await (const dependencyVersion of dependencies) {
+            const localPackage = new Package(dependencyVersion);
+            this.packages.set(dependencyVersion.name, localPackage);
 
+            this.taskManager.addTask(() => {
+                return this.cache.wrap(dependencyVersion.name, () =>
+                    sendRequest<PackumentInfo>(dependencyVersion.name)
+                );
+            });
+        }
+
+        await this.getLatestVersions();
     }
 
     private async getLatestVersions() {
@@ -53,13 +71,9 @@ abstract class DependenciesFactory {
     }
 }
 
-class LocalDependencies {
-    private taskManager: TaskManager;
-    private packages: Map<string, Package> = new Map();
+class LocalDependencies extends DependenciesFactory {}
 
-    constructor() {}
-}
-class LocalDevelopmentDependencies {}
+class LocalDevelopmentDependencies extends DependenciesFactory {}
 
 /*
     TODO: Create fabric classes for Dependencies and Dev-Dependencies
