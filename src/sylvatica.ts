@@ -1,28 +1,16 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-import { TaskManager } from './core/TaskManager';
-import { Package, type PackumentInfo } from './core/Package';
+import { Package } from './core/Package';
 import { PackageJsonReader } from './core/PackageJsonReader';
 import { PackageManagerService } from './core/package-manager';
 import { PackageManagerStrategy } from './core/package-manager/types';
-import { LocalDependenciesManager, type DependencyInfo } from './core/LocalDependenciesManager';
+import { LocalDependenciesManager } from './core/LocalDependenciesManager';
+import { DependenciesFactory } from './core/DependenciesFactory';
 
 import { type WebviewPanel } from './core/webview';
 import { type PackumentCache } from './core/PackumentCache';
 
-import { DependenciesFactory } from './core/DependenciesFactory';
-
-async function sendRequest<T>(packageName: string): Promise<T> {
-    const response = await fetch(`https://registry.npmjs.org/${packageName}/latest`);
-    const result = (await response.json()) as T;
-    console.log('result -->', result);
-    if (!response.ok) {
-        throw new Error('Error');
-    }
-
-    return result;
-}
 
 /*
     TODO: Create fabric classes for Dependencies and Dev-Dependencies
@@ -35,20 +23,21 @@ export class Sylvatica {
     private packageManager: PackageManagerStrategy | null = null;
 
     private dependencies: DependenciesFactory;
+    private developmentDependencies: DependenciesFactory;
 
-    constructor(private webviewPanel: WebviewPanel, private packumentCache: PackumentCache) {
+    constructor(private webviewPanel: WebviewPanel, packumentCache: PackumentCache) {
         this.packageManagerService = new PackageManagerService();
 
         this.dependencies = new DependenciesFactory(packumentCache);
+        this.developmentDependencies = new DependenciesFactory(packumentCache);
 
         this.dependencies.on((packages: Package[]) => {
             this.webviewPanel.dispatcher.sendDependencies(packages);
         });
 
-        /*
-            - LocalDependencies
-            - LocalDevelopmentDependencies
-        */
+        this.dependencies.on((packages: Package[]) => {
+            this.webviewPanel.dispatcher.sendDevDependencies(packages);
+        });
     }
 
     async initialization(file: vscode.Uri) {
@@ -69,5 +58,11 @@ export class Sylvatica {
         }
     }
 
-    async analyze() {}
+    async analyze() {
+        const installedDependenciesVersions = this.localDependenciesManager!.getDependenciesVersions();
+        const installedDevDependenciesVersions = this.localDependenciesManager!.getDevDependenciesVersions();
+
+        await this.dependencies.analyze(installedDependenciesVersions);
+        this.developmentDependencies.analyze(installedDevDependenciesVersions);
+    }
 }
