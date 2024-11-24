@@ -35,7 +35,7 @@ export class Sylvatica {
             this.webviewPanel.dispatcher.sendDependencies(packages);
         });
 
-        this.dependencies.on((packages: Package[]) => {
+        this.developmentDependencies.on((packages: Package[]) => {
             this.webviewPanel.dispatcher.sendDevDependencies(packages);
         });
     }
