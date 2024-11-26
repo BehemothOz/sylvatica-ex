@@ -8,7 +8,7 @@ export class Dispatcher {
     constructor(private webview: vscode.Webview) {}
 
     /*
-		the initialization process has started
+		Initialization process has started
 	*/
     initialization() {
         this.webview.postMessage({ type: 'INITIALIZATION' });

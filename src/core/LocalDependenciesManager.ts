@@ -34,6 +34,9 @@ export class LocalDependenciesManager {
         this.directoryPath = vscode.Uri.file(params.packageJsonDirectory);
     }
 
+    /*
+        TODO: Check exist node_modules folder
+    */
     private resolvePackageJsonPath(moduleName: string) {
         return fm.joinPath(this.directoryPath, 'node_modules', moduleName, 'package.json');
     }
