@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import { Template } from './Template';
 import { Dispatcher } from './Dispatcher';
+import { Package } from '../Package';
 
 const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
 
@@ -68,7 +69,7 @@ export class WebviewPanelController {
 export class WebviewPanel {
     panel: vscode.WebviewPanel;
     template: Template;
-    dispatcher: Dispatcher;
+    private dispatcher: Dispatcher;
 
     /*
         TODO: panel.title = "new title" + updateWebview function
@@ -98,6 +99,24 @@ export class WebviewPanel {
         this.panel.onDidChangeViewState((e) => {
             const panel = e.webviewPanel;
             console.log(panel);
+        });
+    }
+
+    initialization() {
+        this.dispatcher.initialization();
+    }
+
+    sendDependencies(packages: Package[]) {
+        this.dispatcher.sendDependencies({
+            title: 'Dependencies',
+            data: packages,
+        });
+    }
+
+    sendDevDependencies(packages: Package[]) {
+        this.dispatcher.sendDependencies({
+            title: 'Dev-Dependencies',
+            data: packages,
         });
     }
 }

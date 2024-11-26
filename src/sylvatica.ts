@@ -11,10 +11,6 @@ import { DependenciesFactory } from './core/DependenciesFactory';
 import { type WebviewPanel } from './core/webview';
 import { type PackumentCache } from './core/PackumentCache';
 
-
-/*
-    TODO: Create fabric classes for Dependencies and Dev-Dependencies
-*/
 export class Sylvatica {
     private packageManagerService: PackageManagerService;
 
@@ -32,16 +28,16 @@ export class Sylvatica {
         this.developmentDependencies = new DependenciesFactory(packumentCache);
 
         this.dependencies.on((packages: Package[]) => {
-            this.webviewPanel.dispatcher.sendDependencies(packages);
+            this.webviewPanel.sendDependencies(packages);
         });
 
         this.developmentDependencies.on((packages: Package[]) => {
-            this.webviewPanel.dispatcher.sendDevDependencies(packages);
+            this.webviewPanel.sendDevDependencies(packages);
         });
     }
 
     async initialization(file: vscode.Uri) {
-        this.webviewPanel.dispatcher.initialization();
+        this.webviewPanel.initialization();
 
         const json = await PackageJsonReader.read(file);
         const packageJsonDirectory = path.dirname(file.fsPath);
@@ -54,7 +50,7 @@ export class Sylvatica {
         this.packageManager = await this.packageManagerService.getPackageManager(packageJsonDirectory);
 
         if (this.packageManager) {
-            this.webviewPanel.dispatcher.notifyPackageManagerReady();
+            console.log(this.packageManager);
         }
     }
 
