@@ -41,14 +41,19 @@ export class LocalDependenciesManager {
         return fm.joinPath(this.directoryPath, 'node_modules', moduleName, 'package.json');
     }
 
-    async *getPackagesVersion(moduleNames: Array<[string, string]>): AsyncGenerator<DependencyInfo> {
+    private resolveNodeModulesPath() {
+        return fm.exist(fm.joinPath(this.directoryPath, 'node_modules'));
+    }
+
+    async *getPackagesVersion(moduleNames: Array<[string, string]>): AsyncGenerator<PackageJson> {
         for (const [moduleName, range] of moduleNames) {
             const packageJsonPath = this.resolvePackageJsonPath(moduleName);
 
             if (fm.exist(packageJsonPath)) {
                 try {
                     const packageJsonModule = await PackageJsonReader.read(packageJsonPath);
-                    yield { name: moduleName, range, version: packageJsonModule.version };
+
+                    yield packageJsonModule;
                 } catch (e) {
                     console.log(e);
                 }
