@@ -15,11 +15,11 @@ export class Dispatcher {
     }
 
     sendDependencies<T = unknown>(payload: T) {
-        this.webview.postMessage({ type: 'DEPENDENCIES', payload });
+        this.webview.postMessage({ type: 'DEPENDENCIES', data: payload });
     }
 
     sendDevDependencies<T = unknown>(payload: T) {
-        this.webview.postMessage({ type: 'DEV_DEPENDENCIES', payload });
+        this.webview.postMessage({ type: 'DEV_DEPENDENCIES', data: payload });
     }
 
     notifyPackageManagerReady() {
