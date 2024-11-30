@@ -3,15 +3,17 @@ import * as vscode from 'vscode';
 import { fm } from './FileManager';
 import { PackageJsonReader, type PackageJson } from './PackageJsonReader';
 
+import { MissingNodeModulesError, MissingPackageJsonError } from './errors';
+
 interface LocalDependenciesManagerParams {
     packageJsonFile: PackageJson;
     packageJsonDirectory: string;
 }
 
-export interface DependencyInfo {
+interface DependencyInfo {
     name: string;
     range: string;
-    version: string;
+    packageJson: PackageJson;
 }
 
 export class LocalDependenciesManager {
@@ -19,12 +21,9 @@ export class LocalDependenciesManager {
     private dependencies: Array<[string, string]>;
     private devDependencies: Array<[string, string]>;
 
-    /*
-        TODO: mb use version from packageJson?
-    */
     constructor(params: LocalDependenciesManagerParams) {
         /*
-            Get installed dependencies
+            Get installed dependencies and devDependencies
         */
         const { dependencies, devDependencies } = params.packageJsonFile;
 
@@ -34,38 +33,50 @@ export class LocalDependenciesManager {
         this.directoryPath = vscode.Uri.file(params.packageJsonDirectory);
     }
 
-    /*
-        TODO: Check exist node_modules folder
-    */
-    private resolvePackageJsonPath(moduleName: string) {
+    private resolvePackageJsonPath(moduleName: string): vscode.Uri {
         return fm.joinPath(this.directoryPath, 'node_modules', moduleName, 'package.json');
     }
 
-    private resolveNodeModulesPath() {
-        return fm.exist(fm.joinPath(this.directoryPath, 'node_modules'));
+    private resolveNodeModulesPath(): vscode.Uri {
+        return fm.joinPath(this.directoryPath, 'node_modules');
     }
 
-    async *getPackagesVersion(moduleNames: Array<[string, string]>): AsyncGenerator<PackageJson> {
-        for (const [moduleName, range] of moduleNames) {
-            const packageJsonPath = this.resolvePackageJsonPath(moduleName);
+    private async *getPackageJsonDependencies(
+        dependenciesNames: Array<[string, string]>
+    ): AsyncGenerator<DependencyInfo> {
+        const nodeModulesPath = this.resolveNodeModulesPath();
+
+        if (!fm.exist(nodeModulesPath)) {
+            throw new MissingNodeModulesError(nodeModulesPath.fsPath);
+        }
+
+        for (const [dependencyName, range] of dependenciesNames) {
+            const packageJsonPath = this.resolvePackageJsonPath(dependencyName);
+
+            const dependencyBaseInfo = {
+                name: dependencyName,
+                range,
+            };
 
             if (fm.exist(packageJsonPath)) {
                 try {
                     const packageJsonModule = await PackageJsonReader.read(packageJsonPath);
 
-                    yield packageJsonModule;
+                    yield Object.assign({ packageJson: packageJsonModule }, dependencyBaseInfo);
                 } catch (e) {
                     console.log(e);
                 }
+            } else {
+                yield new MissingPackageJsonError(dependencyName, packageJsonPath.fsPath);
             }
         }
     }
 
-    async *getDependenciesVersions() {
-        yield* this.getPackagesVersion(this.dependencies);
+    async *getDependencies() {
+        yield* this.getPackageJsonDependencies(this.dependencies);
     }
 
-    async *getDevDependenciesVersions() {
-        yield* this.getPackagesVersion(this.devDependencies);
+    async *getDevelopmentDependencies() {
+        yield* this.getPackageJsonDependencies(this.devDependencies);
     }
 }
