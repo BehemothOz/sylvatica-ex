@@ -37,11 +37,7 @@ export class PackageJsonReader {
 
             return new PackageJson(parsedPackageJson);
         } catch (error) {
-            console.error(`Error reading package.json file: ${error}`);
-            /*
-                ? or return null
-            */
-            throw error;
+            throw new Error(`Error reading package.json file: ${error}`);
         }
     }
 }
