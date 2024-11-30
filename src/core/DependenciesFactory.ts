@@ -21,10 +21,14 @@ export class DependenciesFactory {
     }
 
     async analyze(dependencies: AsyncIterable<DependencyInfo>) {
-        await this.getDependenciesInfo(dependencies);
-        await this.getLatestVersions();
+        try {
+            await this.getDependenciesInfo(dependencies);
+            await this.getLatestVersions();
 
-        this.emitter.emit('analyze-finished', Array.from(this.packages.values()));
+            this.emitter.emit('analyze-finished', Array.from(this.packages.values()));
+        } catch (error) {
+            console.log('Error');
+        }
     }
 
     on(cb: (packages: Package[]) => void) {
