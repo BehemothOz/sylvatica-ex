@@ -67,7 +67,8 @@ export class LocalDependenciesManager {
                     console.log(e);
                 }
             } else {
-                yield new MissingPackageJsonError(dependencyName, packageJsonPath.fsPath);
+                console.log('MissingPackageJsonError');
+                // yield new MissingPackageJsonError(dependencyName, packageJsonPath.fsPath);
             }
         }
     }
