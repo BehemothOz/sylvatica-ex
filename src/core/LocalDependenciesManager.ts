@@ -10,11 +10,15 @@ interface LocalDependenciesManagerParams {
     packageJsonDirectory: string;
 }
 
-interface DependencyInfo {
+export interface LocalDependencyInfo {
     name: string;
     range: string;
     packageJson: PackageJson;
 }
+
+type LocalDependencyError = MissingNodeModulesError | Error;
+
+export type LocalDependencyResult = LocalDependencyInfo | LocalDependencyError;
 
 export class LocalDependenciesManager {
     private directoryPath: vscode.Uri;
@@ -43,7 +47,7 @@ export class LocalDependenciesManager {
 
     private async *getPackageJsonDependencies(
         dependenciesNames: Array<[string, string]>
-    ): AsyncGenerator<DependencyInfo> {
+    ): AsyncGenerator<LocalDependencyResult> {
         const nodeModulesPath = this.resolveNodeModulesPath();
 
         if (!fm.exist(nodeModulesPath)) {
@@ -53,22 +57,16 @@ export class LocalDependenciesManager {
         for (const [dependencyName, range] of dependenciesNames) {
             const packageJsonPath = this.resolvePackageJsonPath(dependencyName);
 
-            const dependencyBaseInfo = {
-                name: dependencyName,
-                range,
-            };
-
             if (fm.exist(packageJsonPath)) {
                 try {
                     const packageJsonModule = await PackageJsonReader.read(packageJsonPath);
 
-                    yield Object.assign({ packageJson: packageJsonModule }, dependencyBaseInfo);
-                } catch (e) {
-                    console.log(e);
+                    yield { name: dependencyName, range, packageJson: packageJsonModule };
+                } catch (parseJsonError) {
+                    yield parseJsonError as Error;
                 }
             } else {
-                console.log('MissingPackageJsonError');
-                // yield new MissingPackageJsonError(dependencyName, packageJsonPath.fsPath);
+                yield new MissingPackageJsonError(dependencyName, packageJsonPath.fsPath);
             }
         }
     }
