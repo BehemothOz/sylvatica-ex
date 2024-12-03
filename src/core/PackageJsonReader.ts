@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 
 import { fm } from './FileManager';
+import { PackageJsonParseError } from './errors';
 
 interface PackageJsonFile {
     name: string;
@@ -37,7 +38,7 @@ export class PackageJsonReader {
 
             return new PackageJson(parsedPackageJson);
         } catch (error) {
-            throw new Error(`Error reading package.json file: ${error}`);
+            throw new PackageJsonParseError(packageJsonPath.fsPath);
         }
     }
 }

@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import { TaskManager } from './TaskManager';
 import { Package, type PackumentInfo } from './Package';
 
-import { type DependencyInfo } from './LocalDependenciesManager';
+import { type LocalDependencyResult } from './LocalDependenciesManager';
 import { type PackumentCache } from './PackumentCache';
 
 export class DependenciesFactory {
@@ -20,7 +20,7 @@ export class DependenciesFactory {
         this.emitter = new EventEmitter();
     }
 
-    async analyze(dependencies: AsyncIterable<DependencyInfo>) {
+    async analyze(dependencies: AsyncIterable<LocalDependencyResult>) {
         try {
             await this.getDependenciesInfo(dependencies);
             await this.getLatestVersions();
@@ -35,7 +35,7 @@ export class DependenciesFactory {
         this.emitter.on('analyze-finished', cb);
     }
 
-    private async getDependenciesInfo(dependencies: AsyncIterable<DependencyInfo>) {
+    private async getDependenciesInfo(dependencies: AsyncIterable<LocalDependencyResult>) {
         for await (const dependency of dependencies) {
             const localPackage = new Package(dependency);
 

@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import { fm } from './FileManager';
 import { PackageJsonReader, type PackageJson } from './PackageJsonReader';
 
-import { MissingNodeModulesError, MissingPackageJsonError } from './errors';
+import { MissingNodeModulesError, MissingPackageJsonError, type PackageJsonParseError } from './errors';
 
 interface LocalDependenciesManagerParams {
     packageJsonFile: PackageJson;
@@ -16,7 +16,7 @@ export interface LocalDependencyInfo {
     packageJson: PackageJson;
 }
 
-type LocalDependencyError = MissingNodeModulesError | Error;
+type LocalDependencyError = MissingNodeModulesError | PackageJsonParseError;
 
 export type LocalDependencyResult = LocalDependencyInfo | LocalDependencyError;
 
@@ -61,9 +61,13 @@ export class LocalDependenciesManager {
                 try {
                     const packageJsonModule = await PackageJsonReader.read(packageJsonPath);
 
-                    yield { name: dependencyName, range, packageJson: packageJsonModule };
+                    yield {
+                        name: dependencyName,
+                        range,
+                        packageJson: packageJsonModule,
+                    };
                 } catch (parseJsonError) {
-                    yield parseJsonError as Error;
+                    yield parseJsonError as PackageJsonParseError;
                 }
             } else {
                 yield new MissingPackageJsonError(dependencyName, packageJsonPath.fsPath);
