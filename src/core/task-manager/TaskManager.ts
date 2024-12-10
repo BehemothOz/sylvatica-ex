@@ -8,17 +8,6 @@ interface TaskItem<T> {
     */
 }
 
-class TaskExecutionError extends Error {
-    constructor(taskId: string, originalError?: Error) {
-        super(`Task ${taskId} failed to execute: ${originalError?.message || 'Unknown error'}`);
-        this.name = 'TaskExecutionError';
-
-        if (originalError) {
-            this.stack = originalError.stack;
-        }
-    }
-}
-
 export class TaskManager<ResultValue = unknown> {
     tasks: Queue<TaskItem<ResultValue>> = new Queue();
     waitingTasks: Queue<TaskItem<ResultValue>> = new Queue();
@@ -43,6 +32,8 @@ export class TaskManager<ResultValue = unknown> {
         };
 
         this.tasks.enqueue(taskItem);
+
+        return this;
     }
 
     async *run(): AsyncGenerator<ResultValue | TaskExecutionError> {
@@ -100,5 +91,16 @@ export class TaskManager<ResultValue = unknown> {
 
         this.tasks = new Queue();
         this.taskIterator = null;
+    }
+}
+
+export class TaskExecutionError extends Error {
+    constructor(taskId: string, originalError?: Error) {
+        super(`Task ${taskId} failed to execute: ${originalError?.message || 'Unknown error'}`);
+        this.name = 'TaskExecutionError';
+
+        if (originalError) {
+            this.stack = originalError.stack;
+        }
     }
 }
