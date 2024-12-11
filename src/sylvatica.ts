@@ -14,12 +14,10 @@ import { type PackumentCache } from './core/PackumentCache';
 export class Sylvatica {
     private packageManagerService: PackageManagerService;
 
-    private localDependenciesManager: LocalDependenciesManager | null = null;
-
-    private packageManager: PackageManagerStrategy | null = null;
-
     private dependencies: DependenciesFactory;
     private developmentDependencies: DependenciesFactory;
+
+    private localDependenciesManager!: LocalDependenciesManager;
 
     constructor(private webviewPanel: WebviewPanel, packumentCache: PackumentCache) {
         this.packageManagerService = new PackageManagerService();
@@ -47,18 +45,18 @@ export class Sylvatica {
             packageJsonDirectory,
         });
 
-        this.packageManager = await this.packageManagerService.getPackageManager(packageJsonDirectory);
+        const packageManager = await this.packageManagerService.getPackageManager(packageJsonDirectory);
 
-        if (this.packageManager) {
-            console.log(this.packageManager);
+        if (packageManager) {
+            console.log('packageManager', packageManager);
         }
     }
 
     async analyze() {
-        const installedDependenciesVersions = this.localDependenciesManager!.getDependenciesVersions();
-        const installedDevDependenciesVersions = this.localDependenciesManager!.getDevDependenciesVersions();
+        const dependenciesVersions = this.localDependenciesManager.getDependencies();
+        const developmentDependenciesDependencies = this.localDependenciesManager.getDevelopmentDependencies();
 
-        await this.dependencies.analyze(installedDependenciesVersions);
-        this.developmentDependencies.analyze(installedDevDependenciesVersions);
+        await this.dependencies.analyze(dependenciesVersions);
+        this.developmentDependencies.analyze(developmentDependenciesDependencies);
     }
 }
