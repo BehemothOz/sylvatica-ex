@@ -14,7 +14,7 @@ describe('task-manager', () => {
 
         const limit = 3;
         const taskCount = 6;
-        const delay = 10_000;
+        const delay = 1_000;
 
         const mockFn = jest.fn((value: number) => {
             return new Promise<number>((resolve, reject) => {
@@ -64,11 +64,16 @@ describe('task-manager', () => {
         jest.useRealTimers();
     });
 
-    // test('should not allow adding tasks after starting execution', () => {
-    //     const task = async () => 1;
+    it('should not allow adding tasks after starting execution', async () => {
+        const taskManager = new TaskManager<number>();
 
-    //     taskManager.run(); // Start execution
+        taskManager.addTask(() => Promise.resolve(1));
 
-    //     expect(() => taskManager.addTask(task)).toThrow('The task execution process has already started');
-    // });
+        const executionGenerator = taskManager.run();
+        await executionGenerator.next();
+
+        expect(() => taskManager.addTask(() => Promise.resolve(2))).toThrow(
+            'The task execution process has already started'
+        );
+    });
 });
