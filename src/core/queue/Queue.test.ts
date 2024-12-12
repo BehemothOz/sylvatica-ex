@@ -1,6 +1,6 @@
 import { Queue } from './Queue';
 
-describe('Queue', () => {
+describe('queue', () => {
     test('should create empty queue', () => {
         const queue = new Queue<number>();
 
