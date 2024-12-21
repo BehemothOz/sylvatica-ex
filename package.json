@@ -40,6 +40,7 @@
         "jest:test": "jest"
     },
     "devDependencies": {
+        "@types/ini": "^4.1.1",
         "@types/jest": "^29.5.12",
         "@types/node": "^18",
         "@types/semver": "^7.5.8",
@@ -52,6 +53,7 @@
         "typescript": "^5.5.2"
     },
     "dependencies": {
+        "ini": "^5.0.0",
         "semver": "^7.6.3"
     }
 }
