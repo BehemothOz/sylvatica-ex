@@ -1,17 +1,18 @@
 import { EventEmitter } from 'events';
 
-import { TaskManager } from './TaskManager';
-import { Package, type PackumentInfo } from './Package';
+import { TaskExecutionError, TaskManager } from './task-manager';
+import { Package, DamagePackage, type PackumentInfo } from './package';
+import { type PackumentCache } from './packument-service';
 
-import { type LocalDependencyResult } from './LocalDependenciesManager';
-import { type PackumentCache } from './PackumentCache';
+import { MissingPackageJsonError, type LocalDependencyResult } from './LocalDependenciesManager';
+import { PackageJsonParseError } from './PackageJsonReader';
 
 export class DependenciesFactory {
-    private taskManager: TaskManager;
+    private taskManager: TaskManager<PackumentInfo>;
     private emitter: EventEmitter;
 
     private cache: PackumentCache;
-    private packages: Map<string, Package> = new Map();
+    private packages: Map<string, Package | DamagePackage> = new Map();
 
     constructor(cache: PackumentCache) {
         this.cache = cache;
@@ -20,9 +21,9 @@ export class DependenciesFactory {
         this.emitter = new EventEmitter();
     }
 
-    async analyze(dependencies: AsyncIterable<LocalDependencyResult>) {
+    async analyze(localDependencies: AsyncIterable<LocalDependencyResult>) {
         try {
-            await this.getDependenciesInfo(dependencies);
+            await this.getDependenciesInfo(localDependencies);
             await this.getLatestVersions();
 
             this.emitter.emit('analyze-finished', Array.from(this.packages.values()));
@@ -35,28 +36,59 @@ export class DependenciesFactory {
         this.emitter.on('analyze-finished', cb);
     }
 
-    private async getDependenciesInfo(dependencies: AsyncIterable<LocalDependencyResult>) {
-        for await (const dependency of dependencies) {
-            const localPackage = new Package(dependency);
+    private async getDependenciesInfo(localDependencies: AsyncIterable<LocalDependencyResult>) {
+        for await (const dependencyInfo of localDependencies) {
+            if (dependencyInfo instanceof MissingPackageJsonError) {
+                const damagePackage = new DamagePackage({
+                    name: dependencyInfo.name,
+                    damage: 'uninstall',
+                    error: dependencyInfo,
+                });
 
-            this.packages.set(dependency.name, localPackage);
+                this.packages.set(dependencyInfo.name, damagePackage);
+                continue;
+            }
+
+            if (dependencyInfo instanceof PackageJsonParseError) {
+                const damagePackage = new DamagePackage({
+                    name: dependencyInfo.name,
+                    damage: 'unparsable',
+                    error: dependencyInfo,
+                });
+
+                this.packages.set(dependencyInfo.name, damagePackage);
+                continue;
+            }
+
+            const { name, range, packageJson } = dependencyInfo;
+
+            const localPackage = new Package({ name, range, version: packageJson.version });
+
+            this.packages.set(name, localPackage);
 
             this.taskManager.addTask(() => {
-                return this.cache.wrap(dependency.name);
+                return this.cache.wrap(name);
             });
         }
     }
 
     private async getLatestVersions() {
-        /*
-            TODO: fix types
-        */
         for await (const packumentInfo of this.taskManager.run()) {
-            const packument = (await packumentInfo) as PackumentInfo;
-            const localPackage = this.packages.get(packument.name);
+            const localPackage = this.packages.get(packumentInfo.name);
 
-            if (localPackage) {
-                localPackage.setPackument(packument);
+            if (packumentInfo instanceof TaskExecutionError) {
+                const damagePackage = new DamagePackage({
+                    name: packumentInfo.name,
+                    damage: 'registry-fail',
+                    error: packumentInfo,
+                });
+
+                this.packages.set(packumentInfo.name, damagePackage);
+                continue;
+            }
+
+            if (localPackage instanceof Package) {
+                localPackage.setPackument(packumentInfo);
             }
         }
     }
