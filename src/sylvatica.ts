@@ -4,12 +4,11 @@ import * as path from 'path';
 import { Package } from './core/Package';
 import { PackageJsonReader } from './core/PackageJsonReader';
 import { PackageManagerService } from './core/package-manager';
-import { PackageManagerStrategy } from './core/package-manager/types';
 import { LocalDependenciesManager } from './core/LocalDependenciesManager';
 import { DependenciesFactory } from './core/DependenciesFactory';
 
 import { type WebviewPanel } from './core/webview';
-import { type PackumentCache } from './core/PackumentCache';
+import { type PackumentCache } from './core/packument-service';
 
 export class Sylvatica {
     private packageManagerService: PackageManagerService;

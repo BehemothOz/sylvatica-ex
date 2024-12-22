@@ -1,41 +1,13 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
+import { Cache } from '../cache';
+import { Registry } from '../registry';
 
-import { Cache } from './cache';
-import { Registry } from './registry';
-
-import { type PackumentInfo } from './Package';
-
-export class PackumentService {
-    caches: Map<string, PackumentCache> = new Map();
-
-    constructor() {}
-
-    async register(packageJsonPath: string) {
-        const packageJsonDirectory = vscode.Uri.file(path.dirname(packageJsonPath));
-        const currentRegistry = await Registry.build(packageJsonDirectory);
-
-        const packumentCache = new PackumentCache(currentRegistry);
-
-        this.caches.set(packageJsonPath, packumentCache);
-
-        return packumentCache;
-    }
-
-    delete(packageJsonPath: string) {
-        this.caches.delete(packageJsonPath);
-    }
-
-    clear() {
-        this.caches = new Map();
-    }
-}
+import { type PackumentInfo } from '../Package';
 
 /*
     Packument is a special data format used in the npm (Node Package Manager) ecosystem to describe packages.
     It serves as a structured representation of information about a package, including its metadata and available versions.
 */
-class PackumentCache extends Cache<PackumentInfo> {
+export class PackumentCache extends Cache<PackumentInfo> {
     constructor(private registry: Registry) {
         super();
     }
@@ -66,7 +38,7 @@ async function sendRequest<T>(packageName: string, registryUrl: string): Promise
         },
     });
     const result = (await response.json()) as T;
-    console.log('result -->', result);
+    console.log('result fetch -->', result);
     if (!response.ok) {
         throw new Error('Error');
     }

@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 
 import { WebviewPanelController } from './core/webview';
-import { PackumentCache } from './core/PackumentCache';
+import { PackumentService } from './core/packument-service';
 import { Sylvatica } from './sylvatica';
 
 /*
@@ -25,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
     /*
         TODO: clear after close
     */
-    const packumentCache = new PackumentCache();
+    const packumentService = new PackumentService();
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
@@ -39,6 +39,8 @@ export function activate(context: vscode.ExtensionContext) {
         const webviewPanel = webviewController.create(context, file);
 
         try {
+            const packumentCache = await packumentService.register(file.fsPath);
+
             const sylvatica = new Sylvatica(webviewPanel, packumentCache);
 
             await sylvatica.initialization(file);
