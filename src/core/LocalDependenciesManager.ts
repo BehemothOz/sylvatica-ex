@@ -1,12 +1,11 @@
 import * as vscode from 'vscode';
 
 import { fm } from './FileManager';
-import { PackageJsonReader, type PackageJson } from './PackageJsonReader';
-
-import { MissingNodeModulesError, MissingPackageJsonError, type PackageJsonParseError } from './errors';
+import { PackageJsonReader, type PackageJson, type PackageJsonParseError } from './PackageJsonReader';
 
 interface LocalDependenciesManagerParams {
     packageJsonFile: PackageJson;
+    // TODO: mb URI type?
     packageJsonDirectory: string;
 }
 
@@ -16,7 +15,7 @@ export interface LocalDependencyInfo {
     packageJson: PackageJson;
 }
 
-type LocalDependencyError = MissingNodeModulesError | PackageJsonParseError;
+type LocalDependencyError = MissingPackageJsonError | PackageJsonParseError;
 
 export type LocalDependencyResult = LocalDependencyInfo | LocalDependencyError;
 
@@ -81,5 +80,21 @@ export class LocalDependenciesManager {
 
     async *getDevelopmentDependencies() {
         yield* this.getPackageJsonDependencies(this.devDependencies);
+    }
+}
+
+export class MissingNodeModulesError extends Error {
+    constructor(directoryPath: string) {
+        super(`Directory "node_modules" is missing in "${directoryPath}".`);
+
+        this.name = 'MissingNodeModulesError';
+    }
+}
+
+export class MissingPackageJsonError extends Error {
+    constructor(dependencyName: string, packageJsonPath: string) {
+        super(`Package.json for dependency "${dependencyName}" is missing at "${packageJsonPath}".`);
+
+        this.name = 'MissingPackageJsonError';
     }
 }

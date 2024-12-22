@@ -1,1 +1,1 @@
-export { TaskManager } from './TaskManager';
+export { TaskManager, TaskExecutionError } from './TaskManager';
