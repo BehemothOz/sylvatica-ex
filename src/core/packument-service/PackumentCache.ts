@@ -1,7 +1,7 @@
 import { Cache } from '../cache';
 import { Registry } from '../registry';
 
-import { type PackumentInfo } from '../Package';
+import { type PackumentInfo } from '../package';
 
 /*
     Packument is a special data format used in the npm (Node Package Manager) ecosystem to describe packages.

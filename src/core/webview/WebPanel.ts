@@ -3,7 +3,7 @@ import * as path from 'path';
 
 import { Template } from './Template';
 import { Dispatcher } from './Dispatcher';
-import { Package } from '../Package';
+import { Package } from '../package';
 
 const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
 

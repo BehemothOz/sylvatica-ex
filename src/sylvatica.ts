@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-import { Package } from './core/Package';
+import { type Package } from './core/package';
 import { PackageJsonReader } from './core/PackageJsonReader';
 import { PackageManagerService } from './core/package-manager';
 import { LocalDependenciesManager } from './core/LocalDependenciesManager';

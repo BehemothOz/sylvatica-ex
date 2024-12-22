@@ -26,7 +26,8 @@ export class DependenciesFactory {
             await this.getDependenciesInfo(localDependencies);
             await this.getLatestVersions();
 
-            this.emitter.emit('analyze-finished', Array.from(this.packages.values()));
+            console.log('main log', this.packages.values());
+            // this.emitter.emit('analyze-finished', Array.from(this.packages.values()));
         } catch (error) {
             console.log('Error');
         }
