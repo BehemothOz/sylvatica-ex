@@ -18,7 +18,7 @@ export class PackumentCache extends Cache<PackumentInfo> {
         if (value === undefined) {
             const scope = packageName.split('/')[0];
             const registryUrl = this.registry.getRegistryUrl(scope);
-
+            console.log('registryUrl', registryUrl);
             const result = await sendRequest<PackumentInfo>(packageName, registryUrl);
 
             this.set(packageName, result);
@@ -32,16 +32,36 @@ export class PackumentCache extends Cache<PackumentInfo> {
 async function sendRequest<T>(packageName: string, registryUrl: string): Promise<T> {
     const packageUrl = new URL(`${encodeURIComponent(packageName).replace(/^%40/, '@')}/latest`, registryUrl);
 
-    const response = await fetch(packageUrl, {
-        headers: {
-            accept: 'application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*',
-        },
-    });
-    const result = (await response.json()) as T;
-    console.log('result fetch -->', result);
-    if (!response.ok) {
+    try {
+        const response = await fetch(packageUrl, {
+            headers: {
+                accept: 'application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Error');
+        }
+
+        const result = (await response.json()) as T;
+        console.log('result fetch -->', result);
+
+        return result;
+    } catch (error) {
         throw new Error('Error');
     }
+}
 
-    return result;
+class PackumentFetchError extends Error {
+    packageName: string;
+
+    constructor(message: string, statusCode: number) {
+        super(message);
+
+        this.name = 'FetchError';
+
+        // this.statusCode = statusCode; // Код состояния HTTP
+
+        Error.captureStackTrace(this, this.constructor); // ?
+    }
 }
