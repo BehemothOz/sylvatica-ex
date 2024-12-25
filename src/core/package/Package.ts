@@ -44,14 +44,17 @@ export class Package {
     description: string | null = null;
 
     constructor(payload: PackagePayload) {
+        /*
+            Local dependency info
+        */
         this.name = payload.name;
         this.range = payload.range;
         this.version = payload.version;
-    }
-
-    setPackument(packumentInfo: PackumentInfo) {
-        this.latestVersion = packumentInfo.version;
-        this.homepage = packumentInfo.homepage;
+        /*
+            Remote packument info
+        */
+        this.latestVersion = payload.version;
+        this.homepage = payload.homepage;
 
         this.getVersionDifference();
     }
@@ -86,4 +89,25 @@ function semverDiff(versionA: string, versionB: string) {
         Build example: semverDiff('0.0.1', '0.0.1+foo.bar') // 'build'
     */
     return semver.diff(versionA, versionB) || 'build';
+}
+
+class LocalIncompletePackage {
+    localInfo: PackagePayload;
+    packumentInfo: PackumentInfo | null = null;
+
+    constructor(payload: PackagePayload) {
+        this.localInfo = payload;
+    }
+
+    setPackument(packumentInfo: PackumentInfo) {
+        this.packumentInfo = packumentInfo;
+    }
+
+    toPackage() {
+        if (this.packumentInfo == null) {
+            throw new Error();
+        }
+
+        return new Package(Object.assign({}, this.localInfo, this.packumentInfo));
+    }
 }
