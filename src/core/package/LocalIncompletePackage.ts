@@ -1,23 +1,29 @@
-import { Package, type LocalPackageInfo, type PackumentInfo } from './Package';
+import { Package, type PackageLocalInfo, type PackageDocumentInfo } from './Package';
 import { DamagePackage, type DamageType } from './DamagePackage';
 
 export class LocalIncompletePackage {
-    localInfo: LocalPackageInfo;
-    packumentInfo: PackumentInfo | null = null;
+    private packageName: string;
 
-    constructor(payload: LocalPackageInfo) {
-        this.localInfo = payload;
+    private localInfo: PackageLocalInfo | null = null;
+    private packumentInfo: PackageDocumentInfo | null = null;
+
+    constructor(packageName: string) {
+        this.packageName = packageName;
     }
 
-    setPackument(packumentInfo: PackumentInfo) {
+    setLocalPackageInfo(localInfo: PackageLocalInfo) {
+        this.localInfo = localInfo;
+        return this;
+    }
+
+    setPackument(packumentInfo: PackageDocumentInfo) {
         this.packumentInfo = packumentInfo;
         return this;
     }
 
     toPackage() {
-        if (this.packumentInfo == null) {
-            throw new Error();
-        }
+        if (this.localInfo == null) throw new Error();
+        if (this.packumentInfo == null) throw new Error();
 
         const formattedPackument = {
             latestVersion: this.packumentInfo.version,
@@ -25,10 +31,12 @@ export class LocalIncompletePackage {
             description: this.packumentInfo.description,
         };
 
-        return new Package(Object.assign(formattedPackument, this.localInfo));
+        const packageParams = Object.assign({ name: this.packageName }, formattedPackument, this.localInfo);
+
+        return new Package(packageParams);
     }
 
     toDamage(damage: DamageType, error: Error) {
-        return new DamagePackage({ name: this.localInfo.name, damage, error });
+        return new DamagePackage({ name: this.packageName, damage, error });
     }
 }
