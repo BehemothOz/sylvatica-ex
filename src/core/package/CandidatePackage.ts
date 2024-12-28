@@ -1,7 +1,7 @@
 import { Package, type PackageLocalInfo, type PackageDocumentInfo } from './Package';
 import { DamagePackage, type DamageType } from './DamagePackage';
 
-export class LocalIncompletePackage {
+export class CandidatePackage {
     private packageName: string;
 
     private localInfo: PackageLocalInfo | null = null;
