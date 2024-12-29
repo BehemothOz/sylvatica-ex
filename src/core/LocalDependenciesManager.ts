@@ -10,14 +10,29 @@ interface LocalDependenciesManagerParams {
 }
 
 export interface LocalDependencyInfo {
-    name: string;
     range: string;
     packageJson: PackageJson;
 }
 
-type LocalDependencyError = MissingPackageJsonError | PackageJsonParseError;
+interface FulfilledResult {
+    status: 'fulfilled';
+    payload: {
+        key: string;
+        value: LocalDependencyInfo;
+        reason?: never;
+    };
+}
 
-export type LocalDependencyResult = LocalDependencyInfo | LocalDependencyError;
+interface RejectedResult {
+    status: 'rejected';
+    payload: {
+        key: string;
+        value?: never;
+        reason: MissingPackageJsonError | PackageJsonParseError;
+    };
+}
+
+export type LocalDependencyResult = FulfilledResult | RejectedResult;
 
 export class LocalDependenciesManager {
     private directoryPath: vscode.Uri;
@@ -56,20 +71,35 @@ export class LocalDependenciesManager {
         for (const [dependencyName, range] of dependenciesNames) {
             const packageJsonPath = this.resolvePackageJsonPath(dependencyName);
 
-            if (fm.exist(packageJsonPath)) {
-                try {
-                    const packageJsonModule = await PackageJsonReader.read(packageJsonPath);
+            if (!fm.exist(packageJsonPath)) {
+                yield {
+                    status: 'rejected',
+                    payload: {
+                        key: dependencyName,
+                        reason: new MissingPackageJsonError(dependencyName, packageJsonPath.fsPath),
+                    },
+                };
+            }
 
-                    yield {
-                        name: dependencyName,
-                        range,
-                        packageJson: packageJsonModule,
-                    };
-                } catch (parseJsonError) {
-                    yield parseJsonError as PackageJsonParseError;
-                }
-            } else {
-                yield new MissingPackageJsonError(dependencyName, packageJsonPath.fsPath);
+            try {
+                const packageJsonModule = await PackageJsonReader.read(packageJsonPath);
+                const payloadValue = { range, packageJson: packageJsonModule };
+
+                yield {
+                    status: 'fulfilled',
+                    payload: {
+                        key: dependencyName,
+                        value: payloadValue,
+                    },
+                };
+            } catch (parseJsonError) {
+                yield {
+                    status: 'rejected',
+                    payload: {
+                        key: dependencyName,
+                        reason: parseJsonError as PackageJsonParseError,
+                    },
+                };
             }
         }
     }
