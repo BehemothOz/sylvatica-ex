@@ -8,7 +8,17 @@ interface TaskItem<T> {
     */
 }
 
-export class TaskManager<ResultValue = unknown> {
+interface FulfilledTask<T> {
+    status: 'fulfilled';
+    payload: T;
+}
+
+interface RejectedTask<E> {
+    status: 'rejected';
+    payload: E;
+}
+
+export class TaskManager<ResultValue = unknown, ErrorResult = Error> {
     tasks: Queue<TaskItem<ResultValue>> = new Queue();
     waitingTasks: Queue<TaskItem<ResultValue>> = new Queue();
 
@@ -36,7 +46,7 @@ export class TaskManager<ResultValue = unknown> {
         return this;
     }
 
-    async *run(): AsyncGenerator<ResultValue | TaskExecutionError> {
+    async *run(): AsyncGenerator<FulfilledTask<ResultValue> | RejectedTask<ErrorResult>> {
         this.initializeTasks();
 
         while (true) {
@@ -50,9 +60,16 @@ export class TaskManager<ResultValue = unknown> {
             if (!waitingTask.resultPromise) return;
 
             try {
-                yield await waitingTask.resultPromise;
+                const value = await waitingTask.resultPromise;
+                yield {
+                    status: 'fulfilled',
+                    payload: value,
+                };
             } catch (error) {
-                yield new TaskExecutionError('1', error instanceof Error ? error : undefined);
+                yield {
+                    status: 'rejected',
+                    payload: error as ErrorResult,
+                };
             }
         }
     }
@@ -95,9 +112,11 @@ export class TaskManager<ResultValue = unknown> {
 }
 
 export class TaskExecutionError extends Error {
-    constructor(taskId: string, originalError?: Error) {
-        super(`Task ${taskId} failed to execute: ${originalError?.message || 'Unknown error'}`);
+    constructor(originalError: Error) {
+        super(`Task failed to execute: ${originalError?.message || 'Unknown error'}`);
         this.name = 'TaskExecutionError';
+
+        console.log('originalError', originalError);
 
         if (originalError) {
             this.stack = originalError.stack;
