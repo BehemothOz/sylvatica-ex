@@ -25,13 +25,15 @@ export class CandidatePackage {
         if (this.localInfo == null) throw new Error();
         if (this.packumentInfo == null) throw new Error();
 
-        const formattedPackument = {
-            latestVersion: this.packumentInfo.version,
-            homepage: this.packumentInfo.homepage,
-            description: this.packumentInfo.description,
-        };
-
-        const packageParams = Object.assign({ name: this.packageName }, formattedPackument, this.localInfo);
+        const packageParams = Object.assign(
+            {
+                name: this.packageName,
+                latestVersion: this.packumentInfo.version,
+                homepage: this.packumentInfo.homepage,
+                description: this.packumentInfo.description,
+            },
+            this.localInfo
+        );
 
         return new Package(packageParams);
     }
