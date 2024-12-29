@@ -1,4 +1,4 @@
-type DamageType = 'uninstall' | 'unparsable' | 'invalid' | 'registry-fail';
+export type DamageType = 'uninstall' | 'unparsable' | 'invalid' | 'registry-fail' | 'unknown';
 
 interface DamagePackagePayload {
     name: string;
