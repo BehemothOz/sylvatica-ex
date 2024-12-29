@@ -1,16 +1,22 @@
 import * as semver from 'semver';
 
-export interface PackumentInfo {
+export interface PackageLocalInfo {
+    range: string;
+    version: string;
+}
+
+export interface PackageDocumentInfo {
     name: string;
     version: string;
     homepage: string;
     description: string;
 }
 
-interface PackagePayload {
+interface PackageParams extends PackageLocalInfo {
     name: string;
-    range: string;
-    version: string;
+    latestVersion: string;
+    homepage: string;
+    description: string;
 }
 
 export class Package {
@@ -43,7 +49,7 @@ export class Package {
      */
     description: string | null = null;
 
-    constructor(payload: PackagePayload) {
+    constructor(payload: PackageParams) {
         /*
             Local dependency info
         */
@@ -89,25 +95,4 @@ function semverDiff(versionA: string, versionB: string) {
         Build example: semverDiff('0.0.1', '0.0.1+foo.bar') // 'build'
     */
     return semver.diff(versionA, versionB) || 'build';
-}
-
-class LocalIncompletePackage {
-    localInfo: PackagePayload;
-    packumentInfo: PackumentInfo | null = null;
-
-    constructor(payload: PackagePayload) {
-        this.localInfo = payload;
-    }
-
-    setPackument(packumentInfo: PackumentInfo) {
-        this.packumentInfo = packumentInfo;
-    }
-
-    toPackage() {
-        if (this.packumentInfo == null) {
-            throw new Error();
-        }
-
-        return new Package(Object.assign({}, this.localInfo, this.packumentInfo));
-    }
 }
