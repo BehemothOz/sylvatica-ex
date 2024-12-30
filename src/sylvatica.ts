@@ -1,15 +1,18 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-import { type Package } from './core/package';
 import { PackageJsonReader } from './core/PackageJsonReader';
 import { PackageManagerService } from './core/package-manager';
 import { LocalDependenciesManager } from './core/LocalDependenciesManager';
 import { DependenciesFactory } from './core/DependenciesFactory';
 
+import { type Package } from './core/package';
 import { type WebviewPanel } from './core/webview';
 import { type PackumentCache } from './core/packument-service';
 
+/**
+ * Class Sylvatica manages dependencies and interacts with the webview panel in Visual Studio Code.
+ */
 export class Sylvatica {
     private packageManagerService: PackageManagerService;
 
@@ -18,6 +21,13 @@ export class Sylvatica {
 
     private localDependenciesManager!: LocalDependenciesManager;
 
+    /**
+     * Creates an instance of Sylvatica.
+     *
+     * @constructor
+     * @param {WebviewPanel} webviewPanel - User Interface area.
+     * @param {PackumentCache} packumentCache - The cache for package information from registry.
+     */
     constructor(private webviewPanel: WebviewPanel, packumentCache: PackumentCache) {
         this.packageManagerService = new PackageManagerService();
 
@@ -33,7 +43,13 @@ export class Sylvatica {
         });
     }
 
-    async initialization(file: vscode.Uri) {
+    /**
+     * Initializes the Sylvatica instance with the specified package.json file.
+     *
+     * @async
+     * @param {vscode.Uri} file - The URI of the package.json file to read.
+     */
+    public async initialization(file: vscode.Uri) {
         this.webviewPanel.initialization();
 
         const json = await PackageJsonReader.read(file);
@@ -51,7 +67,12 @@ export class Sylvatica {
         }
     }
 
-    async analyze() {
+    /**
+     * Analyzes the project's dependencies and development dependencies.
+     *
+     * @async
+     */
+    public async analyze() {
         const dependenciesVersions = this.localDependenciesManager.getDependencies();
         const developmentDependenciesDependencies = this.localDependenciesManager.getDevelopmentDependencies();
 
