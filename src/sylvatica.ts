@@ -6,7 +6,7 @@ import { PackageManagerService } from './core/package-manager';
 import { LocalDependenciesManager } from './core/LocalDependenciesManager';
 import { DependenciesFactory } from './core/DependenciesFactory';
 
-import { type Package } from './core/package';
+import { type Package, type PackageType } from './core/package';
 import { type WebviewPanel } from './core/webview';
 import { type PackumentCache } from './core/packument-service';
 
@@ -34,11 +34,11 @@ export class Sylvatica {
         this.dependencies = new DependenciesFactory(packumentCache);
         this.developmentDependencies = new DependenciesFactory(packumentCache);
 
-        this.dependencies.on((packages: Package[]) => {
+        this.dependencies.on((packages: PackageType[]) => {
             this.webviewPanel.sendDependencies(packages);
         });
 
-        this.developmentDependencies.on((packages: Package[]) => {
+        this.developmentDependencies.on((packages: PackageType[]) => {
             this.webviewPanel.sendDevDependencies(packages);
         });
     }

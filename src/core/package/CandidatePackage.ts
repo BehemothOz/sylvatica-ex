@@ -1,6 +1,8 @@
 import { Package, type PackageLocalInfo, type PackageDocumentInfo } from './Package';
 import { DamagePackage, type DamageType } from './DamagePackage';
 
+export type PackageType = Package | DamagePackage;
+
 /**
  * Class representing a candidate package for processing.
  *

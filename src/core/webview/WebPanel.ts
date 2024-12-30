@@ -3,7 +3,7 @@ import * as path from 'path';
 
 import { Template } from './Template';
 import { Dispatcher } from './Dispatcher';
-import { Package } from '../package';
+import { Package, type PackageType } from '../package';
 
 const DEFAULT_VIEW_COLUMN = vscode.ViewColumn.One;
 
@@ -106,14 +106,14 @@ export class WebviewPanel {
         this.dispatcher.initialization();
     }
 
-    sendDependencies(packages: Package[]) {
+    sendDependencies(packages: PackageType[]) {
         this.dispatcher.sendDependencies({
             title: 'Dependencies',
             data: packages,
         });
     }
 
-    sendDevDependencies(packages: Package[]) {
+    sendDevDependencies(packages: PackageType[]) {
         this.dispatcher.sendDependencies({
             title: 'Dev-Dependencies',
             data: packages,
