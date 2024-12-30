@@ -38,7 +38,7 @@ export class CandidatePackage {
         return new Package(packageParams);
     }
 
-    toDamage(damage: DamageType, error: Error) {
+    toDamage({ damage, error }: { damage: DamageType; error: Error }) {
         return new DamagePackage({ name: this.packageName, damage, error });
     }
 }

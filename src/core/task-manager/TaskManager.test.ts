@@ -49,7 +49,7 @@ describe('task-manager', () => {
 
             if (done === true) break;
 
-            results.push(value);
+            results.push(value.payload);
             chunk = executionGenerator.next();
 
             i += 1;
