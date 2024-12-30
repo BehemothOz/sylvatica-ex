@@ -1,2 +1,6 @@
 out
 node_modules
+
+# client (temporarily)
+src/client/.parcel-cache
+src/client/dist

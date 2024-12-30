@@ -8,9 +8,11 @@
         "outDir": "out",
         "sourceMap": true,
         "strict": true,
-        "rootDir": "src"
+        "rootDir": "src",
+        "esModuleInterop": true
     },
     "exclude": [
         "node_modules",
+        "src/client",
     ]
 }
