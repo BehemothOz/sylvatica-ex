@@ -1,1 +1,2 @@
-export { WebviewPanelController, WebviewPanel } from './WebPanel';
+export { WebviewPanel } from './WebviewPanel';
+export { WebviewPanelController } from './WebviewPanelController';
