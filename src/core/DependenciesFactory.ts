@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 
 import { TaskManager } from './task-manager';
-import { Package, DamagePackage, CandidatePackage, type DamageType, type PackageType } from './package';
+import { CandidatePackage, type PackageType } from './package';
 import { type PackumentCache, type PackumentWrappedValue, type PackumentWrappedErrorValue } from './packument-service';
 
 import { MissingPackageJsonError, type LocalDependencyResult } from './LocalDependenciesManager';
