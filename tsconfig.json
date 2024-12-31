@@ -3,7 +3,7 @@
         "module": "commonjs",
         "target": "ESNext",
         "lib": [
-            "ESNext"
+            "ESNext", "DOM"
         ],
         "outDir": "out",
         "sourceMap": true,
@@ -12,7 +12,6 @@
         "esModuleInterop": true
     },
     "exclude": [
-        "node_modules",
-        "src/client",
+        "node_modules"
     ]
 }
