@@ -1,4 +1,4 @@
-import { Column, ReleaseType } from './types';
+import { Column } from './types';
 import { createButtons } from './buttons';
 
 interface ColumnOptions {
@@ -10,7 +10,7 @@ const buttons = createButtons();
 /*
     TODO: move
 */
-function selectDifferenceColor(diff: ReleaseType) {
+function selectDifferenceColor(diff: PackageModel['diff']) {
     if (diff == null) return 'gray';
     if (diff.startsWith('pre')) return 'blue';
 

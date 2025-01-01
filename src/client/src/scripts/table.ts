@@ -1,4 +1,4 @@
-import { Column, Package } from './types';
+import { Column, type PackageType } from './types';
 
 function createTableWrapper() {
     const wrapper = document.createElement('div');
@@ -22,7 +22,7 @@ function createHeader(columns: Array<Column>) {
     return header;
 }
 
-function createRow(columns: Array<Column>, rowData: Package) {
+function createRow(columns: Array<Column>, rowData: PackageType) {
     const row = document.createElement('tr');
 
     for (const column of columns) {
@@ -37,7 +37,10 @@ function createRow(columns: Array<Column>, rowData: Package) {
         if (column.render) {
             const cellValue = column.render(rowData);
             cell.append(cellValue);
-        } else {
+            continue;
+        }
+
+        if (column.key !== 'actions') {
             const value = rowData[column.key];
             cell.textContent = value;
         }
@@ -48,7 +51,7 @@ function createRow(columns: Array<Column>, rowData: Package) {
     return row;
 }
 
-function createRows(columns: Array<Column>, payload: Array<Package>) {
+function createRows(columns: Array<Column>, payload: Array<PackageType>) {
     const body = document.createElement('tbody');
 
     for (const rowData of payload) {
@@ -76,7 +79,7 @@ function createTableContainer() {
     return container;
 }
 
-export function generateTable(columns: Array<Column>, payload: Array<Package>) {
+export function generateTable(columns: Array<Column>, payload: Array<PackageType>) {
     const container = createTableContainer();
     const wrapper = createTableWrapper();
 
