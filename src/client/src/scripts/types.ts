@@ -1,8 +1,8 @@
 export interface Column {
     title: string;
-    key: keyof PackageModel | 'actions';
+    key: keyof PackageModel | null;
     className?: string;
-    render?: (rowData: PackageType) => HTMLElement | DocumentFragment | string;
+    render?: (rowData: PackageModel) => HTMLElement | DocumentFragment | string;
 }
 
-export type PackageType = PackageModel;
+export type PackageType = PackageModel | DamagePackageModel;

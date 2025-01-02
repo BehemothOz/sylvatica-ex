@@ -105,7 +105,7 @@ export function createColumns(options: ColumnOptions) {
     if (options.isVisibleButtons) {
         const buttonsColumn: Column = {
             title: '',
-            key: 'actions',
+            key: null,
             render: () => {
                 const wrapper = document.createElement('div');
                 wrapper.append(buttons.update(), buttons.remove());
