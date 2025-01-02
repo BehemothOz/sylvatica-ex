@@ -60,13 +60,9 @@ const columns: Array<Column> = [
             return span;
         },
     },
-    /**
-     * Versions range allowed for installation (from package.json)
-     */
     {
         title: 'Range',
         key: 'range',
-        // className: 'range',
     },
     {
         title: 'Current Version',

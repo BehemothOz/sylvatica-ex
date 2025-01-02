@@ -56,6 +56,10 @@ thead {
     display: none;
 }
 
+tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
 th,
 td {
     display: flex;
@@ -105,10 +109,6 @@ td > .package-name {
     align-items: center;
 }
 
-td.range {
-    font-style: italic;
-}
-
 @media screen and (min-width: 600px) {
     thead {
         display: table-header-group;
@@ -126,6 +126,10 @@ td.range {
     td:first-of-type {
         font-size: 0.857rem;
         background-color: transparent;
+    }
+
+    td.damage {
+        background-color: #ffe0e0;
     }
 }
 

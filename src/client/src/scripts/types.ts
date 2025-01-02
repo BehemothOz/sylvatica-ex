@@ -1,8 +1,11 @@
-export interface Column {
+export interface BaseColumn<T = unknown> {
     title: string;
-    key: keyof PackageModel | null;
+    key: keyof T | null;
     className?: string;
-    render?: (rowData: PackageModel) => HTMLElement | DocumentFragment | string;
+    render?: (rowData: T) => HTMLElement | DocumentFragment | string;
 }
+
+export type Column = BaseColumn<PackageModel>;
+export type DamageColumn = BaseColumn<DamagePackageModel>;
 
 export type PackageType = PackageModel | DamagePackageModel;
