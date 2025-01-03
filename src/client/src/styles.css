@@ -114,7 +114,7 @@ td > .package-name {
 }
 
 td.damage {
-    background-color: #ffe0e0;
+    background-color: #fff2f0;
 }
 
 @media screen and (min-width: 600px) {
@@ -137,7 +137,7 @@ td.damage {
     }
 
     td.damage:first-of-type {
-        background-color: #ffe0e0;
+        background-color: #fff2f0;
     }
 }
 
@@ -232,4 +232,25 @@ td.damage {
 
 .semver-diff.gray {
     color: #808080;
+}
+
+/*
+
+*/
+.alert-message {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #fff2f0;
+    border: 1px solid #ffccc7;
+    border-radius: 4px;
+
+    font-size: 0.9rem;
+}
+
+.alert-message > .icon {
+    display: inline-flex;
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    color: #ff4d4f;
 }

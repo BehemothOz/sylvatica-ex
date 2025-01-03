@@ -2,6 +2,7 @@ import './scripts/components';
 
 import { createColumns } from './scripts/columns';
 import { generateTable } from './scripts/table';
+import { createAlert } from './scripts/alert';
 
 /*
     https://uit.stanford.edu/accessibility/concepts/tables/css-aria
@@ -53,6 +54,27 @@ const data: Array<PackageModel | DamagePackageModel> = [
     },
     {
         name: 'axios',
+        damage: 'unknown',
+        error: new Error(
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor cursus ligula vitae tincidunt.'
+        ),
+    },
+    {
+        name: 'axios',
+        damage: 'unknown',
+        error: new Error(
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor cursus ligula vitae tincidunt.'
+        ),
+    },
+    {
+        name: 'axios',
+        damage: 'unknown',
+        error: new Error(
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor cursus ligula vitae tincidunt.'
+        ),
+    },
+    {
+        name: 'axios',
         diff: 'major',
         range: '^1.2.0',
         version: '3.0.0',
@@ -64,7 +86,7 @@ const data: Array<PackageModel | DamagePackageModel> = [
 const columns = createColumns({ isVisibleButtons: false });
 
 const root = document.getElementById('root') as HTMLDivElement;
-root.append(generateTable(columns, data));
+root.append(createAlert('Error text'), generateTable(columns, data));
 
 window.addEventListener('message', (event) => {
     const { type, payload } = event.data;
