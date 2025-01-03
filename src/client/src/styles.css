@@ -88,6 +88,10 @@ td:first-of-type {
     background-color: rgba(0, 0, 0, 0.04);
 }
 
+td.damage:first-of-type {
+    background-color: #ffbebe;
+}
+
 td::before {
     content: attr(data-label);
 }
@@ -109,6 +113,10 @@ td > .package-name {
     align-items: center;
 }
 
+td.damage {
+    background-color: #ffe0e0;
+}
+
 @media screen and (min-width: 600px) {
     thead {
         display: table-header-group;
@@ -123,12 +131,12 @@ td > .package-name {
         content: none;
     }
 
-    td:first-of-type {
+    td:first-of-type:not(.damage) {
         font-size: 0.857rem;
         background-color: transparent;
     }
 
-    td.damage {
+    td.damage:first-of-type {
         background-color: #ffe0e0;
     }
 }
