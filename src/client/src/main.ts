@@ -86,7 +86,12 @@ const data: Array<PackageModel | DamagePackageModel> = [
 const columns = createColumns({ isVisibleButtons: false });
 
 const root = document.getElementById('root') as HTMLDivElement;
-root.append(createAlert('Error text'), generateTable(columns, data));
+root.append(
+    createAlert(
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor cursus ligula vitae tincidunt.'
+    ),
+    generateTable(columns, data)
+);
 
 window.addEventListener('message', (event) => {
     const { type, payload } = event.data;
