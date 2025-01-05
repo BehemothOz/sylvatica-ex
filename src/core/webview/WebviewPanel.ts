@@ -80,14 +80,14 @@ export class WebviewPanel {
     sendDependencies(packages: PackageType[]) {
         this.dispatcher.sendDependencies({
             title: 'Dependencies',
-            data: packages,
+            packages: packages,
         });
     }
 
     sendDevDependencies(packages: PackageType[]) {
-        this.dispatcher.sendDependencies({
+        this.dispatcher.sendDevDependencies({
             title: 'Dev-Dependencies',
-            data: packages,
+            packages,
         });
     }
 }
