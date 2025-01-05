@@ -32,11 +32,11 @@ body {
 }
 
 #root {
-    padding: 16px;
+    padding: 1.143rem;
 }
 
 .table-section:not(:last-of-type) {
-    margin-bottom: 16px;
+    margin-bottom: 1.143rem;
 }
 
 .table-section > h2 {
@@ -52,7 +52,7 @@ body {
     Table Styles. Mobile first.
 */
 .table-wrapper {
-    margin-bottom: 16px;
+    margin-bottom: 1.143rem;
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
@@ -75,12 +75,16 @@ thead {
     display: none;
 }
 
+tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
 th,
 td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 4px 8px; /* TODO: to rem / em */
+    padding: 0.286rem 0.571rem;
     font-size: 0.857rem;
     line-height: 1.2;
     letter-spacing: 0.01071em;
@@ -93,10 +97,6 @@ th {
     line-height: 1.4;
 }
 
-tbody tr:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-}
-
 th:first-of-type,
 td:first-of-type {
     text-align: left;
@@ -105,6 +105,10 @@ td:first-of-type {
 td:first-of-type {
     font-size: 0.92rem;
     background-color: rgba(0, 0, 0, 0.04);
+}
+
+td.damage:first-of-type {
+    background-color: #ffbebe;
 }
 
 td::before {
@@ -120,7 +124,7 @@ td:last-of-type > div {
 }
 
 td:last-of-type > div button:last-of-type {
-    margin-left: 4px;
+    margin-left: 0.286rem;
 }
 
 td > .package-name {
@@ -128,8 +132,8 @@ td > .package-name {
     align-items: center;
 }
 
-td.range {
-    font-style: italic;
+td.damage {
+    background-color: #fff2f0;
 }
 
 @media screen and (min-width: 600px) {
@@ -146,9 +150,13 @@ td.range {
         content: none;
     }
 
-    td:first-of-type {
+    td:first-of-type:not(.damage) {
         font-size: 0.857rem;
         background-color: transparent;
+    }
+
+    td.damage:first-of-type {
+        background-color: #fff2f0;
     }
 }
 
@@ -159,11 +167,11 @@ td.range {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 1.714rem;
+    height: 1.714rem;
     padding-inline: 0;
 
-    font-size: 14px;
+    font-size: 1rem;
     color: rgba(0, 0, 0, 0.87);
     text-wrap: nowrap;
     background-color: transparent;
@@ -243,4 +251,59 @@ td.range {
 
 .semver-diff.gray {
     color: #808080;
+}
+
+/*
+    ==== Alert Styles ====
+*/
+.alert-message {
+    display: flex;
+    padding: 0.571rem 0.857rem;
+    background-color: #fff2f0;
+    border: 1px solid #ffccc7;
+    border-radius: 4px;
+
+    font-size: 0.9rem;
+}
+
+.alert-message > .icon {
+    display: inline-flex;
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    color: #ff4d4f;
+}
+
+/*
+    ==== Spin Styles ====
+*/
+.spin {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.spin > .icon-spin {
+    margin-right: 0.5rem;
+}
+
+.spin:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+    animation: ellipsis steps(4, end) 900ms infinite;
+    content: '\2026';
+    width: 0px;
+}
+
+@keyframes ellipsis {
+    to {
+        width: 1.25em;
+    }
+}
+
+@-webkit-keyframes ellipsis {
+    to {
+        width: 1.25em;
+    }
 }

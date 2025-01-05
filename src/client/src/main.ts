@@ -1,8 +1,8 @@
 import './scripts/components';
 
 import { createColumns } from './scripts/columns';
-import { generateTable } from './scripts/table';
 import { createAlert } from './scripts/alert';
+import { generateTable } from './scripts/table';
 
 /*
     https://uit.stanford.edu/accessibility/concepts/tables/css-aria
@@ -86,12 +86,16 @@ const data: Array<PackageModel | DamagePackageModel> = [
 const columns = createColumns({ isVisibleButtons: false });
 
 const root = document.getElementById('root') as HTMLDivElement;
-root.append(
-    createAlert(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor cursus ligula vitae tincidunt.'
-    ),
-    generateTable(columns, data)
+const spin = document.getElementById('spin') as HTMLDivElement;
+
+const alert = createAlert(
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor cursus ligula vitae tincidunt.'
 );
+
+setTimeout(() => {
+    spin.remove();
+    root.append(generateTable(columns, data));
+}, 10_000);
 
 window.addEventListener('message', (event) => {
     const { type, payload } = event.data;
