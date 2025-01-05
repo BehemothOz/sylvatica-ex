@@ -1,5 +1,5 @@
 import { createCell } from './cell';
-import { type Column, type DamageColumn, type BaseColumn, type PackageType } from '../types';
+import { type Column, type DamageColumn, type PackageType } from '../types';
 
 function createRow(columns: Array<Column>, rowData: PackageModel) {
     const row = document.createElement('tr');
@@ -29,17 +29,18 @@ function createErrorRow(columns: Array<DamageColumn>, rowData: DamagePackageMode
     return row;
 }
 
-export function createRows(columns: Array<BaseColumn>, payload: Array<PackageType>) {
+export function createRows(columns: Array<Column | DamageColumn>, payload: Array<PackageType>) {
     const body = document.createElement('tbody');
 
     for (const rowData of payload) {
         const isDamagePayload = 'damage' in rowData;
 
         if (isDamagePayload) {
-            const errorRow = createErrorRow(columns, rowData);
+            const damageColumns = columns as Array<DamageColumn>;
+            const errorRow = createErrorRow(damageColumns, rowData);
             body.append(errorRow);
         } else {
-            const row = createRow(columns, rowData);
+            const row = createRow(columns as Array<Column>, rowData);
             body.append(row);
         }
     }

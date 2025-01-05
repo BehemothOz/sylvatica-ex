@@ -90,4 +90,8 @@ export class WebviewPanel {
             packages,
         });
     }
+
+    notifyError(message: string) {
+        this.dispatcher.notifyError(message);
+    }
 }

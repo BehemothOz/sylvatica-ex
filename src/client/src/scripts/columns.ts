@@ -1,4 +1,4 @@
-import { Column } from './types';
+import { BaseColumn, Column } from './types';
 import { createButtons } from './buttons';
 
 interface ColumnOptions {

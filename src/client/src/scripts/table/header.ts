@@ -1,6 +1,6 @@
-import { Column } from '../types';
+import { type Column, type DamageColumn } from '../types';
 
-export function createHeader(columns: Array<Column>) {
+export function createHeader(columns: Array<Column | DamageColumn>) {
     const header = document.createElement('thead');
     const headerRow = document.createElement('tr');
 
