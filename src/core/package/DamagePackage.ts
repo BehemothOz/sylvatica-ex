@@ -25,7 +25,7 @@ export class DamagePackage implements DamagePackageModel {
     /**
      * The error associated with the damage.
      */
-    error: Error;
+    error: string;
 
     /**
      * Creates an instance of DamagePackage.
@@ -36,6 +36,6 @@ export class DamagePackage implements DamagePackageModel {
     constructor(payload: DamagePackagePayload) {
         this.name = payload.name;
         this.damage = payload.damage;
-        this.error = payload.error;
+        this.error = payload.error.message;
     }
 }

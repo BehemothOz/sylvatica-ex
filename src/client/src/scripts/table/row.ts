@@ -22,7 +22,7 @@ function createErrorRow(columns: Array<DamageColumn>, rowData: DamagePackageMode
     damageCell.setAttribute('colspan', `${columns.length - 1}`);
 
     nameCell.textContent = rowData.name;
-    damageCell.textContent = rowData.error.message;
+    damageCell.textContent = rowData.error;
 
     row.append(nameCell, damageCell);
 
