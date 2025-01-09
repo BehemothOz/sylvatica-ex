@@ -111,8 +111,9 @@ export class Template {
                         <template id="spinner-template">
                             <style>
                                 .loader {
-                                    width: 25px;
-                                    height: 25px;
+                                    display: inline-block;
+                                    width: 1.2rem;
+                                    height: 1.2rem;
                                     border-radius: 50%;
                                     border: 4px solid;
                                     border-color: #e4e4ed;
