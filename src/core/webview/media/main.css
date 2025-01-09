@@ -107,10 +107,6 @@ td:first-of-type {
     background-color: rgba(0, 0, 0, 0.04);
 }
 
-td.damage:first-of-type {
-    background-color: #ffbebe;
-}
-
 td::before {
     content: attr(data-label);
 }
@@ -132,7 +128,7 @@ td > .package-name {
     align-items: center;
 }
 
-td.damage {
+td.damage:not(:first-of-type) {
     background-color: #fff2f0;
 }
 

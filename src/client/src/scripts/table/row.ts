@@ -19,6 +19,7 @@ function createErrorRow(columns: Array<DamageColumn>, rowData: DamagePackageMode
 
     [nameCell, damageCell].forEach((cell) => cell.classList.add('damage'));
 
+    nameCell.setAttribute('data-label', columns[0].title);
     damageCell.setAttribute('colspan', `${columns.length - 1}`);
 
     nameCell.textContent = rowData.name;
