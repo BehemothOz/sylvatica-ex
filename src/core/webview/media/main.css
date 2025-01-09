@@ -150,8 +150,11 @@ td.damage {
         content: none;
     }
 
-    td:first-of-type:not(.damage) {
+    td:first-of-type {
         font-size: 0.857rem;
+    }
+
+    td:first-of-type:not(.damage) {
         background-color: transparent;
     }
 
