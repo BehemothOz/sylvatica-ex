@@ -54,7 +54,7 @@ declare global {
         /**
          * The error associated with the damage.
          */
-        error: Error;
+        error: string;
     }
 }
 
