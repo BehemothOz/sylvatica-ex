@@ -55,7 +55,7 @@ export class Package implements PackageModel {
         /*
             Remote packument info
         */
-        this.latestVersion = payload.version;
+        this.latestVersion = payload.latestVersion;
         this.homepage = payload.homepage;
 
         this.getVersionDifference();
