@@ -19,13 +19,13 @@ interface PackageParams extends PackageLocalInfo {
     description: string;
 }
 
-export class Package {
+export class Package implements PackageModel {
     /**
      * The name of the package.
      */
     name: string;
     /**
-     * TODO: ...
+     * Acceptable version range from the package.json file
      */
     range: string;
     /**
@@ -35,19 +35,15 @@ export class Package {
     /**
      * The latest version of the package.
      */
-    latestVersion: string | null = null;
+    latestVersion: string;
     /**
-     * TODO: ...
+     * The difference between the latest and current version (as ReleaseType)
      */
     diff: semver.ReleaseType | 'build' | null = null;
     /**
      * The homepage URL of the package, which is typically a link to the README file on GitHub.
      */
-    homepage: string | null = null;
-    /**
-     * A brief description of the package.
-     */
-    description: string | null = null;
+    homepage: string;
 
     constructor(payload: PackageParams) {
         /*
@@ -59,7 +55,7 @@ export class Package {
         /*
             Remote packument info
         */
-        this.latestVersion = payload.version;
+        this.latestVersion = payload.latestVersion;
         this.homepage = payload.homepage;
 
         this.getVersionDifference();

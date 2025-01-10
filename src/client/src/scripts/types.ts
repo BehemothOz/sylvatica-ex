@@ -1,26 +1,11 @@
-export type ReleaseType =
-    | 'major'
-    | 'premajor'
-    | 'minor'
-    | 'preminor'
-    | 'patch'
-    | 'prepatch'
-    | 'prerelease'
-    | 'build'
-    | null;
-
-export interface Package {
-    name: string;
-    diff: ReleaseType;
-    range: string;
-    version: string;
-    latestVersion: string;
-    homepage: string;
-}
-
-export interface Column {
+export interface BaseColumn<T = unknown> {
     title: string;
-    key: keyof Package | 'actions';
+    key: keyof T | null;
     className?: string;
-    render?: (rowData: Package) => HTMLElement | DocumentFragment | string;
+    render?: (rowData: T) => HTMLElement | DocumentFragment | string;
 }
+
+export type Column = BaseColumn<PackageModel>;
+export type DamageColumn = BaseColumn<DamagePackageModel>;
+
+export type PackageType = PackageModel | DamagePackageModel;

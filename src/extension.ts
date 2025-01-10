@@ -32,7 +32,6 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
     const disposable = vscode.commands.registerCommand('extension.helloWorld', async (file: vscode.Uri) => {
         // The code you place here will be executed every time your command is executed
-
         /*
             TODO: Add checks that the file is indeed packageJson
         */
@@ -50,18 +49,6 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showErrorMessage('Oops');
         }
     });
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand('extension.refresh', async () => {
-            // WebPanel.kill();
-            // WebPanel.createOrShow(context.extensionUri);
-            // setTimeout(() => {
-            //   vscode.commands.executeCommand(
-            //     "workbench.action.webview.openDeveloperTools"
-            //   );
-            // }, 500);
-        })
-    );
 
     context.subscriptions.push(disposable);
 }

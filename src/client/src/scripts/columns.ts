@@ -1,4 +1,4 @@
-import { Column, ReleaseType } from './types';
+import { BaseColumn, Column } from './types';
 import { createButtons } from './buttons';
 
 interface ColumnOptions {
@@ -10,7 +10,7 @@ const buttons = createButtons();
 /*
     TODO: move
 */
-function selectDifferenceColor(diff: ReleaseType) {
+function selectDifferenceColor(diff: PackageModel['diff']) {
     if (diff == null) return 'gray';
     if (diff.startsWith('pre')) return 'blue';
 
@@ -60,13 +60,9 @@ const columns: Array<Column> = [
             return span;
         },
     },
-    /**
-     * Versions range allowed for installation (from package.json)
-     */
     {
         title: 'Range',
         key: 'range',
-        // className: 'range',
     },
     {
         title: 'Current Version',
@@ -105,7 +101,7 @@ export function createColumns(options: ColumnOptions) {
     if (options.isVisibleButtons) {
         const buttonsColumn: Column = {
             title: '',
-            key: 'actions',
+            key: null,
             render: () => {
                 const wrapper = document.createElement('div');
                 wrapper.append(buttons.update(), buttons.remove());

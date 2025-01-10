@@ -1,6 +1,7 @@
 import './scripts/components';
 
 import { createColumns } from './scripts/columns';
+import { createAlert } from './scripts/alert';
 import { generateTable } from './scripts/table';
 
 /*
@@ -28,7 +29,17 @@ import { generateTable } from './scripts/table';
     root.append(generateTable(columns, data));
 */
 
+function toggleSpinElement() {
+    const spin = document.getElementById('spin') as HTMLDivElement;
+
+    return {
+        show: () => spin.classList.remove('hide'),
+        hide: () => spin.classList.add('hide'),
+    };
+}
+
 const root = document.getElementById('root') as HTMLDivElement;
+const spin = toggleSpinElement();
 
 window.addEventListener('message', (event) => {
     const { type, payload } = event.data;
@@ -36,17 +47,32 @@ window.addEventListener('message', (event) => {
     switch (type) {
         case 'INITIALIZATION': {
             console.log('INITIALIZATION');
+
+            root.innerHTML = '';
+            spin.show();
             break;
         }
         case 'DEPENDENCIES': {
+            const { title, packages } = payload;
+
             const columns = createColumns({ isVisibleButtons: false });
-            root.append(generateTable(columns, event.data.data));
+
+            spin.hide();
+            root.append(generateTable({ title, columns, dataTable: packages }));
             break;
         }
         case 'DEV_DEPENDENCIES': {
-            console.log(event);
+            const { title, packages } = payload;
+
             const columns = createColumns({ isVisibleButtons: false });
-            root.append(generateTable(columns, event.data.data));
+
+            spin.hide();
+            root.append(generateTable({ title, columns, dataTable: packages }));
+            break;
+        }
+        case 'ERROR_DETECTED': {
+            const errorMessage = createAlert(payload);
+            root.append(errorMessage);
             break;
         }
         case 'PACKAGE_MANAGER_DETECTED': {

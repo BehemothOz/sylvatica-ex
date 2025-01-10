@@ -1,5 +1,5 @@
 import { Package, type PackageLocalInfo, type PackageDocumentInfo } from './Package';
-import { DamagePackage, type DamageType } from './DamagePackage';
+import { DamagePackage } from './DamagePackage';
 
 export type PackageType = Package | DamagePackage;
 
