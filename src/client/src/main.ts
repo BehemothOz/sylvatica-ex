@@ -29,13 +29,17 @@ import { generateTable } from './scripts/table';
     root.append(generateTable(columns, data));
 */
 
-const root = document.getElementById('root') as HTMLDivElement;
+function toggleSpinElement() {
+    const spin = document.getElementById('spin') as HTMLDivElement;
 
-function hideSpinElement() {
-    const spin = document.getElementById('spin');
-
-    if (spin) spin.remove();
+    return {
+        show: () => spin.classList.remove('hide'),
+        hide: () => spin.classList.add('hide'),
+    };
 }
+
+const root = document.getElementById('root') as HTMLDivElement;
+const spin = toggleSpinElement();
 
 window.addEventListener('message', (event) => {
     const { type, payload } = event.data;
@@ -43,6 +47,9 @@ window.addEventListener('message', (event) => {
     switch (type) {
         case 'INITIALIZATION': {
             console.log('INITIALIZATION');
+
+            root.innerHTML = '';
+            spin.show();
             break;
         }
         case 'DEPENDENCIES': {
@@ -50,7 +57,7 @@ window.addEventListener('message', (event) => {
 
             const columns = createColumns({ isVisibleButtons: false });
 
-            hideSpinElement();
+            spin.hide();
             root.append(generateTable({ title, columns, dataTable: packages }));
             break;
         }
@@ -59,7 +66,7 @@ window.addEventListener('message', (event) => {
 
             const columns = createColumns({ isVisibleButtons: false });
 
-            hideSpinElement();
+            spin.hide();
             root.append(generateTable({ title, columns, dataTable: packages }));
             break;
         }

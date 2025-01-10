@@ -12,7 +12,7 @@ body {
     background-color: #ebeced;
 }
 
-#root {
+main {
     padding: 1.143rem;
 }
 
@@ -260,6 +260,10 @@ td.damage:not(:first-of-type) {
     display: flex;
     align-items: center;
     font-size: 0.9rem;
+}
+
+.spin.hide {
+    display: none;
 }
 
 .spin > .icon-spin {

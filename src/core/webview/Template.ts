@@ -51,12 +51,13 @@ export class Template {
                         <link href="${this.styleFileUri}" rel="stylesheet">
                     </head>
                     <body>
-                        <div id="root">
+                        <main>
                             <span class="spin" id="spin">
                                 <sy-spinner class="icon-spin"></sy-spinner>
                                 The analysis process has been started. Please wait
                             </span>
-                        </div>
+                            <div id="root"></div>
+                        </main>
 
                         <!--  -->
                         <template id="badge-template">
