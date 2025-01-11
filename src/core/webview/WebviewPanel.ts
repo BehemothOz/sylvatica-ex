@@ -46,7 +46,8 @@ export class WebviewPanel {
         TODO: panel.title = "new title" + updateWebview function
     */
     constructor(context: vscode.ExtensionContext, environment: vscode.Uri) {
-        const tabTitle = path.dirname(environment.fsPath);
+        const directoryPath = path.dirname(environment.fsPath);
+        const tabTitle = path.basename(directoryPath);
 
         this.panel = vscode.window.createWebviewPanel('sylvatica', tabTitle, DEFAULT_VIEW_COLUMN, {
             // Only allow the webview to access resources in our extension's media directory
