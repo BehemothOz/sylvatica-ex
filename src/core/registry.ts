@@ -1,7 +1,8 @@
-import { fm } from './FileManager';
+import * as vscode from 'vscode';
+import * as url from 'url';
 import ini from 'ini';
 
-import * as vscode from 'vscode';
+import { fm } from './FileManager';
 
 /*
     More: https://docs.npmjs.com/cli/v10/using-npm/registry
@@ -27,6 +28,8 @@ export class Registry {
         this.config = config;
     }
 
+    // url = new URL("https://registry.npmjs.org/parent/qwerty/")
+
     static async build(directoryPath: vscode.Uri) {
         const rcFilePath = fm.joinPath(directoryPath, '.npmrc');
 
@@ -50,7 +53,7 @@ export class Registry {
     public getRegistryUrl(scope?: string) {
         const registryUrl = this.getRegistryUrlByScope(scope) ?? this.config['registry'];
 
-        return this.formatUrl(registryUrl);
+        return this.normalizePath(registryUrl);
     }
 
     private getRegistryUrlByScope(scope?: string): string | undefined {
@@ -59,7 +62,25 @@ export class Registry {
         }
     }
 
-    private formatUrl(url: string): string {
+    private getAuthorizationInfo(registryUrl: string) {
+        const parsedRegistryUrl = url.parse(registryUrl);
+
+        let currentPathname = parsedRegistryUrl.pathname;
+        let pathname = '';
+
+        // do while ?
+
+        while (pathname !== '/') {
+            pathname = currentPathname ?? '/';
+
+            const authorizationUrl = '//' + parsedRegistryUrl.host + pathname.replace(/\/$/, '');
+            console.log(authorizationUrl);
+
+            currentPathname = url.resolve(this.normalizePath(pathname), '..') || '/';
+        }
+    }
+
+    private normalizePath(url: string): string {
         return url.slice(-1) === '/' ? url : `${url}/`;
     }
 }
