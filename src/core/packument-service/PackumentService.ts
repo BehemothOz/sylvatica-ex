@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 import { PackumentCache } from './PackumentCache';
-import { Registry } from '../registry';
+import { Registry } from '../registry/Registry';
 
 export class PackumentService {
     caches: Map<string, PackumentCache> = new Map();

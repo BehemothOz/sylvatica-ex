@@ -1,5 +1,5 @@
 import { Cache } from '../cache';
-import { Registry } from '../registry';
+import { Registry } from '../registry/Registry';
 
 import { type PackageDocumentInfo } from '../package';
 
