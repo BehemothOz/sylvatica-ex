@@ -1,5 +1,5 @@
 import { Cache } from '../cache';
-import { Registry } from '../registry/Registry';
+import { Registry } from '../registry';
 
 import { type PackageDocumentInfo } from '../package';
 
@@ -30,7 +30,7 @@ export class PackumentCache extends Cache<PackageDocumentInfo> {
         }
 
         const scope = packageName.split('/')[0];
-        const registryUrl = this.registry.getRegistryUrl(scope);
+        const { registry: registryUrl } = this.registry.getRegistryUrl(scope);
 
         /*
             Check registry url by packageName (see console)
@@ -38,6 +38,7 @@ export class PackumentCache extends Cache<PackageDocumentInfo> {
         console.log('registryUrl', registryUrl);
 
         try {
+            // TODO: add token in header
             const packumentResponse = await sendRequest<PackageDocumentInfo>(packageName, registryUrl);
             this.set(packageName, packumentResponse);
 

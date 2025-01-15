@@ -5,6 +5,10 @@ import * as url from 'url';
     https://github.com/rexxars/registry-auth-token/blob/main/index.js
 
     const bearerAuth = getBearerToken(npmrc.get(regUrl + tokenKey) || npmrc.get(regUrl + '/' + tokenKey))
+
+    TODO: If environment variable
+
+    regexp: /^\$\{?([^}]*)\}?$/
 */
 
 export class AuthorizationRegistry {
@@ -27,10 +31,14 @@ export class AuthorizationRegistry {
             pathname = currentPathname ?? '/';
 
             const authorizationUrl = '//' + parsedRegistryUrl.host + pathname.replace(/\/$/, '');
-            console.log(authorizationUrl);
+            const token = this.findAuthorizationToken(authorizationUrl);
+
+            if (token) return token;
 
             currentPathname = url.resolve(this.normalizePath(pathname), '..') || '/';
         }
+
+        return null;
     }
 
     private findAuthorizationToken(authorizationUrl: string) {
@@ -39,21 +47,8 @@ export class AuthorizationRegistry {
         const authorizationUrlWithToken = authorizationUrl + '/' + AuthorizationRegistry.tokenKey;
         const token = this.rcConfig[authorizationUrlWithToken];
 
-        return this.getBearerToken(token);
-    }
-
-    private getBearerToken(token?: string) {
-        if (token) {
-            return {
-                token: this.replaceEnvironmentVariable(token),
-            };
-        }
-    }
-
-    private replaceEnvironmentVariable(token: string) {
-        return token.replace(/^\$\{?([^}]*)\}?$/, (_substring: string, key) => {
-            return process.env[key] ?? '';
-        });
+        if (token) return token;
+        return null;
     }
 
     private normalizePath(url: string): string {

@@ -45,8 +45,12 @@ export class Registry {
 
     public getRegistryUrl(scope?: string) {
         const registryUrl = this.getRegistryUrlByScope(scope) ?? this.config['registry'];
+        const token = this.authorizationRegistry.getAuthorizationInfo(registryUrl);
 
-        return this.normalizePath(registryUrl);
+        return {
+            registry: this.normalizePath(registryUrl),
+            token: token,
+        };
     }
 
     private getRegistryUrlByScope(scope?: string): string | undefined {
