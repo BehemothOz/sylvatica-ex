@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 import ini from 'ini';
 
 import { AuthorizationRegistry } from './AuthorizationRegistry';
@@ -23,8 +24,12 @@ export class Registry {
         this.authorizationRegistry = new AuthorizationRegistry(this.config);
     }
 
-    static async build(directoryPath: vscode.Uri) {
-        const rcFilePath = fm.joinPath(directoryPath, '.npmrc');
+    static async build(directoryPath: string) {
+        const rc_path = path.join(directoryPath, '.npmrc');
+        console.log(rc_path, directoryPath);
+        const rcFilePath = vscode.Uri.file(rc_path);
+
+        console.log(rcFilePath);
 
         const defaultConfig = { registry: 'https://registry.npmjs.org/' };
 

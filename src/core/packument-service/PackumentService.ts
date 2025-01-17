@@ -9,7 +9,7 @@ export class PackumentService {
 
     async register(packageJsonPath: string) {
         const packageJsonDirectory = vscode.Uri.file(path.dirname(packageJsonPath));
-        const currentRegistry = await Registry.build(packageJsonDirectory);
+        const currentRegistry = await Registry.build(packageJsonDirectory.fsPath);
 
         const packumentCache = new PackumentCache(currentRegistry);
 
