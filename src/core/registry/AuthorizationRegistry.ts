@@ -18,7 +18,6 @@ export class AuthorizationRegistry {
 
     constructor(rcConfig: Record<string, string>) {
         this.rcConfig = rcConfig;
-        console.log('process.env', process.env);
     }
 
     public getAuthorizationInfo(registryUrl: string) {

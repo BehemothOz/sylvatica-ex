@@ -6,6 +6,18 @@ export const Uri = {
     file: jest.fn((filePath: string) => {
         return new MockUri(filePath);
     }),
+    joinPath: jest.fn(),
 };
 
-module.exports = { Uri };
+export const workspace = {
+    fs: {
+        readFile: jest.fn(),
+    },
+};
+
+const vscode = {
+    Uri,
+    workspace,
+};
+
+module.exports = vscode;
